@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class Enemy_Sideways : MonoBehaviour
 {
     public float moveDelay = 3f;
@@ -11,10 +12,11 @@ public class Enemy_Sideways : MonoBehaviour
     public float timePassed;
     bool switchDirection=false;
     public float idle=6f;
-
+    public SpriteRenderer spriteRenderer;
     private void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void Update()
     {
@@ -44,7 +46,11 @@ public class Enemy_Sideways : MonoBehaviour
 
         timePassed += Time.deltaTime;
         idle += Time.deltaTime;
-        
+
+        if (rigidbody2D.velocity.x > 0)
+            spriteRenderer.flipX = false;
+        if (rigidbody2D.velocity.x < 0)
+            spriteRenderer.flipX = true;
     }
     
         
