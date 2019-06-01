@@ -9,6 +9,8 @@ public class UI_Script : MonoBehaviour
     public TextMeshProUGUI healthCounter;
     public Entity_Logic entityLogic;
     float health;
+    public Canvas gameOverScreen;
+    IEnumerator coroutine;
 
     private void OnEnable()
     {
@@ -24,6 +26,25 @@ public class UI_Script : MonoBehaviour
     {
         healthCounter.SetText("HP: " + health);
         if (health <= 0)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        {
+            gameOverScreen.gameObject.SetActive(true);
+            coroutine = WaitAndPrint(3.0f);
+            StartCoroutine(coroutine);
+            
+        }
+    }
+    private IEnumerator WaitAndPrint(float waitTime)
+    {
+        float elapsedTime=0f;
+        bool running = true;
+        while (running)
+        {
+            yield return null;
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= waitTime)
+                running = false;
+
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

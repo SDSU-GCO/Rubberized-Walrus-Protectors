@@ -67,9 +67,7 @@ public class Movement : MonoBehaviour
             cstay = true;
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-    }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 9)
@@ -82,9 +80,6 @@ public class Movement : MonoBehaviour
     {
         if(collision.gameObject.layer==8)
             tstay = true;
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
     }
 
     private void OnTriggerExit2D(Collider2D collision)
