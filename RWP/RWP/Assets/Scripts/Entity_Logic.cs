@@ -47,7 +47,7 @@ public class Entity_Logic : MonoBehaviour
     void Update()
     {
         rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
-        
+        invincibility = Mathf.Min(invincibilityTime, invincibility + Time.deltaTime);
 
     }
 
@@ -114,15 +114,22 @@ public class Entity_Logic : MonoBehaviour
         }
 
     }
-
+    float invincibility = 0;
+    public float invincibilityTime = 0;
     //take damage function
     public void TakeDamage(float amount)
     {
-        health -= amount;
         
-        damaged.Invoke(health);
-        if (health <= 0)
-            Destroy(gameObject);
+        if (invincibility >= invincibilityTime)
+        {
+            health -= amount;
+            invincibility = 0;
+
+
+            damaged.Invoke(health);
+            if (health <= 0)
+                Destroy(gameObject);
+        }
     }
     
 }

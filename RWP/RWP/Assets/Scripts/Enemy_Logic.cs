@@ -38,4 +38,17 @@ public class Enemy_Logic : MonoBehaviour
     {
         return Vector2.Distance(transform.position, target.position) < range;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.layer == 10)
+        {
+            Entity_Logic temp;
+            temp = collision.gameObject.GetComponent<Entity_Logic>();
+            if (temp != null)
+            {                
+                temp.TakeDamage(temp.damage);
+            }Debug.Log(temp);
+        }
+    }
 }

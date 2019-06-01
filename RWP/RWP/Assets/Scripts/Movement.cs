@@ -22,8 +22,8 @@ public class Movement : MonoBehaviour
     }
 
     Vector2 velocity = new Vector2();
-
-    // Update is called once per frame
+    
+    //update loop
     private void FixedUpdate()
     {
 
