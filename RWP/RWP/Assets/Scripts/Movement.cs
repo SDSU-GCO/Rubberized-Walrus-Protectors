@@ -64,7 +64,6 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.layer == 9)
         {
-            Debug.Log("OnCollisionEnter2D");
             cstay = true;
         }
     }
@@ -75,7 +74,6 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.layer == 9)
         {
-            Debug.Log("OnCollisionExit");
             cstay = false;
         }
     }

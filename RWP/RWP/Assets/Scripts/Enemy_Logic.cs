@@ -31,7 +31,6 @@ public class Enemy_Logic : MonoBehaviour
         LayerMask layerMask= 1 << 11;
         layerMask = ~layerMask;
         result = Physics2D.Raycast(transform.position, target.position - transform.position, Mathf.Infinity, layerMask);
-        //Debug.Log(result.collider.gameObject);
         return result.collider.gameObject.layer == 10;
     }
 

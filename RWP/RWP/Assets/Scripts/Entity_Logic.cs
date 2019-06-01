@@ -40,7 +40,6 @@ public class Entity_Logic : MonoBehaviour
 
     void OnEnable()
     {
-        Debug.Log(damaged);
         damaged.Invoke(health);
     }
 
