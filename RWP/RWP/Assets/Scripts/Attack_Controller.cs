@@ -14,6 +14,7 @@ public class Attack_Controller : MonoBehaviour
     public bool attackingFriendlies = false;
     public int damage;
     public float speed = 7;
+    public int targetLayer=12;
     new Collider collider = null;
 
 
@@ -41,13 +42,13 @@ public class Attack_Controller : MonoBehaviour
     //enemy/ally check
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.layer == targetLayer)
         {
-            collision.gameObject.GetComponent<Entity_Logic>().TakeDamage(damage);
-        }
-        else if (collision.gameObject.tag == "Enemy")
-        {
-            collision.gameObject.GetComponent<Entity_Logic>().TakeDamage(damage);
+            Entity_Logic temp = collision.gameObject.GetComponent<Entity_Logic>();
+            if (temp != null)
+                temp.TakeDamage(damage);
+
+
         }
         Destroy(gameObject);
 

@@ -15,7 +15,8 @@ public class Entity_Logic : MonoBehaviour
     public float offset = 1.5f;
     public int damage;
     
-
+    delegate void attackMethod();
+    attackMethod attack_method;
     //initialize ambiguous parameters
     public void Awake()
     {
@@ -24,6 +25,15 @@ public class Entity_Logic : MonoBehaviour
         rangedCoolDownInSecondsDefault = rangedCoolDownInSeconds;
         my2DRigidbody = GetComponent<Rigidbody2D>();
         damage = rangedAttack.damage;
+
+        if (gameObject.layer == 10)
+        {
+            attack_method = FireRangedAttack;
+        }
+        else if (gameObject.layer == 11)
+        {
+            attack_method = null;
+        }
         
     }
 
@@ -37,17 +47,20 @@ public class Entity_Logic : MonoBehaviour
     void Update()
     {
         rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
-        if (Input.GetMouseButtonDown(1) && rangedCoolDownInSeconds == 0)
-        {
-           FireRangedAttack();
-           rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;
-        }
+        
 
     }
 
-    
+    public void doAttack()
+    {
+        if (rangedCoolDownInSeconds == 0)
+        {
+            attack_method();
+            rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;
+        }
+    }
 
-
+   
     //shoot projectile
     void FireRangedAttack()
     {
@@ -77,6 +90,7 @@ public class Entity_Logic : MonoBehaviour
     public void TakeDamage(float amount)
     {
         health -= amount;
+        
         damaged.Invoke(health);
         if (health <= 0)
             Destroy(gameObject);
