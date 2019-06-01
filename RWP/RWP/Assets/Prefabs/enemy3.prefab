@@ -96,9 +96,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdbcedbade45fc4490e7cc6db174b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  path: []
   moveDelay: 3
   moveVelocity: 5
   timePassed: 0
+  idle: 6
+  animationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!50 &5354706190877624433
 Rigidbody2D:
   serializedVersion: 4
