@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3624153756990244581}
   - component: {fileID: 3624153756990244580}
   - component: {fileID: 3624153756990244587}
+  - component: {fileID: 1766894417968987247}
   - component: {fileID: 3624153756990244582}
   - component: {fileID: 3624153756990244586}
   m_Layer: 11
@@ -103,6 +104,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1766894417968987247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3624153756990244585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474d7abf0ed109c46b40664ad1f4233c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityLogic: {fileID: 3624153756990244582}
+  target: {fileID: 0}
+  range: 4
 --- !u!114 &3624153756990244582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,8 +140,9 @@ MonoBehaviour:
   rangedAttack: {fileID: 7183832417238726302, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
     type: 3}
   rangedCoolDownInSeconds: 4
-  offset: 1
+  offset: 0.5
   damage: 1
+  playerPosition: {fileID: 0}
 --- !u!60 &3624153756990244586
 PolygonCollider2D:
   m_ObjectHideFlags: 0

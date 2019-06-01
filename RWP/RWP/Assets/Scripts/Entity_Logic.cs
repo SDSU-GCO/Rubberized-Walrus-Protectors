@@ -14,6 +14,7 @@ public class Entity_Logic : MonoBehaviour
     Rigidbody2D my2DRigidbody;
     public float offset = 1.5f;
     public int damage;
+    public Transform playerPosition;
     
     delegate void attackMethod();
     attackMethod attack_method;
@@ -28,11 +29,11 @@ public class Entity_Logic : MonoBehaviour
 
         if (gameObject.layer == 10)
         {
-            attack_method = FireRangedAttack;
+            attack_method = PlayerRangedAttack;
         }
         else if (gameObject.layer == 11)
         {
-            attack_method = null;
+            attack_method = EnemyRangedAttack;
         }
         
     }
@@ -61,13 +62,13 @@ public class Entity_Logic : MonoBehaviour
     }
 
    
-    //shoot projectile
-    void FireRangedAttack()
+    //shoot player projectile
+    void PlayerRangedAttack()
     {
 
         if (rangedCoolDownInSeconds == 0)
         {
-
+            
 
             Vector3 mouseScreenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
 
@@ -77,7 +78,7 @@ public class Entity_Logic : MonoBehaviour
 
 
 
-            Vector3 shoot = (new Vector3(mouseposition.x, mouseposition.y, 0) - transform.position).normalized;
+            
             GameObject childInstance = Instantiate(rangedAttack.gameObject, mouseposition + (Vector2)transform.position, transform.rotation);
             childInstance.GetComponent<Rigidbody2D>().velocity = rangedAttack.speed * mouseposition.normalized;
 
@@ -86,6 +87,35 @@ public class Entity_Logic : MonoBehaviour
         }
 
     }
+    //shoot enemy projectile
+    void EnemyRangedAttack()
+    {
+
+        if (rangedCoolDownInSeconds == 0)
+        {
+
+            Vector2 direction = new Vector2();
+
+            direction = ((Vector2)playerPosition.position - (Vector2)transform.position).normalized * offset;
+
+            float rotation = Mathf.Rad2Deg * (Mathf.Atan(direction.y / direction.x));
+            rotation += -90;
+            if (direction.x < 0)
+            {
+                rotation += 180;
+            }
+
+            
+
+            GameObject childInstance = Instantiate(rangedAttack.gameObject, direction + (Vector2)transform.position, Quaternion.Euler(0, 0, rotation));
+            childInstance.GetComponent<Rigidbody2D>().velocity = rangedAttack.speed * direction.normalized;
+
+            rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;
+
+        }
+
+    }
+
     //take damage function
     public void TakeDamage(float amount)
     {
