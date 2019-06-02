@@ -10,6 +10,7 @@ public class Ally_Logic : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Animator MainStage;
     public Movement movement;
+    public PlayerRefSO playerRefSO;
     public void setToAttack()
     {
         MainStage.SetInteger("MainStage", 3);
@@ -21,7 +22,7 @@ public class Ally_Logic : MonoBehaviour
 
     private void Awake()
     {
-        
+        playerRefSO.player = transform;
         
             rigidbody2D = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();

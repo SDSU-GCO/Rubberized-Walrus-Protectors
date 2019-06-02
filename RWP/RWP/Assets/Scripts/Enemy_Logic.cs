@@ -9,6 +9,12 @@ public class Enemy_Logic : MonoBehaviour
     public Transform target;
     public float range = 4;
     RaycastHit2D result;
+    public PlayerRefSO playerRefSO;
+
+    private void OnEnable()
+    {
+        target = playerRefSO.player;
+    }
 
     private void Awake()
     {
@@ -36,6 +42,8 @@ public class Enemy_Logic : MonoBehaviour
 
     private bool inRange()
     {
+        if (target == null)
+            return false;
         return Vector2.Distance(transform.position, target.position) < range;
     }
 

@@ -16,6 +16,7 @@ public class Entity_Logic : MonoBehaviour
     public int damage;
     public Transform playerPosition;
     [SerializeField] public UnityEvent attacked;
+    public PlayerRefSO playerRefSO;
 
     delegate void attackMethod();
     attackMethod attack_method;
@@ -41,6 +42,7 @@ public class Entity_Logic : MonoBehaviour
 
     void OnEnable()
     {
+        playerPosition = playerRefSO.player;
         damaged.Invoke(health);
     }
 

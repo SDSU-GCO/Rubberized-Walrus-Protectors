@@ -272,6 +272,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6953959522578526965, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: playerRefSO
+      value: 
+      objectReference: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289,
+        type: 2}
     - target: {fileID: 5354706190877624432, guid: b98f924325352ee488847c5e2af2bbd0,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.size
@@ -337,6 +343,12 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5354706190877624444, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: playerRefSO
+      value: 
+      objectReference: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289,
+        type: 2}
     - target: {fileID: 5354706190877624446, guid: b98f924325352ee488847c5e2af2bbd0,
         type: 3}
       propertyPath: m_Sprite
