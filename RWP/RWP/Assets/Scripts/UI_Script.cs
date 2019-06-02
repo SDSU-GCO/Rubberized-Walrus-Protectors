@@ -8,9 +8,31 @@ public class UI_Script : MonoBehaviour
 {
     public TextMeshProUGUI healthCounter;
     public Entity_Logic entityLogic;
+    public Canvas PauseMenu;
     float health;
     public Canvas gameOverScreen;
     IEnumerator coroutine;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (PauseMenu.gameObject.activeInHierarchy == false)
+            {
+                PauseMenu.gameObject.SetActive(true);
+                Time.timeScale = 0;
+                Time.fixedDeltaTime = 0;
+            }
+            else
+            {
+                PauseMenu.gameObject.SetActive(false);
+                Time.timeScale = 1;
+                Time.fixedDeltaTime = 0.02f;
+            }
+
+        }
+        
+    }
 
     private void OnEnable()
     {
