@@ -144,6 +144,7 @@ MonoBehaviour:
   entityLogic: {fileID: 5354706190877624444}
   target: {fileID: 0}
   range: 0
+  playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
 --- !u!114 &5354706190877624444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +174,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
   invincibilityTime: 0
 --- !u!60 &5354706190877624432
 PolygonCollider2D:

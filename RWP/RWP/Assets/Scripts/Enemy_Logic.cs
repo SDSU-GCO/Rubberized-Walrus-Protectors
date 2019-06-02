@@ -9,6 +9,12 @@ public class Enemy_Logic : MonoBehaviour
     public Transform target;
     public float range = 4;
     RaycastHit2D result;
+    public PlayerRefSO playerRefSO;
+
+    private void OnEnable()
+    {
+        target = playerRefSO.player;
+    }
 
     private void Awake()
     {
