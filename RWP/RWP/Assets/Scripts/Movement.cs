@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Movement : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Movement : MonoBehaviour
     float airbornTime = 0;
     bool cstay = true;
     bool tstay = true;
+    [SerializeField] public UnityEvent upBoy;
 
     private Vector2 totalForce=Vector2.zero;
 
@@ -43,12 +45,14 @@ public class Movement : MonoBehaviour
             rigidbody2D.velocity += Vector2.up * jumpVelocity;
             //cstay = false;
             //tstay = false;
+            upBoy.Invoke();
         }
 
         //smart gravity
         if (rigidbody2D.velocity.y < 0)
         {
             rigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+            
         }
         else if (rigidbody2D.velocity.y > 0 && Input.GetAxis("Vertical") <= 0)
         {

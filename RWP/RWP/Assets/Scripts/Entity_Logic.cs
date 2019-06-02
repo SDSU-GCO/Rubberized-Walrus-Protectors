@@ -15,7 +15,8 @@ public class Entity_Logic : MonoBehaviour
     public float offset = 1.5f;
     public int damage;
     public Transform playerPosition;
-    
+    [SerializeField] public UnityEvent attacked;
+
     delegate void attackMethod();
     attackMethod attack_method;
     //initialize ambiguous parameters
@@ -76,7 +77,7 @@ public class Entity_Logic : MonoBehaviour
             mouseposition = (mouseposition - (Vector2)transform.position).normalized * offset;
 
 
-
+            attacked.Invoke();
             
             GameObject childInstance = Instantiate(rangedAttack.gameObject, mouseposition + (Vector2)transform.position, transform.rotation);
             childInstance.GetComponent<Rigidbody2D>().velocity = rangedAttack.speed * mouseposition.normalized;
