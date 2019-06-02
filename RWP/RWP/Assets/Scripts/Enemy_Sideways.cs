@@ -12,7 +12,6 @@ public class Enemy_Sideways : MonoBehaviour
     private Vector2 velocity;
     public float moveVelocity = 5f;
     public float timePassed;
-    bool switchDirection=false;
     public float idle=6f;
 
     public AnimationCurve animationCurve = new AnimationCurve();

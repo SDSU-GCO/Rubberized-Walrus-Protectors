@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 7886657102979876469}
   - component: {fileID: 7886657102979876468}
   - component: {fileID: 2129726300}
+  - component: {fileID: 1256270502}
   m_Layer: 10
   m_Name: Druid
   m_TagString: Player
@@ -100,6 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7348a6beea0cc614b82d3ef17027ed94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  MainStage: {fileID: 0}
+  movement: {fileID: 7886657102979876475}
 --- !u!114 &7886657102979876475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,8 +121,24 @@ MonoBehaviour:
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
   allowedAirbornTime: 0.2
+  airbornTime: 0
   circleCollider2D: {fileID: 7886657102979876469}
-  innerCircleCollider2D: {fileID: 0}
+  upBoy:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5580200484004044291}
+        m_MethodName: setToJump
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!58 &7886657102979876469
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -132,7 +152,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.4065477}
   serializedVersion: 2
   m_Radius: 0.49
 --- !u!212 &7886657102979876468
@@ -173,7 +193,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c216d278cac052f4c8a812664e28e767, type: 3}
-  m_Color: {r: 0, g: 0.7735849, b: 0.07741854, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -211,11 +231,46 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  health: 10
+  health: 5
   rangedAttack: {fileID: 3068624727191914089, guid: 0967215e98936f34c89b56e3a84005b8,
     type: 3}
   rangedCoolDownInSeconds: 3
   offset: 1
   damage: 1
   playerPosition: {fileID: 0}
+  attacked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5580200484004044291}
+        m_MethodName: setToAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   invincibilityTime: 1.5
+--- !u!95 &1256270502
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7886657102979876474}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 453df35e2d7641142bbcbca3a01a32e4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

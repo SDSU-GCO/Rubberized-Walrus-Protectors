@@ -2,21 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Movement : MonoBehaviour
 {
     new Rigidbody2D rigidbody2D;
     public float runSpeed = 3;
-    public float jumpVelocity=3;
+    public float jumpVelocity = 3;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2;
     public float allowedAirbornTime = .5f;
-    float airbornTime = 0;
+    public float airbornTime = 0;
     bool cstay = true;
+    bool isGrounded = true;
     public CircleCollider2D circleCollider2D;
     float oldDistanceToGround;
+    [SerializeField] public UnityEvent upBoy;
 
-    private Vector2 totalForce=Vector2.zero;
+    SpriteRenderer spriteRenderer;
+
+    private Vector2 totalForce = Vector2.zero;
 
     private void Awake()
     {
@@ -24,15 +29,29 @@ public class Movement : MonoBehaviour
             rigidbody2D = GetComponent<Rigidbody2D>();
         if (circleCollider2D == null)
             circleCollider2D = GetComponent<CircleCollider2D>();
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     Vector2 velocity = new Vector2();
-    
+
+
+
     //update loop
     private void FixedUpdate()
     {
+        isGrounded = CheckGrounded();
 
-        if(cstay&&IsGrounded())
+        if(isGrounded)
+        {
+            //spriteRenderer.color = Color.green;
+        }
+        else
+        {
+            //spriteRenderer.color = Color.white;
+        }
+
+        if (cstay && isGrounded)
         {
             airbornTime = 0;
         }
@@ -40,17 +59,20 @@ public class Movement : MonoBehaviour
         velocity = rigidbody2D.velocity;
         velocity.x = Input.GetAxis("Horizontal") * runSpeed;
         rigidbody2D.velocity = velocity;
+
         
         //jump
-        if(Input.GetAxis("Vertical") > 0 && airbornTime<=allowedAirbornTime)
+        if (Input.GetAxis("Vertical") > 0 && airbornTime <= allowedAirbornTime)
         {
             rigidbody2D.velocity += Vector2.up * jumpVelocity;
+            upBoy.Invoke();
         }
 
         //smart gravity
         if (rigidbody2D.velocity.y < 0)
         {
             rigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier) * 0.02f;
+
         }
         else if (rigidbody2D.velocity.y > 0 && Input.GetAxis("Vertical") <= 0)
         {
@@ -59,33 +81,42 @@ public class Movement : MonoBehaviour
         }
 
         airbornTime += Time.deltaTime;
-       
+
     }
 
-    private bool IsGrounded()
+    private bool CheckGrounded()
     {
         bool result = false;
         LayerMask layerMask = (1 << 9);
         //layerMask = ~layerMask;
         RaycastHit2D raycastHit2D = Physics2D.CircleCast(transform.position, circleCollider2D.radius, Vector2.down, Mathf.Infinity, layerMask);
-        if(Mathf.Abs(raycastHit2D.distance - oldDistanceToGround)<0.00001)
+        if (Mathf.Abs(raycastHit2D.distance - oldDistanceToGround) < 0.001)
         {
             result = true;
         }
+        Debug.Log(raycastHit2D.distance);
         oldDistanceToGround = raycastHit2D.distance;
 
 
         LayerMask layerMaskCircle = (1 << 9);
         ContactFilter2D contactFilter2D = new ContactFilter2D();
         contactFilter2D.SetLayerMask(layerMaskCircle);
-        List<Collider2D> col=new List<Collider2D>();
-        Physics2D.OverlapCircle(transform.position, 0.480f, contactFilter2D, col);
-        if (col.Count>0)
+        List<Collider2D> col = new List<Collider2D>();
+        Physics2D.OverlapCircle((Vector2)transform.position+(Vector2.up*circleCollider2D.offset.y), 0.480f, contactFilter2D, col);
+        if (col.Count > 0)
         {
             result = false;
         }
+        //col.Clear();
+        //Physics2D.OverlapCircle((Vector2)transform.position + (Vector2.up * circleCollider2D.offset.y) + (Vector2.up*0.02f), 0.480f, contactFilter2D, col);
+        //if (col.Count > 0)
+        //{
+        //    result = false;
+        //}
+        //Debug.Log(col.Count);
         oldDistanceToGround = raycastHit2D.distance;
-        
+
+        //Debug.Log(result);
         return result;
 
     }
@@ -113,6 +144,5 @@ public class Movement : MonoBehaviour
             cstay = false;
         }
     }
-
-
 }
+
