@@ -72,7 +72,6 @@ public class Movement : MonoBehaviour
         {
             result = true;
         }
-        Debug.Log(raycastHit2D.distance);
         oldDistanceToGround = raycastHit2D.distance;
 
 
@@ -85,10 +84,8 @@ public class Movement : MonoBehaviour
         {
             result = false;
         }
-        Debug.Log(col.Count);
         oldDistanceToGround = raycastHit2D.distance;
-
-        Debug.Log(result);
+        
         return result;
 
     }
