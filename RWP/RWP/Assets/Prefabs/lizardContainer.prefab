@@ -152,6 +152,25 @@ Transform:
   m_Father: {fileID: 6751255453855462248}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &2115239061298020672
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894349944266164387}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cca7142f7e5f21241bb9ab817989410c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8290037408364225171
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,26 +272,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5354706190877624433, guid: b98f924325352ee488847c5e2af2bbd0,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5354706190877624446, guid: b98f924325352ee488847c5e2af2bbd0,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.7169812
-      objectReference: {fileID: 0}
-    - target: {fileID: 5354706190877624446, guid: b98f924325352ee488847c5e2af2bbd0,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.5922456
-      objectReference: {fileID: 0}
-    - target: {fileID: 5354706190877624446, guid: b98f924325352ee488847c5e2af2bbd0,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.38216448
-      objectReference: {fileID: 0}
     - target: {fileID: 5228475332311568887, guid: b98f924325352ee488847c5e2af2bbd0,
         type: 3}
       propertyPath: path.Array.size
@@ -323,8 +322,44 @@ PrefabInstance:
       propertyPath: animationCurve.m_Curve.Array.data[1].value
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5354706190877624432, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5354706190877624432, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5354706190877624433, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5354706190877624446, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5354706190877624446, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5354706190877624446, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b98f924325352ee488847c5e2af2bbd0, type: 3}
+--- !u!1 &7894349944266164387 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5354706190877624435, guid: b98f924325352ee488847c5e2af2bbd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2864818890587013328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7894349944266164399 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5354706190877624447, guid: b98f924325352ee488847c5e2af2bbd0,
