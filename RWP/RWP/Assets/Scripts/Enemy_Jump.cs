@@ -25,11 +25,11 @@ public class Enemy_Jump : MonoBehaviour
         //smart gravity
         if (rigidbody2D.velocity.y < 0)
         {
-            rigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * 0.2f;
+            rigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * 0.02f;
         }
         else if (rigidbody2D.velocity.y > 0)
         {
-            rigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * 0.2f;
+            rigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * 0.02f;
         }
    
         //jump
