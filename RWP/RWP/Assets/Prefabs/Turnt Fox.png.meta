@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 742e808de6e21b741bfef8b16782ecff
+guid: 747a077ee432abd48afdb70f03f1ea88
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -136922619568738122
-    second: DummyThickGoatDemon_0
+      213: 5325246179058075446
+    second: Turnt Fox_0
   - first:
-      213: -3269489434340982427
-    second: DummyThickGoatDemon_1
+      213: -7857153497758496391
+    second: Turnt Fox_1
   - first:
-      213: -3819057165466453915
-    second: DummyThickGoatDemon_2
+      213: -2967621666956858945
+    second: Turnt Fox_2
   - first:
-      213: 1779228393799236216
-    second: DummyThickGoatDemon_3
+      213: 5923598687628536253
+    second: Turnt Fox_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -57,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 25
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,7 +96,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DummyThickGoatDemon_0
+      name: Turnt Fox_0
       rect:
         serializedVersion: 2
         x: 0
@@ -110,14 +110,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ee17f2006418ba47b3a19b47768ee83
-      internalID: -136922619568738122
+      spriteID: 6a930d85ee0fc3944ab67ab47928b150
+      internalID: 5325246179058075446
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DummyThickGoatDemon_1
+      name: Turnt Fox_1
       rect:
         serializedVersion: 2
         x: 64
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad7763922d57e784990ef8073785de3f
-      internalID: -3269489434340982427
+      spriteID: 57eff8e4023567c4d8e41bfeb3b5c7cb
+      internalID: -7857153497758496391
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DummyThickGoatDemon_2
+      name: Turnt Fox_2
       rect:
         serializedVersion: 2
         x: 128
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8aed77fdcb7c114dbeb3c6ab4bfa230
-      internalID: -3819057165466453915
+      spriteID: 1913e56716bf7924bb16cabc4a099ec0
+      internalID: -2967621666956858945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DummyThickGoatDemon_3
+      name: Turnt Fox_3
       rect:
         serializedVersion: 2
         x: 192
@@ -173,8 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcbaf176ca2b35e43b4626b4cc37e77f
-      internalID: 1779228393799236216
+      spriteID: 435ffaeb433dc124f979a123f1f0687f
+      internalID: 5923598687628536253
       vertices: []
       indices: 
       edges: []
@@ -182,7 +182,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: b4b61635716338a478d7c51852f3c7ba
+    spriteID: 47100f51f24952b4caf1e27e305a8df6
     internalID: 0
     vertices: []
     indices: 

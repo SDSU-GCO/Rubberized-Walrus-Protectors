@@ -212,6 +212,25 @@ Transform:
   m_Father: {fileID: 6257214189731580689}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &288783357397468492
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7415472852722856154}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b02770fcc84c1ae4aaf097c70b39f0d0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7647181354941753645
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,8 +430,29 @@ PrefabInstance:
       propertyPath: path.Array.data[11]
       value: 
       objectReference: {fileID: 5710270027914906735}
+    - target: {fileID: 6493936357747090697, guid: 7361a2343b8bf494c943544c6e895a0b,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493936357747090697, guid: 7361a2343b8bf494c943544c6e895a0b,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493936357747090697, guid: 7361a2343b8bf494c943544c6e895a0b,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7361a2343b8bf494c943544c6e895a0b, type: 3}
+--- !u!1 &7415472852722856154 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6493936357747090692, guid: 7361a2343b8bf494c943544c6e895a0b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4392722621202650590}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7415472852722856150 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6493936357747090696, guid: 7361a2343b8bf494c943544c6e895a0b,
