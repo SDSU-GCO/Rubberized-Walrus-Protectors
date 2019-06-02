@@ -42,6 +42,8 @@ public class Enemy_Logic : MonoBehaviour
 
     private bool inRange()
     {
+        if (target == null)
+            return false;
         return Vector2.Distance(transform.position, target.position) < range;
     }
 
