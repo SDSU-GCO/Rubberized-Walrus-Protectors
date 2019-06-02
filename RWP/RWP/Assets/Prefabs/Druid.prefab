@@ -40,8 +40,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7886657102979876471}
   - component: {fileID: 7886657102979876470}
-  - component: {fileID: 7886657102979876475}
   - component: {fileID: 5580200484004044291}
+  - component: {fileID: 7886657102979876475}
   - component: {fileID: 7886657102979876469}
   - component: {fileID: 7886657102979876468}
   - component: {fileID: 2129726300}
@@ -88,6 +88,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &5580200484004044291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7886657102979876474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7348a6beea0cc614b82d3ef17027ed94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7886657102979876475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,18 +117,8 @@ MonoBehaviour:
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
   allowedAirbornTime: 0.2
---- !u!114 &5580200484004044291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7886657102979876474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7348a6beea0cc614b82d3ef17027ed94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  circleCollider2D: {fileID: 7886657102979876469}
+  innerCircleCollider2D: {fileID: 0}
 --- !u!58 &7886657102979876469
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -48,7 +48,7 @@ public class Enemy_Logic : MonoBehaviour
             if (temp != null)
             {                
                 temp.TakeDamage(temp.damage);
-            }Debug.Log(temp);
+            }
         }
     }
 }

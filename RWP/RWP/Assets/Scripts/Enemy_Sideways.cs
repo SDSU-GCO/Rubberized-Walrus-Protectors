@@ -45,8 +45,7 @@ public class Enemy_Sideways : MonoBehaviour
             autoIncrement(ref nextPathIndex);
         }
         Vector2 temp = Vector2.Lerp(path[pathIndex].position, path[nextPathIndex].position, animationCurve.Evaluate(pathProgress));
-
-        Debug.Log(path[pathIndex].position);
+        
         rigidbody2D.MovePosition(temp);
 
 
