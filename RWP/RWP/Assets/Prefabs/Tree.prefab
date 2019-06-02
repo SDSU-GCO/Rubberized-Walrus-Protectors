@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2684096583914162435}
+  treeListSO: {fileID: 11400000, guid: 3d531f70db11a414eac4bb3a177404eb, type: 2}
 --- !u!60 &557161132323094929
 PolygonCollider2D:
   m_ObjectHideFlags: 0
