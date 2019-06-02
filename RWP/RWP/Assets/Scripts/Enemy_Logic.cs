@@ -10,10 +10,19 @@ public class Enemy_Logic : MonoBehaviour
     public float range = 4;
     RaycastHit2D result;
     public PlayerRefSO playerRefSO;
+    public EnemyListSO enemyListSO;
 
     private void OnEnable()
     {
+        enemyListSO.enemies.Add(this);
+        enemyListSO.update.Invoke();
         target = playerRefSO.player;
+    }
+
+    private void OnDisable()
+    {
+        enemyListSO.enemies.Remove(this);
+        enemyListSO.update.Invoke();
     }
 
     private void Awake()

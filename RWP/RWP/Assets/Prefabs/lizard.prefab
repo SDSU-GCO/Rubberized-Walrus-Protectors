@@ -145,6 +145,7 @@ MonoBehaviour:
   target: {fileID: 0}
   range: 0
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
+  enemyListSO: {fileID: 11400000, guid: 75ae1a3c8224be8478bb21ae3532f06b, type: 2}
 --- !u!114 &5354706190877624444
 MonoBehaviour:
   m_ObjectHideFlags: 0
