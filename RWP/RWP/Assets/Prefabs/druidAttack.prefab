@@ -89,7 +89,7 @@ MonoBehaviour:
   AttackDelay: 1.25
   attackingFriendlies: 0
   damage: 1
-  speed: 7
+  speed: 9
   targetLayer: 11
 --- !u!212 &3068624727191914102
 SpriteRenderer:
