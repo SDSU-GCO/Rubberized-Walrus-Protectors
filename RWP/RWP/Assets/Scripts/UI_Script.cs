@@ -9,6 +9,7 @@ public class UI_Script : MonoBehaviour
     public TextMeshProUGUI healthCounter;
     public Entity_Logic entityLogic;
     public Canvas PauseMenu;
+    public GameObject Druid;
     float health;
     public Canvas gameOverScreen;
     IEnumerator coroutine;

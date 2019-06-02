@@ -126,7 +126,6 @@ public class Entity_Logic : MonoBehaviour
             health -= amount;
             invincibility = 0;
 
-
             damaged.Invoke(health);
             if (health <= 0)
                 Destroy(gameObject);

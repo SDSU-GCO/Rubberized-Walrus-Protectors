@@ -94,7 +94,7 @@ public class Movement : MonoBehaviour
         {
             result = true;
         }
-        Debug.Log(raycastHit2D.distance);
+//        Debug.Log(raycastHit2D.distance);
         oldDistanceToGround = raycastHit2D.distance;
 
 
