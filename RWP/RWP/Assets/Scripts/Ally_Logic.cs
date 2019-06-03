@@ -35,10 +35,7 @@ public class Ally_Logic : MonoBehaviour
 
     void Update()
     {
-        if (rigidbody2D.velocity.x < -0.00001)
-            spriteRenderer.flipX = false;
-        if (rigidbody2D.velocity.x > 0.000001)
-            spriteRenderer.flipX = true;
+
 
         if(MainStage.GetInteger("MainStage")==3)
             MainStage.SetInteger("MainStage", 0);

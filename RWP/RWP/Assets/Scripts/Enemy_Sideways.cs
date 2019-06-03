@@ -43,6 +43,10 @@ public class Enemy_Sideways : MonoBehaviour
             autoIncrement(ref pathIndex);
             autoIncrement(ref nextPathIndex);
         }
+        if (path[pathIndex].position.x < path[nextPathIndex].position.x)
+            spriteRenderer.flipX = false;
+        if (path[pathIndex].position.x > path[nextPathIndex].position.x)
+            spriteRenderer.flipX = true;
         Vector2 temp = Vector2.Lerp(path[pathIndex].position, path[nextPathIndex].position, animationCurve.Evaluate(pathProgress));
         
         rigidbody2D.MovePosition(temp);
@@ -75,10 +79,6 @@ public class Enemy_Sideways : MonoBehaviour
         //idle += Time.deltaTime;
         
 
-        if (rigidbody2D.velocity.x > 0)
-            spriteRenderer.flipX = false;
-        if (rigidbody2D.velocity.x < 0)
-            spriteRenderer.flipX = true;
     }
 
     private void autoIncrement(ref int pathIndex)

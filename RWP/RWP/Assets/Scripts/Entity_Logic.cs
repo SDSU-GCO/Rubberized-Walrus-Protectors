@@ -8,6 +8,7 @@ public class Entity_Logic : MonoBehaviour
     public Event_One_Float damaged = new Event_One_Float();
     //entity parameters
     public float health = 3f;
+    public SpriteRenderer spriteRenderer;
     public Attack_Controller rangedAttack;
     public float rangedCoolDownInSeconds;
     float rangedCoolDownInSecondsDefault;
@@ -27,6 +28,7 @@ public class Entity_Logic : MonoBehaviour
         rangedCoolDownInSeconds = rangedAttack.AttackDelay;
         rangedCoolDownInSecondsDefault = rangedCoolDownInSeconds;
         my2DRigidbody = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         damage = rangedAttack.damage;
 
         if (gameObject.layer == 10)
@@ -49,6 +51,12 @@ public class Entity_Logic : MonoBehaviour
     
     void Update()
     {
+
+        if (my2DRigidbody.velocity.x < -0.00001)
+            spriteRenderer.flipX = false;
+        if (my2DRigidbody.velocity.x > 0.000001)
+            spriteRenderer.flipX = true;
+
         rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
         invincibility = Mathf.Min(invincibilityTime, invincibility + Time.deltaTime);
 
