@@ -44,6 +44,7 @@ public class Entity_Logic : MonoBehaviour
 
     void OnEnable()
     {
+        
         playerPosition = playerRefSO.player;
         damaged.Invoke(health);
     }
@@ -51,11 +52,6 @@ public class Entity_Logic : MonoBehaviour
     
     void Update()
     {
-
-        if (my2DRigidbody.velocity.x < -0.00001)
-            spriteRenderer.flipX = false;
-        if (my2DRigidbody.velocity.x > 0.000001)
-            spriteRenderer.flipX = true;
 
         rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
         invincibility = Mathf.Min(invincibilityTime, invincibility + Time.deltaTime);
