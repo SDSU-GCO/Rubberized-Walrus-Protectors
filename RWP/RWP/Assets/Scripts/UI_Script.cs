@@ -39,7 +39,8 @@ public class UI_Script : MonoBehaviour
 
         foreach (Tilemap tilemap in tilemaps)
         {
-            tilemap.color = temp;
+            if(tilemap!=null)
+                tilemap.color = temp;
         }
     }
 
