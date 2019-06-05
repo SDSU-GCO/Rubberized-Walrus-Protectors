@@ -10,6 +10,5 @@ public class Restart : MonoBehaviour
         Time.timeScale = 1;
         Time.fixedDeltaTime = 0.02f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
     }
 }

@@ -13,10 +13,8 @@ public class UI_Script : MonoBehaviour
     public EnemyListSO enemyCounter;
     public Entity_Logic entityLogic;
     public Canvas PauseMenu;
-    public GameObject Druid;
     float health;
     public Canvas gameOverScreen;
-    IEnumerator coroutine;
     int MaxTreeCount = 0;
     int MaxEnemyCount = 0;
     Color tint = new Color(1.0f, 0, 1.0f, 1.0f);
@@ -61,18 +59,22 @@ public class UI_Script : MonoBehaviour
             if (PauseMenu.gameObject.activeInHierarchy == false)
             {
                 PauseMenu.gameObject.SetActive(true);
-                Time.timeScale = 0;
-                Time.fixedDeltaTime = 0;
+                if(gameOverScreen.gameObject.activeInHierarchy!=true)
+                {
+                    Time.timeScale = 0;
+                    Time.fixedDeltaTime = 0;
+                }
             }
             else
             {
                 PauseMenu.gameObject.SetActive(false);
-                Time.timeScale = 1;
-                Time.fixedDeltaTime = 0.02f;
+                if (gameOverScreen.gameObject.activeInHierarchy != true)
+                {
+                    Time.timeScale = 1;
+                    Time.fixedDeltaTime = 0.02f;
+                }
             }
-
         }
-        
     }
 
     private void OnEnable()
@@ -92,24 +94,10 @@ public class UI_Script : MonoBehaviour
         healthCounter.SetText("HP: " + health);
         if (health <= 0)
         {
+            trees.enabled = false;
+            enemies.enabled = false;
+            healthCounter.enabled = false;
             gameOverScreen.gameObject.SetActive(true);
-            coroutine = WaitAndPrint(3.0f);
-            StartCoroutine(coroutine);
-            
         }
-    }
-    private IEnumerator WaitAndPrint(float waitTime)
-    {
-        float elapsedTime=0f;
-        bool running = true;
-        while (running)
-        {
-            yield return null;
-            elapsedTime += Time.deltaTime;
-            if (elapsedTime >= waitTime)
-                running = false;
-
-        }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
