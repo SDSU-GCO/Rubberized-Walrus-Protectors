@@ -38,7 +38,7 @@ public class Enemy_Logic : MonoBehaviour
 
     void Update()
     {
-        if (inRange() && hasLineOfSight())
+        if (inRange())
         {
             entityLogic.doAttack();
         }

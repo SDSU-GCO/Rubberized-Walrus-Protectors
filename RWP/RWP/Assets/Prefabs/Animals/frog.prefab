@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7001408985997318810}
   - component: {fileID: 7001408985997318813}
   - component: {fileID: 7001408985997318812}
+  - component: {fileID: -7932636857061439112}
   m_Layer: 11
   m_Name: frog
   m_TagString: Enemy
@@ -118,9 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474d7abf0ed109c46b40664ad1f4233c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityLogic: {fileID: 7001408985997318810}
-  target: {fileID: 0}
-  range: 4
+  range: 8
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
   enemyListSO: {fileID: 11400000, guid: 75ae1a3c8224be8478bb21ae3532f06b, type: 2}
 --- !u!114 &7001408985997318810
@@ -141,19 +140,16 @@ MonoBehaviour:
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   health: 2
-  spriteRenderer: {fileID: 0}
   rangedAttack: {fileID: 7183832417238726302, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
     type: 3}
-  rangedCoolDownInSeconds: 4
   offset: 0.5
-  damage: 1
-  playerPosition: {fileID: 0}
   attacked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
+  damage: 1
   invincibilityTime: 0
 --- !u!95 &7001408985997318813
 Animator:
@@ -190,3 +186,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-7932636857061439112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7001408985997318815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a528dd519f9bd1d49b78ba0ad9d2b5aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}

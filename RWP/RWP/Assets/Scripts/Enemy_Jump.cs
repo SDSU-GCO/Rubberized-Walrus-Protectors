@@ -10,12 +10,14 @@ public class Enemy_Jump : MonoBehaviour
     public float jumpVelocity = 30f;
     private Vector2 velocity;
     public float timePassed = 0f;
+    CircleCollider2D circleCollider2D;
 
     new Rigidbody2D rigidbody2D;
 
     private void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
     }
 
     private void FixedUpdate()
@@ -40,7 +42,26 @@ public class Enemy_Jump : MonoBehaviour
         }
             
         timePassed += Time.deltaTime;
-        
+
     }
-    
+
+    private bool CheckGrounded()
+    {
+        bool result = false;
+        LayerMask layerMask = (1 << 9);
+        //layerMask = ~layerMask;
+        List<Collider2D> results = new List<Collider2D>();
+        ContactFilter2D contactFilter2D = new ContactFilter2D();
+        contactFilter2D.SetLayerMask(layerMask);
+
+        RaycastHit2D raycastHit2D;
+        raycastHit2D = Physics2D.CircleCast(transform.position, circleCollider2D.radius*0.9f, Vector2.down, Mathf.Infinity, layerMask);
+        if (raycastHit2D.distance > 0 && raycastHit2D.distance < 0.05)
+        {
+            result = true;
+        }
+
+        return result;
+    }
+
 }

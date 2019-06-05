@@ -216,13 +216,9 @@ MonoBehaviour:
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   health: 10
-  spriteRenderer: {fileID: 0}
   rangedAttack: {fileID: 3068624727191914089, guid: 0967215e98936f34c89b56e3a84005b8,
     type: 3}
-  rangedCoolDownInSeconds: 3
   offset: 1
-  damage: 1
-  playerPosition: {fileID: 0}
   attacked:
     m_PersistentCalls:
       m_Calls:
@@ -240,7 +236,10 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
-  invincibilityTime: 1.5
+  damage: 1
+  invincibilityTime: 0.7
+  timeToFlashOnHit: 0.7
+  flashSpeed: 20
 --- !u!95 &1256270502
 Animator:
   serializedVersion: 3

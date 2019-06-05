@@ -86,7 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToLive: 0.5
   LiveForever: 1
-  AttackDelay: 1.25
+  AttackDelay: 0.5
   attackingFriendlies: 0
   damage: 1
   speed: 9

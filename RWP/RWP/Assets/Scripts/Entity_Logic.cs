@@ -128,13 +128,15 @@ public class Entity_Logic : MonoBehaviour
 
     }
     float invincibility = 0;
-    public float invincibilityTime = 0;
+    public float invincibilityTime = 0.5f;
+    public float timeToFlashOnHit = 0.5f;
+
     //take damage function
     public void TakeDamage(float amount)
     {
-        
         if (invincibility >= invincibilityTime)
         {
+            StartCoroutine(ChangeColor());
             health -= amount;
             invincibility = 0;
 
@@ -142,6 +144,33 @@ public class Entity_Logic : MonoBehaviour
             if (health <= 0)
                 Destroy(gameObject);
         }
+    }
+
+    enum GoToColor { red, white};
+    public float flashSpeed = 20f;
+    IEnumerator ChangeColor()
+    {
+        float flashingTime = timeToFlashOnHit;
+        GoToColor goToColor = GoToColor.red;
+        float amount = 0;
+        while(flashingTime>0)
+        {
+            flashingTime -= Time.deltaTime;
+            if (goToColor == GoToColor.red)
+                amount += Time.deltaTime * flashSpeed;
+            else
+                amount -= Time.deltaTime * flashSpeed;
+
+            if (amount >= 1)
+                goToColor = GoToColor.white;
+            else if (amount <= 0)
+                goToColor = GoToColor.red;
+
+            spriteRenderer.color = Color.Lerp(Color.white, Color.red, amount);
+
+            yield return null;
+        }
+        spriteRenderer.color = Color.white;
     }
     
 }

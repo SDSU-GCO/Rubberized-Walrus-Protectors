@@ -100,24 +100,12 @@ public class Movement : MonoBehaviour
 
         RaycastHit2D raycastHit2D;
         raycastHit2D = Physics2D.CapsuleCast(transform.position, new Vector2(1, 1.9f), CapsuleDirection2D.Vertical, 0, Vector2.down, 1, (1 << 9));
-        //Debug.Log(raycastHit2D.distance);
-
-
-        //Physics2D.OverlapCapsule((Vector2)transform.position, new Vector2(1, 2), CapsuleDirection2D.Vertical, 0, contactFilter2D, results);
         if (raycastHit2D.distance > 0 && raycastHit2D.distance < 0.05)
         {
             result = true;
-            //Debug.Log("big");
         }
 
-        //Physics2D.OverlapCapsule((Vector2)transform.position + (Vector2.up*0.1f), new Vector2(0.90f,1.7f), CapsuleDirection2D.Vertical, 0, contactFilter2D, results);
-        //if (results.Count > 0)
-        //{
-        //    result = false;
-        //    Debug.Log("small");
-        //}
         return result;
-
     }
     
 }
