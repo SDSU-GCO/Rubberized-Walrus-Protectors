@@ -42,7 +42,7 @@ public class GameOver : MonoBehaviour
         Color temp = image.color;
         temp.a = Mathf.InverseLerp(0, secondsToFadeIn, currentTime);
         image.color = temp;
-        if(Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape))
+        if(Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && image.color.a==1)
         {
             Time.timeScale = 1;
             Time.fixedDeltaTime = 0.02f;
