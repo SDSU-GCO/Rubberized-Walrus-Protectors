@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class UI_Script : MonoBehaviour
 {
@@ -17,18 +18,29 @@ public class UI_Script : MonoBehaviour
     public Canvas gameOverScreen;
     int MaxTreeCount = 0;
     int MaxEnemyCount = 0;
-    Color tint = new Color(1.0f, 0, 1.0f, 1.0f);
+    
+    public Color tint = new Color(1.0f, 0, 1.0f, 1.0f);
+    public List<Tilemap> tilemaps = new List<Tilemap>();
 
-    private void Awake()
+    private void Start()
     {
-        treeCounter.update.AddListener(updateTrees);
-        enemyCounter.update.AddListener(updateEnemies);
+        treeCounter.update.Invoke();
+        enemyCounter.update.Invoke();
+        updateColor();
     }
 
-    private void OnDestroy()
+
+    void updateColor()
     {
-        treeCounter.update.RemoveListener(updateTrees);
-        enemyCounter.update.RemoveListener(updateEnemies);
+        Debug.Log("Color Update");
+        float t = (treeCounter.trees.Count + enemyCounter.enemies.Count) / (float)(MaxTreeCount + MaxEnemyCount);
+        Debug.Log(t);
+        Color temp = Color.Lerp(tint, Color.white, 1-t);
+
+        foreach (Tilemap tilemap in tilemaps)
+        {
+            tilemap.color = temp;
+        }
     }
 
     public void updateEnemies()
@@ -38,7 +50,7 @@ public class UI_Script : MonoBehaviour
             MaxEnemyCount = enemyCounter.enemies.Count;
         }
         enemies.SetText("Enemies Left: " + enemyCounter.enemies.Count);
-        Color temp = Color.Lerp(tint, Color.white, enemyCounter.enemies.Count / (MaxTreeCount + MaxEnemyCount));
+        updateColor();
     }
 
     public void updateTrees()
@@ -48,7 +60,8 @@ public class UI_Script : MonoBehaviour
             MaxTreeCount = treeCounter.trees.Count;
         }
         trees.SetText("Trees Left: " + treeCounter.trees.Count);
-        Color temp = Color.Lerp(tint, Color.white, treeCounter.trees.Count / (MaxTreeCount+MaxEnemyCount));
+
+        updateColor();
     }
     
 
@@ -79,13 +92,17 @@ public class UI_Script : MonoBehaviour
 
     private void OnEnable()
     {
+        treeCounter.update.AddListener(updateTrees);
+        enemyCounter.update.AddListener(updateEnemies);
+        entityLogic.damaged.AddListener(updateHealth);
         updateEnemies();
         updateTrees();
-        entityLogic.damaged.AddListener(updateHealth);
     }
 
     private void OnDisable()
     {
+        treeCounter.update.RemoveListener(updateTrees);
+        enemyCounter.update.RemoveListener(updateEnemies);
         entityLogic.damaged.RemoveListener(updateHealth);
     }
 

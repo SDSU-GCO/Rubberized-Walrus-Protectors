@@ -13,6 +13,11 @@ public class Enemy_Logic : MonoBehaviour
     public PlayerRefSO playerRefSO;
     public EnemyListSO enemyListSO;
 
+    private void Start()
+    {
+        target = playerRefSO.player;
+    }
+
     private void OnEnable()
     {
         if (enemyListSO == null)

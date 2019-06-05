@@ -22,7 +22,6 @@ public class Ally_Logic : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Player Awake");
         playerRefSO.player = transform;
         
             rigidbody2D = GetComponent<Rigidbody2D>();

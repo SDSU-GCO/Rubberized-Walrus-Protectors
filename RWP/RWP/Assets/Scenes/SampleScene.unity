@@ -2236,7 +2236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4365,6 +4365,11 @@ MonoBehaviour:
   entityLogic: {fileID: 2129726300}
   PauseMenu: {fileID: 1691573206}
   gameOverScreen: {fileID: 82309334}
+  tint: {r: 1, g: 0, b: 1, a: 1}
+  tilemaps:
+  - {fileID: 1953066986}
+  - {fileID: 5969814245769115857}
+  - {fileID: 1174249627185055811}
 --- !u!114 &1876705506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26912,9 +26917,9 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+    m_Data: {r: 1.22176e-40, g: 1.22176e-40, b: 1.22176e-40, a: 1.22176e-40}
   - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+    m_Data: {r: 1.22176e-40, g: 1.22176e-40, b: 1.22176e-40, a: 1.22176e-40}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -239, y: -49, z: 0}
@@ -131838,6 +131843,10 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 11538
     m_Data: {r: 1, g: 1, b: 1, a: 1}
+  - m_RefCount: 0
+    m_Data: {r: 0, g: 0, b: 0, a: 0}
+  - m_RefCount: 0
+    m_Data: {r: 0, g: 0, b: 0, a: 0}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -226, y: -59, z: 0}
@@ -136030,9 +136039,9 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+    m_Data: {r: 1.2244e-40, g: 1.2244e-40, b: 1.2244e-40, a: 1.2244e-40}
   - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+    m_Data: {r: 1.2244e-40, g: 1.2244e-40, b: 1.2244e-40, a: 1.2244e-40}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -213, y: -44, z: 0}

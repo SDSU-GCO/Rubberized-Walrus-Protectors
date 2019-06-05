@@ -18,7 +18,6 @@ public class Movement : MonoBehaviour
 
     new Rigidbody2D rigidbody2D;
     bool isGrounded = true;
-    float oldDistanceToGround;
     SpriteRenderer spriteRenderer;
 
     private Vector2 totalForce = Vector2.zero;

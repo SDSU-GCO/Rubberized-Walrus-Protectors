@@ -7,5 +7,12 @@ using UnityEngine.Events;
 public class PlayerRefSO : ScriptableObject
 {
     public Transform player = null;
-
+    private void Awake()
+    {
+        player = null;
+    }
+    private void OnEnable()
+    {
+        hideFlags = HideFlags.DontUnloadUnusedAsset;
+    }
 }

@@ -16,14 +16,18 @@ public class Frog : MonoBehaviour
     float timer = 1;
 
 
+    private void Start()
+    {
+        target = PlayerRefSO.player;
+    }
+
     private void OnEnable()
     {
-        Debug.Log("Frog Enabled");
         rigidbody2D = GetComponent<Rigidbody2D>();
         enemy_Logic = GetComponent<Enemy_Logic>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        target = PlayerRefSO.player;
         timer = timeToLoad;
+        target = PlayerRefSO.player;
     }
 
     // Update is called once per frame

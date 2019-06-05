@@ -7,6 +7,14 @@ using UnityEngine.Events;
 public class TreeListSO : ScriptableObject
 {
     public List<SaveTree> trees = new List<SaveTree>();
+    private void Awake()
+    {
+        trees = new List<SaveTree>();
+    }
+    private void OnEnable()
+    {
+        hideFlags = HideFlags.DontUnloadUnusedAsset;
+    }
     public UnityEvent update;
 
 }

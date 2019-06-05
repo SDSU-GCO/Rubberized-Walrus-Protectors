@@ -46,6 +46,12 @@ public class Entity_Logic : MonoBehaviour
         
     }
 
+    private void Start()
+    {
+
+        playerPosition = playerRefSO.player;
+    }
+
     void OnEnable()
     {
 
