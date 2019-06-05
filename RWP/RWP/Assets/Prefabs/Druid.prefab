@@ -42,10 +42,10 @@ GameObject:
   - component: {fileID: 7886657102979876470}
   - component: {fileID: 5580200484004044291}
   - component: {fileID: 7886657102979876475}
-  - component: {fileID: 7886657102979876469}
   - component: {fileID: 7886657102979876468}
   - component: {fileID: 2129726300}
   - component: {fileID: 1256270502}
+  - component: {fileID: 7886657104560016687}
   m_Layer: 10
   m_Name: Druid
   m_TagString: Player
@@ -118,12 +118,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 5
-  jumpVelocity: 0.8
+  jumpVelocity: 7
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
   allowedAirbornTime: 0.2
   airbornTime: 0
-  circleCollider2D: {fileID: 7886657102979876469}
   upBoy:
     m_PersistentCalls:
       m_Calls:
@@ -140,22 +139,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!58 &7886657102979876469
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7886657102979876474}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.4065477}
-  serializedVersion: 2
-  m_Radius: 0.49
 --- !u!212 &7886657102979876468
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -193,7 +176,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c216d278cac052f4c8a812664e28e767, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d94f1126ab0f58c46b9fc551e05c7f0a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -232,7 +215,8 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  health: 5
+  health: 10
+  spriteRenderer: {fileID: 0}
   rangedAttack: {fileID: 3068624727191914089, guid: 0967215e98936f34c89b56e3a84005b8,
     type: 3}
   rangedCoolDownInSeconds: 3
@@ -276,3 +260,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!70 &7886657104560016687
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7886657102979876474}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1, y: 2}
+  m_Direction: 0

@@ -27,6 +27,21 @@ PrefabInstance:
       propertyPath: AttackDelay
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7183832417238726273, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183832417238726273, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.70052934
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183832417238726273, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7183832417238726301, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
         type: 3}
       propertyPath: m_LocalPosition.x

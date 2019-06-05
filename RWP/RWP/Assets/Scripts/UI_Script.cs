@@ -39,7 +39,7 @@ public class UI_Script : MonoBehaviour
         {
             MaxEnemyCount = enemyCounter.enemies.Count;
         }
-        enemies.SetText("Trees Left: " + enemyCounter.enemies.Count);
+        enemies.SetText("Enemies Left: " + enemyCounter.enemies.Count);
         Color temp = Color.Lerp(tint, Color.white, enemyCounter.enemies.Count / (MaxTreeCount + MaxEnemyCount));
     }
 

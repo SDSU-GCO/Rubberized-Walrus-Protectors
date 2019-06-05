@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class Entity_Logic : MonoBehaviour
 {
     public Event_One_Float damaged = new Event_One_Float();
     //entity parameters
     public float health = 3f;
-    public SpriteRenderer spriteRenderer;
     public Attack_Controller rangedAttack;
-    public float rangedCoolDownInSeconds;
-    float rangedCoolDownInSecondsDefault;
-    Rigidbody2D my2DRigidbody;
     public float offset = 1.5f;
-    public int damage;
-    public Transform playerPosition;
     [SerializeField] public UnityEvent attacked;
     public PlayerRefSO playerRefSO;
+
+    [HideInInspector]
+    public int damage;
+
+    SpriteRenderer spriteRenderer;
+    float rangedCoolDownInSeconds;
+    float rangedCoolDownInSecondsDefault;
+    Rigidbody2D my2DRigidbody;
+    Transform playerPosition;
 
     delegate void attackMethod();
     attackMethod attack_method;
     //initialize ambiguous parameters
     public void Awake()
     {
-
+        Debug.Assert(rangedAttack != null, "Error: rangedAttack in \"" + this + "\"is null!");
         rangedCoolDownInSeconds = rangedAttack.AttackDelay;
         rangedCoolDownInSecondsDefault = rangedCoolDownInSeconds;
         my2DRigidbody = GetComponent<Rigidbody2D>();
@@ -44,7 +48,9 @@ public class Entity_Logic : MonoBehaviour
 
     void OnEnable()
     {
-        
+
+        if (playerRefSO == null)
+            Debug.Log(gameObject.ToString() + " " + this + gameObject.name);
         playerPosition = playerRefSO.player;
         damaged.Invoke(health);
     }

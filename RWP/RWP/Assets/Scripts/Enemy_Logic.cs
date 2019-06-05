@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Entity_Logic))]
 public class Enemy_Logic : MonoBehaviour
 {
-    public Entity_Logic entityLogic;
-    public Transform target;
+    Entity_Logic entityLogic;
+    Transform target;
     public float range = 4;
     RaycastHit2D result;
     public PlayerRefSO playerRefSO;
@@ -14,6 +15,8 @@ public class Enemy_Logic : MonoBehaviour
 
     private void OnEnable()
     {
+        if (enemyListSO == null)
+            Debug.Log(gameObject.ToString() +" "+ this + gameObject.name);
         enemyListSO.enemies.Add(this);
         enemyListSO.update.Invoke();
         target = playerRefSO.player;
