@@ -4365,7 +4365,7 @@ MonoBehaviour:
   entityLogic: {fileID: 2129726300}
   PauseMenu: {fileID: 1691573206}
   gameOverScreen: {fileID: 82309334}
-  tint: {r: 1, g: 0, b: 1, a: 1}
+  tint: {r: 0.666667, g: 0, b: 1, a: 1}
   tilemaps:
   - {fileID: 1953066986}
   - {fileID: 5969814245769115857}
