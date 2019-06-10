@@ -14,11 +14,11 @@ public class Ally_Logic : MonoBehaviour
 
     public void setToAttack()
     {
-        Animator.SetInteger("MainStage", 3);
+        setAnimationState(AnimationState.ATTACKING);
     }
     public void setToJump()
     {
-        Animator.SetInteger("MainStage", 1);
+        setAnimationState(AnimationState.START_JUMP);
     }
 
     private void Awake()
