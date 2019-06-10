@@ -33,7 +33,7 @@ public class Ally_Logic : MonoBehaviour
             entityLogic = GetComponent<Entity_Logic>();
         }
     }
-
+    
     void Update()
     {
         if (rigidbody2D.velocity.x < -0.00001)
@@ -41,10 +41,42 @@ public class Ally_Logic : MonoBehaviour
         if (rigidbody2D.velocity.x > 0.000001)
             spriteRenderer.flipX = true;
 
-        if (Animator.GetInteger("MainStage")==3)
+        if (Animator.GetInteger("MainStage")==3 && movement.isGrounded)
             Animator.SetInteger("MainStage", 0);
 
-        if(movement.isGrounded && Animator.GetInteger("MainStage") == 1)
+        if (Animator.GetInteger("MainStage") == 2 && rigidbody2D.velocity.y<0)
+            Animator.SetInteger("MainStage", 4);
+
+        if (Animator.GetInteger("MainStage") == 0 && rigidbody2D.velocity.y < 0)
+            Animator.SetInteger("MainStage", 4);
+
+        if (Animator.GetInteger("MainStage") == 2 && movement.isGrounded)
+            Animator.SetInteger("MainStage", 0);
+
+
+        if (Animator.GetInteger("MainStage") == 4 && movement.isGrounded)
+            Animator.SetInteger("MainStage", 0);
+
+        if (Animator.GetInteger("MainStage") == 3 && !movement.isGrounded)
+        {
+            if(rigidbody2D.velocity.y>0)
+            {
+                Animator.SetInteger("MainStage", 2);
+            }
+            else
+            {
+                Animator.SetInteger("MainStage", 4);
+            }
+        }
+
+
+
+        if (rigidbody2D.velocity.y<0 && Animator.GetInteger("MainStage") == 1)
+        {
+            Animator.SetInteger("MainStage", 4);
+        }
+
+        if (movement.isGrounded && Animator.GetInteger("MainStage") == 1)
         {
             Animator.SetInteger("MainStage", 0);
         }
