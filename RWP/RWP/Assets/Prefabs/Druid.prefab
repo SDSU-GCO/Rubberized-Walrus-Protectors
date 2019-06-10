@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
-  MainStage: {fileID: 0}
+  Animator: {fileID: 0}
   movement: {fileID: 7886657102979876475}
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
 --- !u!114 &7886657102979876475
@@ -123,22 +123,12 @@ MonoBehaviour:
   lowJumpMultiplier: 2
   allowedAirbornTime: 0.2
   airbornTime: 0
-  upBoy:
+  Jumped:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5580200484004044291}
-        m_MethodName: setToJump
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  isGrounded: 1
 --- !u!212 &7886657102979876468
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -215,6 +205,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  disableColliderOnDeath: 1
   health: 10
   rangedAttack: {fileID: 3068624727191914089, guid: 0967215e98936f34c89b56e3a84005b8,
     type: 3}
@@ -236,6 +227,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
+  onDeathReplaceWith: {fileID: 0}
   damage: 1
   invincibilityTime: 0.7
   timeToFlashOnHit: 0.7

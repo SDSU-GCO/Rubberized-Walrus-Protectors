@@ -139,6 +139,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  disableColliderOnDeath: 1
   health: 2
   rangedAttack: {fileID: 7183832417238726302, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
     type: 3}
@@ -149,6 +150,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
+  onDeathReplaceWith: {fileID: 0}
   damage: 1
   invincibilityTime: 0
   timeToFlashOnHit: 0.5

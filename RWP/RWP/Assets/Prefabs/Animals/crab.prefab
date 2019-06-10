@@ -150,6 +150,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
+  onDeathReplaceWith: {fileID: 0}
   damage: 1
   invincibilityTime: 0
   timeToFlashOnHit: 0.5

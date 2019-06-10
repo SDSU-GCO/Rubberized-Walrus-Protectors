@@ -98,11 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdbcedbade45fc4490e7cc6db174b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: []
-  moveDelay: 3
-  moveVelocity: 5
-  timePassed: 0
-  idle: 6
+  interpolationRate: 0.5
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -127,6 +123,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  path: []
   spriteRenderer: {fileID: 8511053123905741976}
 --- !u!50 &8511053123905741958
 Rigidbody2D:
@@ -181,6 +178,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  disableColliderOnDeath: 1
   health: 4
   rangedAttack: {fileID: 7183832417238726302, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
     type: 3}
@@ -191,6 +189,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
+  onDeathReplaceWith: {fileID: 0}
   damage: 1
   invincibilityTime: 0
   timeToFlashOnHit: 0.5
