@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEditor.Experimental.SceneManagement;
+using UnityEditor;
 
 [RequireComponent(typeof(Entity_Logic))]
 public class Enemy_Logic : MonoBehaviour
@@ -12,6 +15,57 @@ public class Enemy_Logic : MonoBehaviour
     RaycastHit2D result;
     public PlayerRefSO playerRefSO;
     public EnemyListSO enemyListSO;
+
+    private void OnValidate()
+    {
+        //Debug.Log("\n");
+        //Debug.Log(gameObject.name + "::: IsPartOfPrefabInstance: " + PrefabUtility.IsPartOfPrefabInstance(gameObject));
+        //Debug.Log(gameObject.name + "::: IsPartOfAnyPrefab: " + PrefabUtility.IsPartOfAnyPrefab(gameObject));
+        //Debug.Log(gameObject.name + "::: IsAnyPrefabInstanceRoot: " + PrefabUtility.IsAnyPrefabInstanceRoot(gameObject));
+        //Debug.Log(gameObject.name + "::: IsPartOfImmutablePrefab: " + PrefabUtility.IsPartOfImmutablePrefab(gameObject));
+        //Debug.Log(gameObject.name + "::: IsPartOfModelPrefab: " + PrefabUtility.IsPartOfModelPrefab(gameObject));
+        //Debug.Log(gameObject.name + "::: IsPartOfNonAssetPrefabInstance: " + PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject));
+        //Debug.Log(gameObject.name + "::: IsPartOfPrefabAsset: " + PrefabUtility.IsPartOfPrefabAsset(gameObject));
+        //Debug.Log(gameObject.name + "::: IsPartOfRegularPrefab: " + PrefabUtility.IsPartOfRegularPrefab(gameObject));
+        //Debug.Log(gameObject.name + "::: IsPartOfVariantPrefab: " + PrefabUtility.IsPartOfVariantPrefab(gameObject));
+        //Debug.Log(gameObject.name + "::: IsPrefabAssetMissing: " + PrefabUtility.IsPrefabAssetMissing(gameObject));
+        //Debug.Log("\n");
+
+        GameObject outerGameObject = PrefabUtility.GetOutermostPrefabInstanceRoot(this);
+
+        PrefabStage prefabStage = PrefabStageUtility.GetPrefabStage(gameObject);
+        bool isPrefab = false;
+
+        if (outerGameObject != null)
+            isPrefab = (outerGameObject.scene == gameObject.scene);
+        else
+            isPrefab = false;
+
+        Debug.Log(gameObject.name + "::: isPrefab: " + isPrefab);
+
+        if (isPrefab!=true)
+        {
+            if (playerRefSO == null || enemyListSO == null)
+            {
+                GameObject CardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+                ScriptableObjectReferences scriptableObjectReferences = null;
+                if (CardinalSubsystem != null)
+                    scriptableObjectReferences = CardinalSubsystem.GetComponent<ScriptableObjectReferences>();
+                if (playerRefSO == null)
+                {
+                    scriptableObjectReferences.tryPopulate(ref playerRefSO);
+                    if (playerRefSO == null)
+                        Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefSO + "is null in: " + this);
+                }
+                if (enemyListSO == null)
+                {
+                    scriptableObjectReferences.tryPopulate(ref enemyListSO);
+                    if (enemyListSO == null)
+                        Debug.LogWarning("ScriptableObject Object enemyListSO: " + enemyListSO + "is null in: " + this);
+                }
+            }
+        }
+    }
 
     private void Start()
     {
@@ -35,6 +89,7 @@ public class Enemy_Logic : MonoBehaviour
 
     private void Awake()
     {
+        OnValidate();
         if (entityLogic == null)
         {
             entityLogic = GetComponent<Entity_Logic>();

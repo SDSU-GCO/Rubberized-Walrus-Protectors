@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Experimental.SceneManagement;
+using UnityEditor;
 
 public class Ally_Logic : MonoBehaviour
 {
@@ -12,6 +14,29 @@ public class Ally_Logic : MonoBehaviour
     public Movement movement;
     public PlayerRefSO playerRefSO;
 
+    private void OnValidate()
+    {
+        if (PrefabUtility.IsPartOfPrefabInstance(gameObject) == true)
+        {
+            if (playerRefSO == null)
+            {
+                GameObject CardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+                ScriptableObjectReferences scriptableObjectReferences = null;
+                if (CardinalSubsystem != null)
+                    scriptableObjectReferences = CardinalSubsystem.GetComponent<ScriptableObjectReferences>();
+                if (playerRefSO == null)
+                {
+                    scriptableObjectReferences.tryPopulate(ref playerRefSO);
+                    if (playerRefSO == null)
+                        Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefSO + "is null in: " + this);
+                }
+            }
+        }
+        else
+        {
+            playerRefSO = null;
+        }
+    }
     public void setToAttack()
     {
         setAnimationState(AnimationState.ATTACKING);
@@ -23,6 +48,8 @@ public class Ally_Logic : MonoBehaviour
 
     private void Awake()
     {
+        OnValidate();
+
         playerRefSO.player = transform;
         
             rigidbody2D = GetComponent<Rigidbody2D>();

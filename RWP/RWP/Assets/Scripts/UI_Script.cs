@@ -11,9 +11,11 @@ public class UI_Script : MonoBehaviour
     public TextMeshProUGUI healthCounter;
     public TextMeshProUGUI trees;
     public TextMeshProUGUI enemies;
+    
     public TreeListSO treeCounter;
     public EnemyListSO enemyCounter;
     public Entity_Logic playerEntityLogic;
+
     public Canvas PauseMenu;
     float health;
     public Canvas gameOverScreen;
@@ -25,6 +27,32 @@ public class UI_Script : MonoBehaviour
     public List<Tilemap> tilemaps = new List<Tilemap>();
     public List<Image> images = new List<Image>();
     public List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
+    
+    private void OnValidate()
+    {
+        if (treeCounter == null || enemyCounter == null)
+        {
+            GameObject CardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+            ScriptableObjectReferences scriptableObjectReferences = CardinalSubsystem.GetComponent<ScriptableObjectReferences>();
+            if (treeCounter == null)
+            {
+                scriptableObjectReferences.tryPopulate(ref treeCounter);
+                if (treeCounter == null)
+                    Debug.LogWarning("ScriptableObject Object treeCounter: " + treeCounter + "is null in: "+this);
+            }
+            if (enemyCounter == null)
+            {
+                scriptableObjectReferences.tryPopulate(ref enemyCounter);
+                if (enemyCounter == null)
+                    Debug.LogWarning("ScriptableObject Object enemyCounter: " + enemyCounter + "is null in: " + this);
+            }
+        }
+    }
+
+    private void Awake()
+    {
+        OnValidate();
+    }
 
     private void Start()
     {

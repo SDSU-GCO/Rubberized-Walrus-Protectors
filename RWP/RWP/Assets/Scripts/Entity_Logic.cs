@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEditor.Experimental.SceneManagement;
+using UnityEditor;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Entity_Logic : MonoBehaviour
@@ -14,6 +16,30 @@ public class Entity_Logic : MonoBehaviour
     public float offset = 1.5f;
     public UnityEvent attacked;
     public PlayerRefSO playerRefSO;
+
+    private void OnValidate()
+    {
+        if (PrefabUtility.IsPartOfPrefabInstance(gameObject) == true)
+        {
+            if (playerRefSO == null)
+            {
+                GameObject CardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+                ScriptableObjectReferences scriptableObjectReferences = null;
+                if (CardinalSubsystem != null)
+                    scriptableObjectReferences = CardinalSubsystem.GetComponent<ScriptableObjectReferences>();
+                if (playerRefSO == null)
+                {
+                    scriptableObjectReferences.tryPopulate(ref playerRefSO);
+                    if (playerRefSO == null)
+                        Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefSO + "is null in: " + this);
+                }
+            }
+        }
+        else
+        {
+            playerRefSO = null;
+        }
+    }
 
     public GameObject onDeathReplaceWith;
 
@@ -31,6 +57,7 @@ public class Entity_Logic : MonoBehaviour
     //initialize ambiguous parameters
     public void Awake()
     {
+        OnValidate();
         Debug.Assert(rangedAttack != null, "Error: rangedAttack in \"" + this + "\"is null!");
         rangedCoolDownInSeconds = rangedAttack.AttackDelay;
         rangedCoolDownInSecondsDefault = rangedCoolDownInSeconds;
