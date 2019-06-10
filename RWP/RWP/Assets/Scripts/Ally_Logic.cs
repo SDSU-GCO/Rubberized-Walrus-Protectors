@@ -43,16 +43,20 @@ public class Ally_Logic : MonoBehaviour
 
     bool wasAttacking=false;
 
-    void Update()
+    void flipWithVelocity()
     {
         if (rigidbody2D.velocity.x < -0.00001)
             spriteRenderer.flipX = false;
-        if (rigidbody2D.velocity.x > 0.000001)
+        else if (rigidbody2D.velocity.x > 0.000001)
             spriteRenderer.flipX = true;
+    }
 
-        switch((AnimationState)Animator.GetInteger("MainStage"))
+    void Update()
+    {
+        switch ((AnimationState)Animator.GetInteger("MainStage"))
         {
             case AnimationState.IDLE_FLOAT:
+                flipWithVelocity();
                 if (rigidbody2D.velocity.y < 0 && movement.isGrounded!=true)
                 {
                     setAnimationState(AnimationState.FALLING);
@@ -60,6 +64,7 @@ public class Ally_Logic : MonoBehaviour
                 break;
 
             case AnimationState.START_JUMP:
+                flipWithVelocity();
                 if (movement.isGrounded)
                 {
                     setAnimationState(AnimationState.IDLE_FLOAT);
@@ -71,6 +76,7 @@ public class Ally_Logic : MonoBehaviour
                 break;
 
             case AnimationState.JUMPING:
+                flipWithVelocity();
                 if (movement.isGrounded)
                 {
                     setAnimationState(AnimationState.IDLE_FLOAT);
@@ -106,6 +112,7 @@ public class Ally_Logic : MonoBehaviour
                 break;
 
             case AnimationState.FALLING:
+                flipWithVelocity();
                 if (movement.isGrounded)
                 {
                     setAnimationState(AnimationState.IDLE_FLOAT);

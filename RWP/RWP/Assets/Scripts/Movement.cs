@@ -95,7 +95,7 @@ public class Movement : MonoBehaviour
     private bool CheckGrounded()
     {
         bool result = false;
-        LayerMask layerMask = (1 << 9) | (1 << 12);
+        LayerMask layerMask = (1 << 9) | (1 << 12) | (1 << 13);
         //layerMask = ~layerMask;
         List<Collider2D> results = new List<Collider2D>();
         ContactFilter2D contactFilter2D = new ContactFilter2D();

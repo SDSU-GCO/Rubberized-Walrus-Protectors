@@ -96,7 +96,12 @@ public class Entity_Logic : MonoBehaviour
 
 
             attacked.Invoke();
-            
+
+            if (mouseposition.x > 0)
+                spriteRenderer.flipX = true;
+            else
+                spriteRenderer.flipX = false;
+
             GameObject childInstance = Instantiate(rangedAttack.gameObject, mouseposition + (Vector2)transform.position, transform.rotation);
             childInstance.GetComponent<Rigidbody2D>().velocity = rangedAttack.speed * mouseposition.normalized;
 
