@@ -34,6 +34,13 @@ public class Ally_Logic : MonoBehaviour
         }
     }
     
+    enum AnimationState { IDLE_FLOAT = 0, START_JUMP = 1, JUMPING = 2, ATTACKING = 3, FALLING = 4}
+
+    void setAnimationState(AnimationState animationState)
+    {
+        Animator.SetInteger("MainStage", (int)animationState);
+    }
+
     void Update()
     {
         if (rigidbody2D.velocity.x < -0.00001)
@@ -41,52 +48,67 @@ public class Ally_Logic : MonoBehaviour
         if (rigidbody2D.velocity.x > 0.000001)
             spriteRenderer.flipX = true;
 
-        if (Animator.GetInteger("MainStage")==3 && movement.isGrounded)
-            Animator.SetInteger("MainStage", 0);
-
-        if (Animator.GetInteger("MainStage") == 2 && rigidbody2D.velocity.y<0)
-            Animator.SetInteger("MainStage", 4);
-
-        if (Animator.GetInteger("MainStage") == 0 && rigidbody2D.velocity.y < 0)
-            Animator.SetInteger("MainStage", 4);
-
-        if (Animator.GetInteger("MainStage") == 2 && movement.isGrounded)
-            Animator.SetInteger("MainStage", 0);
-
-
-        if (Animator.GetInteger("MainStage") == 4 && movement.isGrounded)
-            Animator.SetInteger("MainStage", 0);
-
-        if (Animator.GetInteger("MainStage") == 3 && !movement.isGrounded)
+        switch((AnimationState)Animator.GetInteger("MainStage"))
         {
-            if(rigidbody2D.velocity.y>0)
-            {
-                Animator.SetInteger("MainStage", 2);
-            }
-            else
-            {
-                Animator.SetInteger("MainStage", 4);
-            }
+            case AnimationState.IDLE_FLOAT:
+                if (rigidbody2D.velocity.y < 0)
+                {
+                    setAnimationState(AnimationState.FALLING);
+                }
+                break;
+
+            case AnimationState.START_JUMP:
+                if (movement.isGrounded)
+                {
+                    setAnimationState(AnimationState.IDLE_FLOAT);
+                }
+                else if (rigidbody2D.velocity.y < 0)
+                {
+                    setAnimationState(AnimationState.FALLING);
+                }
+                break;
+
+            case AnimationState.JUMPING:
+                if (movement.isGrounded)
+                {
+                    setAnimationState(AnimationState.IDLE_FLOAT);
+                }
+                else if (rigidbody2D.velocity.y < 0)
+                {
+                    setAnimationState(AnimationState.FALLING);
+                }
+                break;
+
+            case AnimationState.ATTACKING:
+                if (movement.isGrounded)
+                {
+                    setAnimationState(AnimationState.IDLE_FLOAT);
+                }
+                else
+                {
+                    if (rigidbody2D.velocity.y > 0)
+                    {
+                        setAnimationState(AnimationState.JUMPING);
+                    }
+                    else
+                    {
+                        setAnimationState(AnimationState.FALLING);
+                    }
+                }
+                break;
+
+            case AnimationState.FALLING:
+                if (movement.isGrounded)
+                {
+                    setAnimationState(AnimationState.IDLE_FLOAT);
+                }
+                break;
+
         }
-
-
-
-        if (rigidbody2D.velocity.y<0 && Animator.GetInteger("MainStage") == 1)
-        {
-            Animator.SetInteger("MainStage", 4);
-        }
-
-        if (movement.isGrounded && Animator.GetInteger("MainStage") == 1)
-        {
-            Animator.SetInteger("MainStage", 0);
-        }
-
-
+        
         if (Input.GetMouseButton(1))
         {
             entityLogic.doAttack();
         }
-
-        
     }
 }
