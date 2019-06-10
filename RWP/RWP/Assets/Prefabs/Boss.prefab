@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1296634792691001970}
   - component: {fileID: 7471595372262501274}
   - component: {fileID: 4020197976954644012}
+  - component: {fileID: 3040488485732498306}
+  - component: {fileID: 5649507988577715133}
   m_Layer: 11
   m_Name: Boss
   m_TagString: Untagged
@@ -72,9 +74,10 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 65e3d0a864e5b6f4596f301eaa03862d, type: 3}
+  m_Sprite: {fileID: 2665574702722483961, guid: de90c8ce5899900458d4c3a8f28bfae8,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 5, y: 5}
@@ -121,21 +124,22 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  disableColliderOnDeath: 1
   health: 40
-  spriteRenderer: {fileID: 0}
   rangedAttack: {fileID: 3029695937556791165, guid: 013bd04783b3d534dbff3145760cd66f,
     type: 3}
-  rangedCoolDownInSeconds: 0
   offset: 1.5
-  damage: 2
-  playerPosition: {fileID: 0}
   attacked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
+  onDeathReplaceWith: {fileID: 0}
+  damage: 2
   invincibilityTime: 0
+  timeToFlashOnHit: 0.5
+  flashSpeed: 20
 --- !u!114 &7471595372262501274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,9 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474d7abf0ed109c46b40664ad1f4233c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityLogic: {fileID: 0}
-  target: {fileID: 0}
-  range: 4
+  range: 20
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
   enemyListSO: {fileID: 11400000, guid: 75ae1a3c8224be8478bb21ae3532f06b, type: 2}
 --- !u!60 &4020197976954644012
@@ -197,3 +199,63 @@ PolygonCollider2D:
       - {x: 0.18135071, y: -0.8430443}
       - {x: 0.4076233, y: -0.5464554}
       - {x: 0.33068848, y: 0.33721542}
+--- !u!114 &3040488485732498306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296634792691001971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdbcedbade45fc4490e7cc6db174b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interpolationRate: 0.5
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  path:
+  - {fileID: 0}
+  - {fileID: 0}
+  spriteRenderer: {fileID: 0}
+--- !u!95 &5649507988577715133
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296634792691001971}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bcf9243797b4c314c8f0019abd5ebc9b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

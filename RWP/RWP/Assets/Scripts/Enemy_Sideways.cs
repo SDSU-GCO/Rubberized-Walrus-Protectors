@@ -6,15 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Enemy_Sideways : MonoBehaviour
 {
-    public List<Transform> path;
-    public float moveDelay = 3f;
-    new Rigidbody2D rigidbody2D;
-    private Vector2 velocity;
-    public float moveVelocity = 5f;
-    public float timePassed;
-    public float idle=6f;
-
+    public float interpolationRate = 0.5f;
     public AnimationCurve animationCurve = new AnimationCurve();
+    public List<Transform> path;
+
+    new Rigidbody2D rigidbody2D;
     float pathProgress;
     Transform nextTarget;
     int pathIndex = 0;
@@ -36,7 +32,7 @@ public class Enemy_Sideways : MonoBehaviour
     private void Update()
     {
         //move
-        pathProgress += Time.deltaTime;
+        pathProgress += Time.deltaTime * interpolationRate;
         while (pathProgress >= 1)
         {
             pathProgress -= 1;

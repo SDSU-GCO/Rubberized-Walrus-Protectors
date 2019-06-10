@@ -148,7 +148,9 @@ public class Entity_Logic : MonoBehaviour
             damaged.Invoke(health);
             if (health <= 0)
             {
-                GetComponent<Enemy_Logic>().enabled=false;
+                Enemy_Logic tmp = GetComponent<Enemy_Logic>();
+                if(tmp!=null)
+                    tmp.enabled=false;
 
                 if(gameObject.layer==11 && onDeathReplaceWith==null)
                 {
