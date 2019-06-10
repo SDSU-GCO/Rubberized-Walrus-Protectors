@@ -8,11 +8,14 @@ public class Entity_Logic : MonoBehaviour
 {
     public Event_One_Float damaged = new Event_One_Float();
     //entity parameters
+    public bool disableColliderOnDeath = true;
     public float health = 3f;
     public Attack_Controller rangedAttack;
     public float offset = 1.5f;
-    [SerializeField] public UnityEvent attacked;
+    public UnityEvent attacked;
     public PlayerRefSO playerRefSO;
+
+    public GameObject onDeathReplaceWith;
 
     [HideInInspector]
     public int damage;
@@ -86,11 +89,8 @@ public class Entity_Logic : MonoBehaviour
 
         if (rangedCoolDownInSeconds == 0)
         {
-            
-
             Vector3 mouseScreenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-
-
+            
             Vector2 mouseposition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
             mouseposition = (mouseposition - (Vector2)transform.position).normalized * offset;
 
@@ -142,13 +142,33 @@ public class Entity_Logic : MonoBehaviour
     {
         if (invincibility >= invincibilityTime)
         {
-            StartCoroutine(ChangeColor());
             health -= amount;
             invincibility = 0;
 
             damaged.Invoke(health);
             if (health <= 0)
-                Destroy(gameObject);
+            {
+                GetComponent<Enemy_Logic>().enabled=false;
+
+                if(gameObject.layer==11 && onDeathReplaceWith==null)
+                {
+                    gameObject.layer = 12;
+                    Animator tempAnimator = GetComponent<Animator>();
+                    if (tempAnimator != null)
+                        tempAnimator.SetBool("isSaved", true);
+                    if(disableColliderOnDeath)
+                        GetComponent<Collider2D>().enabled = false;
+                }
+                else if(onDeathReplaceWith!=null)
+                {
+                    Instantiate(onDeathReplaceWith, transform.position, transform.rotation);
+                    Destroy(gameObject);
+                }
+            }
+            else
+            {
+                StartCoroutine(ChangeColor());
+            }
         }
     }
 

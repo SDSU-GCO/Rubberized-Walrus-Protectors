@@ -66,7 +66,7 @@ public class Enemy_Logic : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.layer == 10)
+        if (collision.collider.gameObject.layer == 10 && gameObject.layer == 11)
         {
             Entity_Logic temp;
             temp = collision.gameObject.GetComponent<Entity_Logic>();

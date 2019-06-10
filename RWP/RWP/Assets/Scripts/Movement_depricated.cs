@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement_depricated : MonoBehaviour
+public class Movement_deprecated : MonoBehaviour
 {
     //speed variables
     public float moveSpeed = 1;

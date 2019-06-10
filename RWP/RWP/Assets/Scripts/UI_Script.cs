@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class UI_Script : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class UI_Script : MonoBehaviour
     public TextMeshProUGUI enemies;
     public TreeListSO treeCounter;
     public EnemyListSO enemyCounter;
-    public Entity_Logic entityLogic;
+    public Entity_Logic playerEntityLogic;
     public Canvas PauseMenu;
     float health;
     public Canvas gameOverScreen;
@@ -20,7 +21,10 @@ public class UI_Script : MonoBehaviour
     int MaxEnemyCount = 0;
     
     public Color tint = new Color(1.0f, 0, 1.0f, 1.0f);
+    
     public List<Tilemap> tilemaps = new List<Tilemap>();
+    public List<Image> images = new List<Image>();
+    public List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
 
     private void Start()
     {
@@ -32,15 +36,23 @@ public class UI_Script : MonoBehaviour
 
     void updateColor()
     {
-        Debug.Log("Color Update");
         float t = (treeCounter.trees.Count + enemyCounter.enemies.Count) / (float)(MaxTreeCount + MaxEnemyCount);
-        Debug.Log(t);
         Color temp = Color.Lerp(tint, Color.white, 1-t);
 
         foreach (Tilemap tilemap in tilemaps)
         {
             if(tilemap!=null)
                 tilemap.color = temp;
+        }
+        foreach (Image image in images)
+        {
+            if (image != null)
+                image.color = temp;
+        }
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            if (spriteRenderer != null)
+                spriteRenderer.color = temp;
         }
     }
 
@@ -95,7 +107,7 @@ public class UI_Script : MonoBehaviour
     {
         treeCounter.update.AddListener(updateTrees);
         enemyCounter.update.AddListener(updateEnemies);
-        entityLogic.damaged.AddListener(updateHealth);
+        playerEntityLogic.damaged.AddListener(updateHealth);
         updateEnemies();
         updateTrees();
     }
@@ -104,7 +116,7 @@ public class UI_Script : MonoBehaviour
     {
         treeCounter.update.RemoveListener(updateTrees);
         enemyCounter.update.RemoveListener(updateEnemies);
-        entityLogic.damaged.RemoveListener(updateHealth);
+        playerEntityLogic.damaged.RemoveListener(updateHealth);
     }
 
     public void updateHealth(float health)

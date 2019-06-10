@@ -11,11 +11,12 @@ public class Attack_Controller : MonoBehaviour
     private bool LiveForever = false;
     float originalTimeToLive;//in seconds
     public float AttackDelay = 0.75f;
-    public bool attackingFriendlies = false;
     public int damage;
     public float speed = 7;
     public int targetLayer=12;
     new Collider collider = null;
+
+    public GameObject onDestroySpawnPrefab;
 
 
     private void Awake()
@@ -36,7 +37,7 @@ public class Attack_Controller : MonoBehaviour
             collider.enabled = true;
         }
         if (timeToLive <= 0)
-            Destroy(gameObject);
+            poofObject();
 
     }
     //enemy/ally check
@@ -50,11 +51,21 @@ public class Attack_Controller : MonoBehaviour
 
 
         }
-        Destroy(gameObject);
+        poofObject();
 
     }
-    
+
+    void poofObject()
+    {
+        if(onDestroySpawnPrefab!=null)
+        {
+            Instantiate(onDestroySpawnPrefab, transform.position, transform.rotation);
+        }
+
+        Destroy(gameObject);
     }
+    
+}
 
 
 

@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1944320986930164533}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -161,8 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474d7abf0ed109c46b40664ad1f4233c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityLogic: {fileID: 1944320986930164553}
-  target: {fileID: 0}
   range: 0
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
   enemyListSO: {fileID: 11400000, guid: 75ae1a3c8224be8478bb21ae3532f06b, type: 2}
@@ -184,20 +182,19 @@ MonoBehaviour:
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   health: 4
-  spriteRenderer: {fileID: 0}
   rangedAttack: {fileID: 7183832417238726302, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
     type: 3}
-  rangedCoolDownInSeconds: 4
   offset: 0.5
-  damage: 1
-  playerPosition: {fileID: 0}
   attacked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
+  damage: 1
   invincibilityTime: 0
+  timeToFlashOnHit: 0.5
+  flashSpeed: 20
 --- !u!58 &1944320986930164552
 CircleCollider2D:
   m_ObjectHideFlags: 0

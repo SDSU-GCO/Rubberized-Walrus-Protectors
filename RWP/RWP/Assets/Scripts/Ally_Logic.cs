@@ -8,16 +8,17 @@ public class Ally_Logic : MonoBehaviour
 
     Entity_Logic entityLogic;
     public SpriteRenderer spriteRenderer;
-    public Animator MainStage;
+    public Animator Animator;
     public Movement movement;
     public PlayerRefSO playerRefSO;
+
     public void setToAttack()
     {
-        MainStage.SetInteger("MainStage", 3);
+        Animator.SetInteger("MainStage", 3);
     }
     public void setToJump()
     {
-        MainStage.SetInteger("MainStage", 1);
+        Animator.SetInteger("MainStage", 1);
     }
 
     private void Awake()
@@ -26,7 +27,7 @@ public class Ally_Logic : MonoBehaviour
         
             rigidbody2D = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
-        MainStage = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
         if (entityLogic == null)
         {
             entityLogic = GetComponent<Entity_Logic>();
@@ -40,13 +41,12 @@ public class Ally_Logic : MonoBehaviour
         if (rigidbody2D.velocity.x > 0.000001)
             spriteRenderer.flipX = true;
 
-        if (MainStage.GetInteger("MainStage")==3)
-            MainStage.SetInteger("MainStage", 0);
+        if (Animator.GetInteger("MainStage")==3)
+            Animator.SetInteger("MainStage", 0);
 
-        if(!(Input.GetAxis("Vertical") > 0 && movement.airbornTime <= movement.allowedAirbornTime))
+        if(movement.isGrounded && Animator.GetInteger("MainStage") == 1)
         {
-            if (MainStage.GetInteger("MainStage") == 1)
-                MainStage.SetInteger("MainStage", 0);
+            Animator.SetInteger("MainStage", 0);
         }
 
 

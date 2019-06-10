@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7001408985997318815}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -151,6 +151,8 @@ MonoBehaviour:
   playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
   damage: 1
   invincibilityTime: 0
+  timeToFlashOnHit: 0.5
+  flashSpeed: 20
 --- !u!95 &7001408985997318813
 Animator:
   serializedVersion: 3
@@ -198,4 +200,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a528dd519f9bd1d49b78ba0ad9d2b5aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToLoad: 1
   PlayerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
