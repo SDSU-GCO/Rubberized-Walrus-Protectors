@@ -41,6 +41,8 @@ public class Ally_Logic : MonoBehaviour
         Animator.SetInteger("MainStage", (int)animationState);
     }
 
+    bool wasAttacking=false;
+
     void Update()
     {
         if (rigidbody2D.velocity.x < -0.00001)
@@ -51,7 +53,7 @@ public class Ally_Logic : MonoBehaviour
         switch((AnimationState)Animator.GetInteger("MainStage"))
         {
             case AnimationState.IDLE_FLOAT:
-                if (rigidbody2D.velocity.y < 0)
+                if (rigidbody2D.velocity.y < 0 && movement.isGrounded!=true)
                 {
                     setAnimationState(AnimationState.FALLING);
                 }
@@ -80,21 +82,27 @@ public class Ally_Logic : MonoBehaviour
                 break;
 
             case AnimationState.ATTACKING:
-                if (movement.isGrounded)
+
+                if(wasAttacking)//ensure we attack for at least one frame to enter state.
                 {
-                    setAnimationState(AnimationState.IDLE_FLOAT);
-                }
-                else
-                {
-                    if (rigidbody2D.velocity.y > 0)
+                    if (movement.isGrounded)
                     {
-                        setAnimationState(AnimationState.JUMPING);
+                        setAnimationState(AnimationState.IDLE_FLOAT);
                     }
                     else
                     {
-                        setAnimationState(AnimationState.FALLING);
+                        if (rigidbody2D.velocity.y < 0)
+                        {
+                            setAnimationState(AnimationState.FALLING);
+                        }
+                        else
+                        {
+                            setAnimationState(AnimationState.JUMPING);
+                        }
                     }
                 }
+                wasAttacking = true;
+                
                 break;
 
             case AnimationState.FALLING:
