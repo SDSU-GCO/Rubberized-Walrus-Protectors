@@ -53,7 +53,11 @@ public class UI_Script : MonoBehaviour
             SetupMBDO(ref enemyListMBDO, cardinalSubsystem, mbDatabaseObjectReferences);
         }
         if (hpEntityLogic == null)
-            hpEntityLogic = GameObject.FindObjectOfType<Ally_Logic>().GetComponent<Entity_Logic>();
+        {
+            Entity_Logic tmp = FindObjectOfType<Ally_Logic>().GetComponent<Entity_Logic>();
+            if(tmp.gameObject.scene == gameObject.scene)
+                hpEntityLogic = tmp;
+        }
     }
 
     private void Awake()
