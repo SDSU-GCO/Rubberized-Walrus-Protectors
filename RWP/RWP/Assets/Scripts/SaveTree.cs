@@ -10,21 +10,25 @@ public class SaveTree : MonoBehaviour
 
     private void OnValidate()
     {
-        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-        MBDatabaseObjectReferences mbDatabaseObjectReferences = null;
-        if (cardinalSubsystem != null)
-            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
-            
-        if(cardinalSubsystem !=null && cardinalSubsystem.scene != gameObject.scene)
+
+        if(treeListMBDO == null)
         {
-            treeListMBDO = null;
-        }
-        if (treeListMBDO == null && cardinalSubsystem.scene == gameObject.scene)
-        {
-            if (mbDatabaseObjectReferences != null)
-                mbDatabaseObjectReferences.tryPopulate(out treeListMBDO);
-            if (treeListMBDO == null)
-                Debug.LogWarning("ScriptableObject Object treeListMBDO: " + treeListMBDO + "is null in: " + this);
+            GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+            MBDataObjectReferences mbDatabaseObjectReferences = null;
+            if (cardinalSubsystem != null)
+                mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDataObjectReferences>();
+
+            if (cardinalSubsystem != null && cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
+            {
+                treeListMBDO = null;
+            }
+            if (treeListMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+            {
+                if (mbDatabaseObjectReferences != null)
+                    mbDatabaseObjectReferences.tryPopulate(out treeListMBDO);
+                if (treeListMBDO == null)
+                    Debug.LogWarning("ScriptableObject Object treeListMBDO: " + treeListMBDO + "is null in: " + this);
+            }
         }
     }
 
@@ -44,12 +48,15 @@ public class SaveTree : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 10)
+        if (collision.gameObject.layer == (int)CustomGCOTypes.CollisionLayerKey.ally || collision.gameObject.layer == (int)CustomGCOTypes.CollisionLayerKey.allyAttack)
         {
-            saved = true;
-            animator.SetBool("SaveTree", true);
-            treeListMBDO.trees.Remove(this);
-            treeListMBDO.update.Invoke();
+            if(saved==false)
+            {
+                saved = true;
+                animator.SetBool("SaveTree", true);
+                treeListMBDO.trees.Remove(this);
+                treeListMBDO.update.Invoke();
+            }
         }
     }
 }

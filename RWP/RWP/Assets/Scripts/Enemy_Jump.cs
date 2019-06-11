@@ -22,8 +22,6 @@ public class Enemy_Jump : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-       
         //smart gravity
         if (rigidbody2D.velocity.y < 0)
         {
@@ -48,7 +46,7 @@ public class Enemy_Jump : MonoBehaviour
     private bool CheckGrounded()
     {
         bool result = false;
-        LayerMask layerMask = (1 << 9) | (1 << 13);
+        LayerMask layerMask = (1 << 8) | (1 << 9) | (1 << 10) | (1 << 11) | (1 << 12);
         //layerMask = ~layerMask;
         List<Collider2D> results = new List<Collider2D>();
         ContactFilter2D contactFilter2D = new ContactFilter2D();

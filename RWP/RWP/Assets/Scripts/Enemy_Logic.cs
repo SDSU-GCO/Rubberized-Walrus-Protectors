@@ -5,43 +5,84 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(Entity_Logic))]
 public class Enemy_Logic : MonoBehaviour
 {
-    Entity_Logic entityLogic;
-    Transform target;
+    [SerializeField]
+    Attack_Controller rangedAttack;
+    void InitializeFromRangedAttack()
+    {
+        if (rangedAttack != null)
+        {
+            rangedCoolDownInSecondsDefault = rangedCoolDownInSeconds = rangedAttack.AttackDelay;
+            damage = rangedAttack.damage;
+        }
+    }
+
+    [ShowIf("CheckRangedAttackNotNull")]
     public float range = 4;
+    [ShowIf("CheckRangedAttackNotNull")]
+    public float offset = 1.5f;
+
+    bool CheckRangedAttackNotNull()
+    {
+        return rangedAttack != null;
+    }
+
     RaycastHit2D result;
-    public PlayerRefMBDO playerRefMBDO = null;
-    public EnemyListMBDO enemyListMBDO = null;
+
+
+    [SerializeField, HideInInspector]
+    EnemyListMBDO enemyListMBDO = null;
+    [SerializeField, HideInInspector]
+    PlayerRefMBDO playerRefMBDO = null;
+    
+    [SerializeField, HideInInspector]
+    Transform target;
+
+    [SerializeField, HideInInspector]
+    Entity_Logic entityLogic;
+
+    [SerializeField]
+    int damage = 1;
+    [SerializeField, HideInInspector]
+    float rangedCoolDownInSeconds;
+    [SerializeField, HideInInspector]
+    float rangedCoolDownInSecondsDefault;
+
 
     private void OnValidate()
     {
-         
-        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-        MBDatabaseObjectReferences mbDatabaseObjectReferences = null;
-        if (cardinalSubsystem != null)
-            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
+        InitializeFromRangedAttack();
 
-        if (cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
+        if(enemyListMBDO == null || playerRefMBDO == null)
         {
-            playerRefMBDO = null;
-            enemyListMBDO = null;
+            GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+            MBDataObjectReferences mbDatabaseObjectReferences = null;
+            if (cardinalSubsystem != null)
+                mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDataObjectReferences>();
+            if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+            {
+                if(mbDatabaseObjectReferences!=null)
+                    mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
+                if (playerRefMBDO == null)
+                    Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefMBDO + "is null in: " + this);
+            }
+            if (enemyListMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+            {
+                if (mbDatabaseObjectReferences != null)
+                    mbDatabaseObjectReferences.tryPopulate(out enemyListMBDO);
+                if (enemyListMBDO == null)
+                    Debug.LogWarning("ScriptableObject Object enemyListSO: " + enemyListMBDO + "is null in: " + this);
+            }
         }
-        if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+
+
+        if(entityLogic==null)
         {
-            if(mbDatabaseObjectReferences!=null)
-                mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
-            if (playerRefMBDO == null)
-                Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefMBDO + "is null in: " + this);
-        }
-        if (enemyListMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
-        {
-            if (mbDatabaseObjectReferences != null)
-                mbDatabaseObjectReferences.tryPopulate(out enemyListMBDO);
-            if (enemyListMBDO == null)
-                Debug.LogWarning("ScriptableObject Object enemyListSO: " + enemyListMBDO + "is null in: " + this);
+            entityLogic = GetComponent<Entity_Logic>();
         }
     }
 
@@ -76,13 +117,25 @@ public class Enemy_Logic : MonoBehaviour
 
     void Update()
     {
-        if (inRange())
+        rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
+
+        if (InRange())
         {
-            entityLogic.doAttack();
+            DoAttack();
         }
     }
 
-    private bool hasLineOfSight()
+
+    public void DoAttack()
+    {
+        if (rangedCoolDownInSeconds == 0)
+        {
+            EnemyRangedAttack();
+            rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;
+        }
+    }
+
+    private bool HasLineOfSight()
     {
         LayerMask layerMask= 1 << 11;
         layerMask = ~layerMask;
@@ -90,11 +143,34 @@ public class Enemy_Logic : MonoBehaviour
         return result.collider.gameObject.layer == 10;
     }
 
-    private bool inRange()
+    private bool InRange()
     {
         if (target == null)
             return false;
         return Vector2.Distance(transform.position, target.position) < range;
+    }
+
+
+    //shoot enemy projectile
+    void EnemyRangedAttack()
+    {
+        if (rangedCoolDownInSeconds == 0)
+        {
+            Vector2 direction = Vector2.zero;
+            direction = ((Vector2)target.position - (Vector2)transform.position).normalized * offset;
+
+            float rotation = Mathf.Rad2Deg * (Mathf.Atan(direction.y / direction.x));
+            rotation += -90;
+            if (direction.x < 0)
+            {
+                rotation += 180;
+            }
+
+            GameObject childInstance = Instantiate(rangedAttack.gameObject, direction + (Vector2)transform.position, Quaternion.Euler(0, 0, rotation));
+            childInstance.GetComponent<Rigidbody2D>().velocity = rangedAttack.speed * direction.normalized;
+
+            rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -105,7 +181,7 @@ public class Enemy_Logic : MonoBehaviour
             temp = collision.gameObject.GetComponent<Entity_Logic>();
             if (temp != null)
             {                
-                temp.TakeDamage(temp.damage);
+                temp.TakeDamage(damage);
             }
         }
     }

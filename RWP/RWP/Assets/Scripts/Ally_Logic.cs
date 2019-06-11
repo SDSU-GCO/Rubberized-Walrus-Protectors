@@ -5,48 +5,100 @@ using UnityEngine.SceneManagement;
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor;
 using System.Linq;
+using NaughtyAttributes;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Movement))]
 public class Ally_Logic : MonoBehaviour
 {
-    new Rigidbody2D rigidbody2D;
+    [SerializeField]
+    Attack_Controller rangedAttack;
 
-    Entity_Logic entityLogic;
+    [SerializeField, HideInInspector]
+    new Rigidbody2D rigidbody2D;
+    [SerializeField, HideInInspector]
     public SpriteRenderer spriteRenderer;
-    public Animator Animator;
+    [SerializeField, HideInInspector]
+    public Animator animator;
+    [SerializeField, HideInInspector]
     public Movement movement;
+
+    [SerializeField, HideInInspector]
     public PlayerRefMBDO playerRefMBDO = null;
+    
+
+    bool CheckRangedAttackNotNull()
+    {
+        return rangedAttack != null;
+    }
+
+
+    [ShowIf("CheckRangedAttackNotNull")]
+    public float offset = 1.5f;
+
+    [SerializeField, HideInInspector]
+#pragma warning disable IDE0044 // Add readonly modifier
+    int damage;
+#pragma warning restore IDE0044 // Add readonly modifier
+    [SerializeField, HideInInspector]
+    float rangedCoolDownInSeconds;
+    [SerializeField, HideInInspector]
+#pragma warning disable IDE0044 // Add readonly modifier
+    float rangedCoolDownInSecondsDefault;
+#pragma warning restore IDE0044 // Add readonly modifier
 
     private void OnValidate()
     {
+        if (rigidbody2D == null)
+            rigidbody2D = GetComponent<Rigidbody2D>();
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        if (animator == null)
+            animator = GetComponent<Animator>();
+        if (movement == null)
+            movement = GetComponent<Movement>();
 
-        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-        MBDatabaseObjectReferences mbDatabaseObjectReferences = null;
-        if (cardinalSubsystem != null)
-            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
-        if (cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
+
+        if(playerRefMBDO==null)
         {
-            playerRefMBDO = null;
-        }
-        if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
-        {
-            if (mbDatabaseObjectReferences != null)
-                mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
-            else
-                Debug.LogWarning("ScriptableObject Object mbDatabaseObjectReferences: " + mbDatabaseObjectReferences + "is null in: " + this);
+            InitializeFromRangedAttack();
+            GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+            MBDataObjectReferences mbDatabaseObjectReferences = null;
+            if (cardinalSubsystem != null)
+                mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDataObjectReferences>();
 
-            if (playerRefMBDO == null)
-                Debug.LogWarning("ScriptableObject Object playerRefMBDO: " + playerRefMBDO + "is null in: " + this);
-        }
+            if (cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+            {
+                if (mbDatabaseObjectReferences != null)
+                    mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
+                else
+                    Debug.LogWarning("ScriptableObject Object mbDatabaseObjectReferences: " + mbDatabaseObjectReferences + "is null in: " + this);
 
+                if (playerRefMBDO == null)
+                    Debug.LogWarning("ScriptableObject Object playerRefMBDO: " + playerRefMBDO + "is null in: " + this);
+            }
+        }
         
     }
-    public void setToAttack()
+
+    void InitializeFromRangedAttack()
     {
-        setAnimationState(AnimationState.ATTACKING);
+        if (rangedAttack != null)
+        {
+            rangedCoolDownInSecondsDefault = rangedCoolDownInSeconds = rangedAttack.AttackDelay;
+            damage = rangedAttack.damage;
+        }
     }
-    public void setToJump()
+
+    public void SetToAttack()
     {
-        setAnimationState(AnimationState.START_JUMP);
+        SetAnimationState(AnimationState.ATTACKING);
+    }
+    public void SetToJump()
+    {
+        SetAnimationState(AnimationState.START_JUMP);
     }
 
     private void Awake()
@@ -54,26 +106,19 @@ public class Ally_Logic : MonoBehaviour
         OnValidate();
 
         playerRefMBDO.player = transform;
-        
-            rigidbody2D = GetComponent<Rigidbody2D>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
-        Animator = GetComponent<Animator>();
-        if (entityLogic == null)
-        {
-            entityLogic = GetComponent<Entity_Logic>();
-        }
+        playerRefMBDO.update.Invoke();
     }
     
     enum AnimationState { IDLE_FLOAT = 0, START_JUMP = 1, JUMPING = 2, ATTACKING = 3, FALLING = 4}
 
-    void setAnimationState(AnimationState animationState)
+    void SetAnimationState(AnimationState animationState)
     {
-        Animator.SetInteger("MainStage", (int)animationState);
+        animator.SetInteger("MainStage", (int)animationState);
     }
 
     bool wasAttacking=false;
 
-    void flipWithVelocity()
+    void FlipWithVelocity()
     {
         if (rigidbody2D.velocity.x < -0.00001)
             spriteRenderer.flipX = false;
@@ -83,37 +128,37 @@ public class Ally_Logic : MonoBehaviour
 
     void Update()
     {
-        switch ((AnimationState)Animator.GetInteger("MainStage"))
+        switch ((AnimationState)animator.GetInteger("MainStage"))
         {
             case AnimationState.IDLE_FLOAT:
-                flipWithVelocity();
+                FlipWithVelocity();
                 if (rigidbody2D.velocity.y < 0 && movement.isGrounded!=true)
                 {
-                    setAnimationState(AnimationState.FALLING);
+                    SetAnimationState(AnimationState.FALLING);
                 }
                 break;
 
             case AnimationState.START_JUMP:
-                flipWithVelocity();
+                FlipWithVelocity();
                 if (movement.isGrounded)
                 {
-                    setAnimationState(AnimationState.IDLE_FLOAT);
+                    SetAnimationState(AnimationState.IDLE_FLOAT);
                 }
                 else if (rigidbody2D.velocity.y < 0)
                 {
-                    setAnimationState(AnimationState.FALLING);
+                    SetAnimationState(AnimationState.FALLING);
                 }
                 break;
 
             case AnimationState.JUMPING:
-                flipWithVelocity();
+                FlipWithVelocity();
                 if (movement.isGrounded)
                 {
-                    setAnimationState(AnimationState.IDLE_FLOAT);
+                    SetAnimationState(AnimationState.IDLE_FLOAT);
                 }
                 else if (rigidbody2D.velocity.y < 0)
                 {
-                    setAnimationState(AnimationState.FALLING);
+                    SetAnimationState(AnimationState.FALLING);
                 }
                 break;
 
@@ -123,17 +168,17 @@ public class Ally_Logic : MonoBehaviour
                 {
                     if (movement.isGrounded)
                     {
-                        setAnimationState(AnimationState.IDLE_FLOAT);
+                        SetAnimationState(AnimationState.IDLE_FLOAT);
                     }
                     else
                     {
                         if (rigidbody2D.velocity.y < 0)
                         {
-                            setAnimationState(AnimationState.FALLING);
+                            SetAnimationState(AnimationState.FALLING);
                         }
                         else
                         {
-                            setAnimationState(AnimationState.JUMPING);
+                            SetAnimationState(AnimationState.JUMPING);
                         }
                     }
                 }
@@ -142,18 +187,43 @@ public class Ally_Logic : MonoBehaviour
                 break;
 
             case AnimationState.FALLING:
-                flipWithVelocity();
+                FlipWithVelocity();
                 if (movement.isGrounded)
                 {
-                    setAnimationState(AnimationState.IDLE_FLOAT);
+                    SetAnimationState(AnimationState.IDLE_FLOAT);
                 }
                 break;
 
         }
-        
+
+        rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
         if (Input.GetMouseButton(1))
         {
-            entityLogic.doAttack();
+            PlayerRangedAttack();
+        }
+    }
+
+    //shoot player projectile
+    void PlayerRangedAttack()
+    {
+        if (rangedCoolDownInSeconds == 0)
+        {
+            Vector3 mouseScreenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+
+            Vector2 mouseposition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+            mouseposition = (mouseposition - (Vector2)transform.position).normalized * offset;
+
+            SetToAttack();
+
+            if (mouseposition.x > 0)
+                spriteRenderer.flipX = true;
+            else
+                spriteRenderer.flipX = false;
+
+            GameObject childInstance = Instantiate(rangedAttack.gameObject, mouseposition + (Vector2)transform.position, transform.rotation);
+            childInstance.GetComponent<Rigidbody2D>().velocity = rangedAttack.speed * mouseposition.normalized;
+
+            rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;
         }
     }
 }

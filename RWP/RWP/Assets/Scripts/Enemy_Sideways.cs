@@ -2,26 +2,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Enemy_Sideways : MonoBehaviour
 {
     public float interpolationRate = 0.5f;
     public AnimationCurve animationCurve = new AnimationCurve();
+    [ReorderableList]
     public List<Transform> path;
 
     new Rigidbody2D rigidbody2D;
     float pathProgress;
+#pragma warning disable IDE0044 // Add readonly modifier
     Transform nextTarget;
+#pragma warning restore IDE0044 // Add readonly modifier
     int pathIndex = 0;
     int nextPathIndex = 1;
 
-    public SpriteRenderer spriteRenderer;
+    [SerializeField, HideInInspector]
+    SpriteRenderer spriteRenederer;
+
+    private void OnValidate()
+    {
+        spriteRenederer = GetComponent<SpriteRenderer>();
+    }
 
     private void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        if(spriteRenederer==null)
+        {
+            Debug.Log("Bootstrapping");
+            spriteRenederer = GetComponent<SpriteRenderer>();
+        }
     }
     private void OnEnable()
     {
@@ -36,13 +50,13 @@ public class Enemy_Sideways : MonoBehaviour
         while (pathProgress >= 1)
         {
             pathProgress -= 1;
-            autoIncrement(ref pathIndex);
-            autoIncrement(ref nextPathIndex);
+            AutoIncrement(ref pathIndex);
+            AutoIncrement(ref nextPathIndex);
         }
         if (path[pathIndex].position.x < path[nextPathIndex].position.x)
-            spriteRenderer.flipX = false;
+            spriteRenederer.flipX = false;
         if (path[pathIndex].position.x > path[nextPathIndex].position.x)
-            spriteRenderer.flipX = true;
+            spriteRenederer.flipX = true;
         Vector2 temp = Vector2.Lerp(path[pathIndex].position, path[nextPathIndex].position, animationCurve.Evaluate(pathProgress));
         
         rigidbody2D.MovePosition(temp);
@@ -77,7 +91,7 @@ public class Enemy_Sideways : MonoBehaviour
 
     }
 
-    private void autoIncrement(ref int pathIndex)
+    private void AutoIncrement(ref int pathIndex)
     {
         pathIndex++;
         if (pathIndex >= path.Count)

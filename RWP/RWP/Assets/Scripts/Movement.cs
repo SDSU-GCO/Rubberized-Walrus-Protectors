@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -17,25 +18,27 @@ public class Movement : MonoBehaviour
     public float airbornTime = 0;
     public UnityEvent Jumped;
 
-    new Rigidbody2D rigidbody2D;
-    SpriteRenderer spriteRenderer;
-    CapsuleCollider2D capsuleCollider2D;
-
+    [SerializeField, HideInInspector]
+    new Rigidbody2D rigidbody2D = null;
+    [SerializeField, HideInInspector]
+    CapsuleCollider2D capsuleCollider2D = null;
     
-
-    [HideInInspector]
+    [ReadOnly]
     public bool isGrounded = true;
 
     private Vector2 totalForce = Vector2.zero;
 
-    private void Awake()
+    private void OnValidate()
     {
         if (rigidbody2D == null)
             rigidbody2D = GetComponent<Rigidbody2D>();
-        if (spriteRenderer == null)
-            spriteRenderer = GetComponent<SpriteRenderer>();
         if (capsuleCollider2D == null)
             capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+    }
+
+    private void Awake()
+    {
+        OnValidate();
     }
 
     Vector2 velocity = new Vector2();
@@ -95,20 +98,21 @@ public class Movement : MonoBehaviour
     private bool CheckGrounded()
     {
         bool result = false;
-        LayerMask layerMask = (1 << 9) | (1 << 12) | (1 << 13);
+        LayerMask layerMask = (1 << 8) | (1 << 9) | (1 << 11); ;
         //layerMask = ~layerMask;
         List<Collider2D> results = new List<Collider2D>();
         ContactFilter2D contactFilter2D = new ContactFilter2D();
         contactFilter2D.SetLayerMask(layerMask);
-
+        
 
         RaycastHit2D raycastHit2D;
-        raycastHit2D = Physics2D.CapsuleCast(transform.position, capsuleCollider2D.size, capsuleCollider2D.direction, 0, Vector2.down, 1, layerMask);
+        raycastHit2D = Physics2D.CapsuleCast(transform.position, capsuleCollider2D.size, capsuleCollider2D.direction, 0, Vector2.down, 1,(int) layerMask);
 
         if (raycastHit2D.collider != null && raycastHit2D.distance > 0 && raycastHit2D.distance < 0.035)
         {
             result = true;
         }
+        
 
         return result;
     }

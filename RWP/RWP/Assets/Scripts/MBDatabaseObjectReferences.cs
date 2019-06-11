@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MBDatabaseObjectReferences : MonoBehaviour
+public class MBDataObjectReferences : MonoBehaviour
 {
     [SerializeField]
     public List<MBDataObject> mbDataObjects = new List<MBDataObject>();

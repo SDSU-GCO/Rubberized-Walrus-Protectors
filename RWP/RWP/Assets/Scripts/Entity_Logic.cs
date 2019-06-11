@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Entity_Logic : MonoBehaviour
@@ -12,160 +13,49 @@ public class Entity_Logic : MonoBehaviour
     //entity parameters
     public bool disableColliderOnDeath = true;
     public float health = 3f;
-    public Attack_Controller rangedAttack;
-    public float offset = 1.5f;
-    public UnityEvent attacked;
-    public PlayerRefMBDO playerRefMBDO;
 
     private void OnValidate()
     {
-
-
-        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-        MBDatabaseObjectReferences mbDatabaseObjectReferences = null;
-        if (cardinalSubsystem != null)
-            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
-
-        if (cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
-        {
-            playerRefMBDO = null;
-        }
-        if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
-        {
-            if(mbDatabaseObjectReferences!=null)
-                mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
-            if (playerRefMBDO == null)
-                Debug.LogWarning("ScriptableObject Object playerRefMBDO: " + playerRefMBDO + "is null in: " + this);
-        }
+        if(spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public GameObject onDeathReplaceWith;
-
-    [HideInInspector]
-    public int damage;
-
+    
+    [SerializeField, HideInInspector]
     SpriteRenderer spriteRenderer;
-    float rangedCoolDownInSeconds;
-    float rangedCoolDownInSecondsDefault;
-    Rigidbody2D my2DRigidbody;
-    Transform playerPosition;
-
-    delegate void attackMethod();
-    attackMethod attack_method;
+    
     //initialize ambiguous parameters
     public void Awake()
     {
         OnValidate();
-        Debug.Assert(rangedAttack != null, "Error: rangedAttack in \"" + this + "\"is null!");
-        rangedCoolDownInSeconds = rangedAttack.AttackDelay;
-        rangedCoolDownInSecondsDefault = rangedCoolDownInSeconds;
-        my2DRigidbody = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        damage = rangedAttack.damage;
-
-        if (gameObject.layer == 10)
-        {
-            attack_method = PlayerRangedAttack;
-        }
-        else if (gameObject.layer == 11)
-        {
-            attack_method = EnemyRangedAttack;
-        }
-        
     }
 
     private void Start()
     {
-
-        playerPosition = playerRefMBDO.player;
         hpUpdated.Invoke(health);
     }
 
     void OnEnable()
     {
-
-        if (playerRefMBDO == null)
-            Debug.Log(gameObject.ToString() + " " + this + gameObject.name);
-        playerPosition = playerRefMBDO.player;
         hpUpdated.Invoke(health);
     }
-
     
+    public void LogHP(float t)
+    {
+        Debug.Log("hpUpdated: "+t);
+    }
+
     void Update()
     {
-
-        rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
         invincibility = Mathf.Min(invincibilityTime, invincibility + Time.deltaTime);
-
     }
-
-    public void doAttack()
-    {
-        if (rangedCoolDownInSeconds == 0)
-        {
-            attack_method();
-            rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;
-        }
-    }
-
+    
    
-    //shoot player projectile
-    void PlayerRangedAttack()
-    {
-
-        if (rangedCoolDownInSeconds == 0)
-        {
-            Vector3 mouseScreenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-            
-            Vector2 mouseposition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
-            mouseposition = (mouseposition - (Vector2)transform.position).normalized * offset;
-
-
-            attacked.Invoke();
-
-            if (mouseposition.x > 0)
-                spriteRenderer.flipX = true;
-            else
-                spriteRenderer.flipX = false;
-
-            GameObject childInstance = Instantiate(rangedAttack.gameObject, mouseposition + (Vector2)transform.position, transform.rotation);
-            childInstance.GetComponent<Rigidbody2D>().velocity = rangedAttack.speed * mouseposition.normalized;
-
-            rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;
-
-        }
-
-    }
-    //shoot enemy projectile
-    void EnemyRangedAttack()
-    {
-
-        if (rangedCoolDownInSeconds == 0)
-        {
-
-            Vector2 direction = new Vector2();
-
-            direction = ((Vector2)playerPosition.position - (Vector2)transform.position).normalized * offset;
-
-            float rotation = Mathf.Rad2Deg * (Mathf.Atan(direction.y / direction.x));
-            rotation += -90;
-            if (direction.x < 0)
-            {
-                rotation += 180;
-            }
-
-            
-
-            GameObject childInstance = Instantiate(rangedAttack.gameObject, direction + (Vector2)transform.position, Quaternion.Euler(0, 0, rotation));
-            childInstance.GetComponent<Rigidbody2D>().velocity = rangedAttack.speed * direction.normalized;
-
-            rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;
-
-        }
-
-    }
     float invincibility = 0;
+    [MinValue(0f)]
     public float invincibilityTime = 0.5f;
+    [MinValue(0f)]
     public float timeToFlashOnHit = 0.5f;
 
     //take damage function
@@ -205,27 +95,40 @@ public class Entity_Logic : MonoBehaviour
         }
     }
 
-    enum GoToColor { red, white};
+    enum GoToColor { hurtColor, normalColor};
     public float flashSpeed = 20f;
+#pragma warning disable IDE0044 // Add readonly modifier
+    bool flashCustomColor = false;
+#pragma warning restore IDE0044 // Add readonly modifier
+    
+    [ShowIf("flashCustomColor")]
+    FlashingColors flashingColors = new FlashingColors { hurtColor = Color.red, normalColor = Color.white };
+
+    public struct FlashingColors
+    {
+        public Color hurtColor;
+        public Color normalColor;
+    }
+
     IEnumerator ChangeColor()
     {
         float flashingTime = timeToFlashOnHit;
-        GoToColor goToColor = GoToColor.red;
+        GoToColor goToColor = GoToColor.hurtColor;
         float amount = 0;
         while(flashingTime>0)
         {
             flashingTime -= Time.deltaTime;
-            if (goToColor == GoToColor.red)
+            if (goToColor == GoToColor.hurtColor)
                 amount += Time.deltaTime * flashSpeed;
             else
                 amount -= Time.deltaTime * flashSpeed;
 
             if (amount >= 1)
-                goToColor = GoToColor.white;
+                goToColor = GoToColor.normalColor;
             else if (amount <= 0)
-                goToColor = GoToColor.red;
+                goToColor = GoToColor.hurtColor;
 
-            spriteRenderer.color = Color.Lerp(Color.white, Color.red, amount);
+            spriteRenderer.color = Color.Lerp(flashingColors.normalColor, flashingColors.hurtColor, amount);
 
             yield return null;
         }

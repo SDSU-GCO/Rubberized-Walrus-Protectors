@@ -15,9 +15,13 @@ public class InkTestScript : MonoBehaviour {
     private Canvas canvas;
     // UI Prefabs
     [SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
     private Text textPrefab;
+#pragma warning restore IDE0044 // Add readonly modifier
     [SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
     private Button buttonPrefab;
+#pragma warning restore IDE0044 // Add readonly modifier
 
     private Story story;
 

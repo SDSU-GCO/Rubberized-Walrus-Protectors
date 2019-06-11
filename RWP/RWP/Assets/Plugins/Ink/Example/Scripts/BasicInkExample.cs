@@ -10,7 +10,7 @@ public class BasicInkExample : MonoBehaviour {
 		// Remove the default message
 		RemoveChildren();
 		StartStory();
-	}
+	} 
 
 	// Creates a new Story object with the compiled story which we can then play!
 	void StartStory () {
@@ -102,7 +102,11 @@ public class BasicInkExample : MonoBehaviour {
 
 	// UI Prefabs
 	[SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
 	private Text textPrefab;
+#pragma warning restore IDE0044 // Add readonly modifier
 	[SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
 	private Button buttonPrefab;
+#pragma warning restore IDE0044 // Add readonly modifier
 }

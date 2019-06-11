@@ -1,0 +1,5 @@
+To make an enum extendable, simply add the [ExtendEnum] attribute on to it.
+
+For further documentation, please refer to: https://github.com/7ark/ExtendableEnums
+
+Thank you for using Extendable Enums!

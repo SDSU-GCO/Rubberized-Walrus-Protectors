@@ -19,14 +19,10 @@ public class Frog : MonoBehaviour
     {
 
         GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-        MBDatabaseObjectReferences mbDatabaseObjectReferences = null;
+        MBDataObjectReferences mbDatabaseObjectReferences = null;
         if (cardinalSubsystem != null)
-            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
+            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDataObjectReferences>();
 
-        if (cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
-        {
-            playerRefMBDO = null;
-        }
         if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
         {
             if (mbDatabaseObjectReferences != null)

@@ -10,7 +10,9 @@ public class GameOver : MonoBehaviour
 {
     Image image;
     Animator animator;
+#pragma warning disable IDE0044 // Add readonly modifier
     float secondsToFadeIn=3;
+#pragma warning restore IDE0044 // Add readonly modifier
     private void Awake()
     {
         animator = GetComponent<Animator>();
