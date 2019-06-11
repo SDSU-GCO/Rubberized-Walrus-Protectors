@@ -211,6 +211,11 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9065343579337927933, guid: 7361a2343b8bf494c943544c6e895a0b,
+        type: 3}
+      propertyPath: enemyListMBDO
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7361a2343b8bf494c943544c6e895a0b, type: 3}
 --- !u!4 &8769993823393644533 stripped

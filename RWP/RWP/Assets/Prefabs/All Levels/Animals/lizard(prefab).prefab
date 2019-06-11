@@ -159,8 +159,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 4
-  playerRefSO: {fileID: 0}
-  enemyListSO: {fileID: 0}
+  playerRefMBDO: {fileID: 0}
+  enemyListMBDO: {fileID: 0}
 --- !u!114 &2282727506519970708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a06ecb869fe4fa46a44ffe156279bfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damaged:
+  hpUpdated:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -188,7 +188,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  playerRefSO: {fileID: 11400000, guid: edae211432923c949ace7e7bb9ca7289, type: 2}
+  playerRefMBDO: {fileID: 0}
   onDeathReplaceWith: {fileID: 0}
   damage: 1
   invincibilityTime: 0

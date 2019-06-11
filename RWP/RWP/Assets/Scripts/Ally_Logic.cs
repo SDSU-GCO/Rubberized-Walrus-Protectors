@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor;
+using System.Linq;
 
 public class Ally_Logic : MonoBehaviour
 {
@@ -12,30 +14,31 @@ public class Ally_Logic : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Animator Animator;
     public Movement movement;
-    public PlayerRefSO playerRefSO;
+    public PlayerRefMBDO playerRefMBDO = null;
 
     private void OnValidate()
     {
-        if (PrefabUtility.IsPartOfPrefabInstance(gameObject) == true)
+
+        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+        MBDatabaseObjectReferences mbDatabaseObjectReferences = null;
+        if (cardinalSubsystem != null)
+            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
+        if (cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
         {
-            if (playerRefSO == null)
-            {
-                GameObject CardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-                ScriptableObjectReferences scriptableObjectReferences = null;
-                if (CardinalSubsystem != null)
-                    scriptableObjectReferences = CardinalSubsystem.GetComponent<ScriptableObjectReferences>();
-                if (playerRefSO == null)
-                {
-                    scriptableObjectReferences.tryPopulate(ref playerRefSO);
-                    if (playerRefSO == null)
-                        Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefSO + "is null in: " + this);
-                }
-            }
+            playerRefMBDO = null;
         }
-        else
+        if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
         {
-            playerRefSO = null;
+            if (mbDatabaseObjectReferences != null)
+                mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
+            else
+                Debug.LogWarning("ScriptableObject Object mbDatabaseObjectReferences: " + mbDatabaseObjectReferences + "is null in: " + this);
+
+            if (playerRefMBDO == null)
+                Debug.LogWarning("ScriptableObject Object playerRefMBDO: " + playerRefMBDO + "is null in: " + this);
         }
+
+        
     }
     public void setToAttack()
     {
@@ -50,7 +53,7 @@ public class Ally_Logic : MonoBehaviour
     {
         OnValidate();
 
-        playerRefSO.player = transform;
+        playerRefMBDO.player = transform;
         
             rigidbody2D = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();

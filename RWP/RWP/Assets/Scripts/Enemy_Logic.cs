@@ -13,78 +13,56 @@ public class Enemy_Logic : MonoBehaviour
     Transform target;
     public float range = 4;
     RaycastHit2D result;
-    public PlayerRefSO playerRefSO;
-    public EnemyListSO enemyListSO;
+    public PlayerRefMBDO playerRefMBDO = null;
+    public EnemyListMBDO enemyListMBDO = null;
 
     private void OnValidate()
     {
-        //Debug.Log("\n");
-        //Debug.Log(gameObject.name + "::: IsPartOfPrefabInstance: " + PrefabUtility.IsPartOfPrefabInstance(gameObject));
-        //Debug.Log(gameObject.name + "::: IsPartOfAnyPrefab: " + PrefabUtility.IsPartOfAnyPrefab(gameObject));
-        //Debug.Log(gameObject.name + "::: IsAnyPrefabInstanceRoot: " + PrefabUtility.IsAnyPrefabInstanceRoot(gameObject));
-        //Debug.Log(gameObject.name + "::: IsPartOfImmutablePrefab: " + PrefabUtility.IsPartOfImmutablePrefab(gameObject));
-        //Debug.Log(gameObject.name + "::: IsPartOfModelPrefab: " + PrefabUtility.IsPartOfModelPrefab(gameObject));
-        //Debug.Log(gameObject.name + "::: IsPartOfNonAssetPrefabInstance: " + PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject));
-        //Debug.Log(gameObject.name + "::: IsPartOfPrefabAsset: " + PrefabUtility.IsPartOfPrefabAsset(gameObject));
-        //Debug.Log(gameObject.name + "::: IsPartOfRegularPrefab: " + PrefabUtility.IsPartOfRegularPrefab(gameObject));
-        //Debug.Log(gameObject.name + "::: IsPartOfVariantPrefab: " + PrefabUtility.IsPartOfVariantPrefab(gameObject));
-        //Debug.Log(gameObject.name + "::: IsPrefabAssetMissing: " + PrefabUtility.IsPrefabAssetMissing(gameObject));
-        //Debug.Log("\n");
+         
+        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+        MBDatabaseObjectReferences mbDatabaseObjectReferences = null;
+        if (cardinalSubsystem != null)
+            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
 
-        GameObject outerGameObject = PrefabUtility.GetOutermostPrefabInstanceRoot(this);
-
-        PrefabStage prefabStage = PrefabStageUtility.GetPrefabStage(gameObject);
-        bool isPrefab = false;
-
-        if (outerGameObject != null)
-            isPrefab = (outerGameObject.scene == gameObject.scene);
-        else
-            isPrefab = false;
-
-        Debug.Log(gameObject.name + "::: isPrefab: " + isPrefab);
-
-        if (isPrefab!=true)
+        if (cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
         {
-            if (playerRefSO == null || enemyListSO == null)
-            {
-                GameObject CardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-                ScriptableObjectReferences scriptableObjectReferences = null;
-                if (CardinalSubsystem != null)
-                    scriptableObjectReferences = CardinalSubsystem.GetComponent<ScriptableObjectReferences>();
-                if (playerRefSO == null)
-                {
-                    scriptableObjectReferences.tryPopulate(ref playerRefSO);
-                    if (playerRefSO == null)
-                        Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefSO + "is null in: " + this);
-                }
-                if (enemyListSO == null)
-                {
-                    scriptableObjectReferences.tryPopulate(ref enemyListSO);
-                    if (enemyListSO == null)
-                        Debug.LogWarning("ScriptableObject Object enemyListSO: " + enemyListSO + "is null in: " + this);
-                }
-            }
+            playerRefMBDO = null;
+            enemyListMBDO = null;
+        }
+        if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+        {
+            if(mbDatabaseObjectReferences!=null)
+                mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
+            if (playerRefMBDO == null)
+                Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefMBDO + "is null in: " + this);
+        }
+        if (enemyListMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+        {
+            if (mbDatabaseObjectReferences != null)
+                mbDatabaseObjectReferences.tryPopulate(out enemyListMBDO);
+            if (enemyListMBDO == null)
+                Debug.LogWarning("ScriptableObject Object enemyListSO: " + enemyListMBDO + "is null in: " + this);
         }
     }
 
     private void Start()
     {
-        target = playerRefSO.player;
+        target = playerRefMBDO.player;
     }
 
     private void OnEnable()
     {
-        if (enemyListSO == null)
+        if (enemyListMBDO == null)
             Debug.Log(gameObject.ToString() +" "+ this + gameObject.name);
-        enemyListSO.enemies.Add(this);
-        enemyListSO.update.Invoke();
-        target = playerRefSO.player;
+        enemyListMBDO.enemies.Add(this);
+        enemyListMBDO.update.Invoke();
+        target = playerRefMBDO.player;
     }
 
     private void OnDisable()
     {
-        enemyListSO.enemies.Remove(this);
-        enemyListSO.update.Invoke();
+        enemyListMBDO.enemies.Remove(this);
+        enemyListMBDO.update.Invoke();
     }
 
     private void Awake()

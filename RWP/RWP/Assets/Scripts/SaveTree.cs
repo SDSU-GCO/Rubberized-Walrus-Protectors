@@ -5,20 +5,40 @@ using UnityEngine;
 public class SaveTree : MonoBehaviour
 {
     public Animator animator;
-    public TreeListSO treeListSO;
+    public TreeListMBDO treeListMBDO;
     bool saved = false;
+
+    private void OnValidate()
+    {
+        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+        MBDatabaseObjectReferences mbDatabaseObjectReferences = null;
+        if (cardinalSubsystem != null)
+            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
+            
+        if(cardinalSubsystem !=null && cardinalSubsystem.scene != gameObject.scene)
+        {
+            treeListMBDO = null;
+        }
+        if (treeListMBDO == null && cardinalSubsystem.scene == gameObject.scene)
+        {
+            if (mbDatabaseObjectReferences != null)
+                mbDatabaseObjectReferences.tryPopulate(out treeListMBDO);
+            if (treeListMBDO == null)
+                Debug.LogWarning("ScriptableObject Object treeListMBDO: " + treeListMBDO + "is null in: " + this);
+        }
+    }
 
     private void OnEnable()
     {
-        treeListSO.trees.Add(this);
-        treeListSO.update.Invoke();
+        treeListMBDO.trees.Add(this);
+        treeListMBDO.update.Invoke();
     }
-    private void OnDisable()
+    private void OnDisable() 
     {
         if(saved!=true)
         {
-            treeListSO.trees.Remove(this);
-            treeListSO.update.Invoke();
+            treeListMBDO.trees.Remove(this);
+            treeListMBDO.update.Invoke();
         }
     }
 
@@ -28,8 +48,8 @@ public class SaveTree : MonoBehaviour
         {
             saved = true;
             animator.SetBool("SaveTree", true);
-            treeListSO.trees.Remove(this);
-            treeListSO.update.Invoke();
+            treeListMBDO.trees.Remove(this);
+            treeListMBDO.update.Invoke();
         }
     }
 }

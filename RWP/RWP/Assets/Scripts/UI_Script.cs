@@ -12,9 +12,11 @@ public class UI_Script : MonoBehaviour
     public TextMeshProUGUI trees;
     public TextMeshProUGUI enemies;
     
-    public TreeListSO treeCounter;
-    public EnemyListSO enemyCounter;
-    public Entity_Logic playerEntityLogic;
+    public TreeListMBDO treeListMBDO;
+    public EnemyListMBDO enemyListMBDO;
+    public PlayerRefMBDO playerRefMBDO;
+
+    public Entity_Logic hpEntityLogic;
 
     public Canvas PauseMenu;
     float health;
@@ -30,22 +32,30 @@ public class UI_Script : MonoBehaviour
     
     private void OnValidate()
     {
-        if (treeCounter == null || enemyCounter == null)
+        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+        MBDatabaseObjectReferences mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
+        if (cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
         {
-            GameObject CardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-            ScriptableObjectReferences scriptableObjectReferences = CardinalSubsystem.GetComponent<ScriptableObjectReferences>();
-            if (treeCounter == null)
-            {
-                scriptableObjectReferences.tryPopulate(ref treeCounter);
-                if (treeCounter == null)
-                    Debug.LogWarning("ScriptableObject Object treeCounter: " + treeCounter + "is null in: "+this);
-            }
-            if (enemyCounter == null)
-            {
-                scriptableObjectReferences.tryPopulate(ref enemyCounter);
-                if (enemyCounter == null)
-                    Debug.LogWarning("ScriptableObject Object enemyCounter: " + enemyCounter + "is null in: " + this);
-            }
+            treeListMBDO = null;
+            enemyListMBDO = null;
+        }
+        if (treeListMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+        {
+            mbDatabaseObjectReferences.tryPopulate(out treeListMBDO);
+            if (treeListMBDO == null)
+                Debug.LogWarning("ScriptableObject Object treeCounter: " + treeListMBDO + "is null in: " + this);
+        }
+        if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+        {
+            mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
+            if (playerRefMBDO == null)
+                Debug.LogWarning("ScriptableObject Object playerRefMBDO: " + playerRefMBDO + "is null in: " + this);
+        }
+        if (enemyListMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+        {
+            mbDatabaseObjectReferences.tryPopulate(out enemyListMBDO);
+            if (enemyListMBDO == null)
+                Debug.LogWarning("ScriptableObject Object enemyCounter: " + enemyListMBDO + "is null in: " + this);
         }
     }
 
@@ -56,15 +66,16 @@ public class UI_Script : MonoBehaviour
 
     private void Start()
     {
-        treeCounter.update.Invoke();
-        enemyCounter.update.Invoke();
+        treeListMBDO.update.Invoke();
+        enemyListMBDO.update.Invoke();
+        playerRefMBDO.update.Invoke();
         updateColor();
     }
 
 
     void updateColor()
     {
-        float t = (treeCounter.trees.Count + enemyCounter.enemies.Count) / (float)(MaxTreeCount + MaxEnemyCount);
+        float t = (treeListMBDO.trees.Count + enemyListMBDO.enemies.Count) / (float)(MaxTreeCount + MaxEnemyCount);
         Color temp = Color.Lerp(tint, Color.white, 1-t);
 
         foreach (Tilemap tilemap in tilemaps)
@@ -86,21 +97,21 @@ public class UI_Script : MonoBehaviour
 
     public void updateEnemies()
     {
-        if (enemyCounter.enemies.Count > MaxEnemyCount)
+        if (enemyListMBDO.enemies.Count > MaxEnemyCount)
         {
-            MaxEnemyCount = enemyCounter.enemies.Count;
+            MaxEnemyCount = enemyListMBDO.enemies.Count;
         }
-        enemies.SetText("Enemies Left: " + enemyCounter.enemies.Count);
+        enemies.SetText("Enemies Left: " + enemyListMBDO.enemies.Count);
         updateColor();
     }
 
     public void updateTrees()
     {
-        if(treeCounter.trees.Count>MaxTreeCount)
+        if(treeListMBDO.trees.Count>MaxTreeCount)
         {
-            MaxTreeCount = treeCounter.trees.Count;
+            MaxTreeCount = treeListMBDO.trees.Count;
         }
-        trees.SetText("Trees Left: " + treeCounter.trees.Count);
+        trees.SetText("Trees Left: " + treeListMBDO.trees.Count);
 
         updateColor();
     }
@@ -131,20 +142,31 @@ public class UI_Script : MonoBehaviour
         }
     }
 
+    void updateHPTracker()
+    {
+        if(hpEntityLogic==null)
+            hpEntityLogic = playerRefMBDO.GetComponent<Entity_Logic>();
+        if (hpEntityLogic != null)
+            hpEntityLogic.hpUpdated.AddListener(updateHealth);
+    }
+
     private void OnEnable()
     {
-        treeCounter.update.AddListener(updateTrees);
-        enemyCounter.update.AddListener(updateEnemies);
-        playerEntityLogic.damaged.AddListener(updateHealth);
-        updateEnemies();
-        updateTrees();
+        treeListMBDO.update.AddListener(updateTrees);
+        enemyListMBDO.update.AddListener(updateEnemies);
+        playerRefMBDO.update.AddListener(updateHPTracker);
     }
 
     private void OnDisable()
     {
-        treeCounter.update.RemoveListener(updateTrees);
-        enemyCounter.update.RemoveListener(updateEnemies);
-        playerEntityLogic.damaged.RemoveListener(updateHealth);
+        if(hpEntityLogic!=null)
+        {
+            hpEntityLogic.hpUpdated.RemoveListener(updateHealth);
+        }
+
+        treeListMBDO.update.RemoveListener(updateTrees);
+        enemyListMBDO.update.RemoveListener(updateEnemies);
+        playerRefMBDO.update.AddListener(updateHPTracker);
     }
 
     public void updateHealth(float health)

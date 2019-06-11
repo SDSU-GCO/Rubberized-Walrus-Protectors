@@ -8,36 +8,34 @@ using UnityEditor;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Entity_Logic : MonoBehaviour
 {
-    public Event_One_Float damaged = new Event_One_Float();
+    public Event_One_Float hpUpdated = new Event_One_Float();
     //entity parameters
     public bool disableColliderOnDeath = true;
     public float health = 3f;
     public Attack_Controller rangedAttack;
     public float offset = 1.5f;
     public UnityEvent attacked;
-    public PlayerRefSO playerRefSO;
+    public PlayerRefMBDO playerRefMBDO;
 
     private void OnValidate()
     {
-        if (PrefabUtility.IsPartOfPrefabInstance(gameObject) == true)
+
+
+        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+        MBDatabaseObjectReferences mbDatabaseObjectReferences = null;
+        if (cardinalSubsystem != null)
+            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDatabaseObjectReferences>();
+
+        if (cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
         {
-            if (playerRefSO == null)
-            {
-                GameObject CardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-                ScriptableObjectReferences scriptableObjectReferences = null;
-                if (CardinalSubsystem != null)
-                    scriptableObjectReferences = CardinalSubsystem.GetComponent<ScriptableObjectReferences>();
-                if (playerRefSO == null)
-                {
-                    scriptableObjectReferences.tryPopulate(ref playerRefSO);
-                    if (playerRefSO == null)
-                        Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefSO + "is null in: " + this);
-                }
-            }
+            playerRefMBDO = null;
         }
-        else
+        if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
         {
-            playerRefSO = null;
+            if(mbDatabaseObjectReferences!=null)
+                mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
+            if (playerRefMBDO == null)
+                Debug.LogWarning("ScriptableObject Object playerRefMBDO: " + playerRefMBDO + "is null in: " + this);
         }
     }
 
@@ -79,16 +77,17 @@ public class Entity_Logic : MonoBehaviour
     private void Start()
     {
 
-        playerPosition = playerRefSO.player;
+        playerPosition = playerRefMBDO.player;
+        hpUpdated.Invoke(health);
     }
 
     void OnEnable()
     {
 
-        if (playerRefSO == null)
+        if (playerRefMBDO == null)
             Debug.Log(gameObject.ToString() + " " + this + gameObject.name);
-        playerPosition = playerRefSO.player;
-        damaged.Invoke(health);
+        playerPosition = playerRefMBDO.player;
+        hpUpdated.Invoke(health);
     }
 
     
@@ -177,7 +176,7 @@ public class Entity_Logic : MonoBehaviour
             health -= amount;
             invincibility = 0;
 
-            damaged.Invoke(health);
+            hpUpdated.Invoke(health);
             if (health <= 0)
             {
                 Enemy_Logic tmp = GetComponent<Enemy_Logic>();
