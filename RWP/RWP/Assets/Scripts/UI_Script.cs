@@ -29,29 +29,19 @@ public class UI_Script : MonoBehaviour
     public List<Tilemap> tilemaps = new List<Tilemap>();
     public List<Image> images = new List<Image>();
     public List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
-    
-    void SetupMBDO<T>(ref T mbdo, GameObject cardinalSubsystem, MBDataObjectReferences mbDatabaseObjectReferences) where T : MBDataObject 
-    {
-        if (mbdo == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
-        {
-            mbDatabaseObjectReferences.tryPopulate(out mbdo);
-            if (mbdo == null)
-                Debug.LogWarning("MonoBehaviour Data Object: " + mbdo + "is null in: " + this);
-        }
-    }
 
+    
     private void OnValidate()
     {
         if(treeListMBDO == null || enemyListMBDO == null)
         {
-            GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-            MBDataObjectReferences mbDatabaseObjectReferences = null;
-            if (cardinalSubsystem != null)
-                mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDataObjectReferences>();
+            //idk if this creates a lot of garbage for the gc...
+            MBDOInitializationHelper mBDOInitializationHelper = new MBDOInitializationHelper(this);
 
-            SetupMBDO(ref treeListMBDO, cardinalSubsystem, mbDatabaseObjectReferences);
-            SetupMBDO(ref enemyListMBDO, cardinalSubsystem, mbDatabaseObjectReferences);
+            mBDOInitializationHelper.SetupMBDO(ref treeListMBDO);
+            mBDOInitializationHelper.SetupMBDO(ref enemyListMBDO);
         }
+
         if (hpEntityLogic == null)
         {
             Entity_Logic tmp = FindObjectOfType<Ally_Logic>().GetComponent<Entity_Logic>();

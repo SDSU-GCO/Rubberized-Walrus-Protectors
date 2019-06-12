@@ -1,0 +1,60 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+struct MBDOInitializationHelper
+{
+    GameObject cardinalSubsystem;
+    MBDataObjectReferences mbDatabaseObjectReferences;
+    MonoBehaviour caller;
+    bool isSetup;
+
+    public MBDOInitializationHelper(MonoBehaviour callerAkaThis)
+    {
+        isSetup = false;
+        cardinalSubsystem = null;
+        mbDatabaseObjectReferences = null;
+        caller = callerAkaThis;
+
+        Setup(callerAkaThis);
+    }
+
+    public void Setup(MonoBehaviour callerAkaThis)
+    {
+        isSetup = true;
+        cardinalSubsystem = null;
+        mbDatabaseObjectReferences = null;
+        caller = callerAkaThis;
+
+        cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
+        if (cardinalSubsystem != null)
+        {
+            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDataObjectReferences>();
+            if (mbDatabaseObjectReferences == null)
+                Debug.Log("mbDatabaseObjectReferences not found in " + cardinalSubsystem);
+        }
+        else
+        {
+            Debug.Log("Cardinal Subsystem not found in " + this);
+        }
+    }
+
+    public void SetupMBDO<T>(ref T mbdo) where T : MBDataObject
+    {
+        if (isSetup == false)
+        {
+            Debug.LogWarning("MBDOInitializationHelper: " + mbdo + "is not set up in::: " + caller);
+        }
+        else if (cardinalSubsystem != null && mbDatabaseObjectReferences != null)
+        {
+            if (mbdo == null && cardinalSubsystem.scene == caller.gameObject.scene)
+            {
+                mbDatabaseObjectReferences.tryPopulate(out mbdo);
+            }
+        }
+
+        if (mbdo == null)
+            Debug.LogWarning("MonoBehaviour Data Object: " + mbdo + "is null in::: " + caller);
+    }
+}

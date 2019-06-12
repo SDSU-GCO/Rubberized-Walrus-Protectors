@@ -61,24 +61,13 @@ public class Ally_Logic : MonoBehaviour
             movement = GetComponent<Movement>();
 
 
+        InitializeFromRangedAttack();
         if(playerRefMBDO==null)
         {
-            InitializeFromRangedAttack();
-            GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-            MBDataObjectReferences mbDatabaseObjectReferences = null;
-            if (cardinalSubsystem != null)
-                mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDataObjectReferences>();
+            //idk if this creates a lot of garbage for the gc...
+            MBDOInitializationHelper mBDOInitializationHelper = new MBDOInitializationHelper(this);
 
-            if (cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
-            {
-                if (mbDatabaseObjectReferences != null)
-                    mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
-                else
-                    Debug.LogWarning("ScriptableObject Object mbDatabaseObjectReferences: " + mbDatabaseObjectReferences + "is null in: " + this);
-
-                if (playerRefMBDO == null)
-                    Debug.LogWarning("ScriptableObject Object playerRefMBDO: " + playerRefMBDO + "is null in: " + this);
-            }
+            mBDOInitializationHelper.SetupMBDO(ref playerRefMBDO);
         }
         
     }

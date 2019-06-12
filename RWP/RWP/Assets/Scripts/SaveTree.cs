@@ -10,25 +10,12 @@ public class SaveTree : MonoBehaviour
 
     private void OnValidate()
     {
-
-        if(treeListMBDO == null)
+        if (treeListMBDO == null)
         {
-            GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-            MBDataObjectReferences mbDatabaseObjectReferences = null;
-            if (cardinalSubsystem != null)
-                mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDataObjectReferences>();
+            //idk if this creates a lot of garbage for the gc...
+            MBDOInitializationHelper mBDOInitializationHelper = new MBDOInitializationHelper(this);
 
-            if (cardinalSubsystem != null && cardinalSubsystem != null && cardinalSubsystem.scene != gameObject.scene)
-            {
-                treeListMBDO = null;
-            }
-            if (treeListMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
-            {
-                if (mbDatabaseObjectReferences != null)
-                    mbDatabaseObjectReferences.tryPopulate(out treeListMBDO);
-                if (treeListMBDO == null)
-                    Debug.LogWarning("ScriptableObject Object treeListMBDO: " + treeListMBDO + "is null in: " + this);
-            }
+            mBDOInitializationHelper.SetupMBDO(ref treeListMBDO);
         }
     }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MBDataObject : MonoBehaviour
+public class CustomGCOFunctions : MonoBehaviour
 {
-    
+
 }

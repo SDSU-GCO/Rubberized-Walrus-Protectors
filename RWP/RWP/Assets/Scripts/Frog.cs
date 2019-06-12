@@ -17,18 +17,12 @@ public class Frog : MonoBehaviour
 
     private void OnValidate()
     {
-
-        GameObject cardinalSubsystem = GameObject.Find("Cardinal Subsystem");
-        MBDataObjectReferences mbDatabaseObjectReferences = null;
-        if (cardinalSubsystem != null)
-            mbDatabaseObjectReferences = cardinalSubsystem.GetComponent<MBDataObjectReferences>();
-
-        if (playerRefMBDO == null && cardinalSubsystem != null && cardinalSubsystem.scene == gameObject.scene)
+        if (playerRefMBDO == null)
         {
-            if (mbDatabaseObjectReferences != null)
-                mbDatabaseObjectReferences.tryPopulate(out playerRefMBDO);
-            if (playerRefMBDO == null)
-                Debug.LogWarning("ScriptableObject Object playerRefSO: " + playerRefMBDO + "is null in: " + this);
+            //idk if this creates a lot of garbage for the gc...
+            MBDOInitializationHelper mBDOInitializationHelper = new MBDOInitializationHelper(this);
+
+            mBDOInitializationHelper.SetupMBDO(ref playerRefMBDO);
         }
     }
 
