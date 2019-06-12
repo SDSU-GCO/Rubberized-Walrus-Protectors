@@ -102,6 +102,7 @@ public class Entity_Logic : MonoBehaviour
 
     enum GoToColor { hurtColor, normalColor};
     public float flashSpeed = 20f;
+    [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
     bool flashCustomColor = false;
 #pragma warning restore IDE0044 // Add readonly modifier

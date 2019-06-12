@@ -7,6 +7,19 @@ using UnityEditor;
 using System.Linq;
 using NaughtyAttributes;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -39,9 +52,10 @@ public class Ally_Logic : MonoBehaviour
     public float offset = 1.5f;
 
     [SerializeField, HideInInspector]
-#pragma warning disable IDE0044 // Add readonly modifier
+
     int damage;
 #pragma warning restore IDE0044 // Add readonly modifier
+
     [SerializeField, HideInInspector]
     float rangedCoolDownInSeconds;
     [SerializeField, HideInInspector]
@@ -76,7 +90,8 @@ public class Ally_Logic : MonoBehaviour
     {
         if (rangedAttack != null)
         {
-            rangedCoolDownInSecondsDefault = rangedCoolDownInSeconds = rangedAttack.AttackDelay;
+            rangedCoolDownInSecondsDefault = rangedAttack.AttackDelay;
+            rangedCoolDownInSeconds = rangedAttack.AttackDelay;
             damage = rangedAttack.damage;
         }
     }

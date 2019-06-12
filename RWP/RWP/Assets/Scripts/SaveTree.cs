@@ -8,7 +8,7 @@ public class SaveTree : MonoBehaviour
     public TreeListMBDO treeListMBDO;
     bool saved = false;
 
-    private void OnValidate()
+    private void OnValidate() 
     {
         if (treeListMBDO == null)
         {

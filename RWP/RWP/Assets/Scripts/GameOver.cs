@@ -19,9 +19,14 @@ public class GameOver : MonoBehaviour
     private void OnValidate()
     {
         if(animator==null)
+        {
             animator = GetComponent<Animator>();
+        }
+
         if (image == null)
+        {
             image = GetComponent<Image>();
+        }
     }
 
     private void OnEnable()
