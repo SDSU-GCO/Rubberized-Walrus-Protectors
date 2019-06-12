@@ -8,15 +8,20 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Animator))]
 public class GameOver : MonoBehaviour
 {
+    [SerializeField, HideInInspector]
     Image image;
+    [SerializeField, HideInInspector]
     Animator animator;
 #pragma warning disable IDE0044 // Add readonly modifier
     float secondsToFadeIn=3;
 #pragma warning restore IDE0044 // Add readonly modifier
-    private void Awake()
+
+    private void OnValidate()
     {
-        animator = GetComponent<Animator>();
-        image = GetComponent<Image>();
+        if(animator==null)
+            animator = GetComponent<Animator>();
+        if (image == null)
+            image = GetComponent<Image>();
     }
 
     private void OnEnable()

@@ -52,7 +52,7 @@ public class UI_Script : MonoBehaviour
 
     private void Awake()
     {
-        OnValidate();
+        //OnValidate();
     }
 
     private void Start()

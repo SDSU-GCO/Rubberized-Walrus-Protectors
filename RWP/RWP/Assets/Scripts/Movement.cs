@@ -36,10 +36,6 @@ public class Movement : MonoBehaviour
             capsuleCollider2D = GetComponent<CapsuleCollider2D>();
     }
 
-    private void Awake()
-    {
-        OnValidate();
-    }
 
     Vector2 velocity = new Vector2();
     

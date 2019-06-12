@@ -95,7 +95,7 @@ public class Enemy_Logic : MonoBehaviour
 
     private void Awake()
     {
-        OnValidate();
+        //OnValidate();
         if (entityLogic == null)
         {
             entityLogic = GetComponent<Entity_Logic>();
