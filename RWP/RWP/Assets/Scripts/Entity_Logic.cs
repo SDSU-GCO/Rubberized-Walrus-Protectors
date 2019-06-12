@@ -69,29 +69,34 @@ public class Entity_Logic : MonoBehaviour
             hpUpdated.Invoke(health);
             if (health <= 0)
             {
-                Enemy_Logic tmp = GetComponent<Enemy_Logic>();
-                if(tmp!=null)
-                    tmp.enabled=false;
-
-                if(gameObject.layer==11 && onDeathReplaceWith==null)
-                {
-                    gameObject.layer = 12;
-                    Animator tempAnimator = GetComponent<Animator>();
-                    if (tempAnimator != null)
-                        tempAnimator.SetBool("isSaved", true);
-                    if(disableColliderOnDeath)
-                        GetComponent<Collider2D>().enabled = false;
-                }
-                else if(onDeathReplaceWith!=null)
-                {
-                    Instantiate(onDeathReplaceWith, transform.position, transform.rotation);
-                    Destroy(gameObject);
-                }
+                CommitSuduku();
             }
             else
             {
                 StartCoroutine(ChangeColor());
             }
+        }
+    }
+
+    public void CommitSuduku()
+    {
+        Enemy_Logic tmp = GetComponent<Enemy_Logic>();
+        if (tmp != null)
+            tmp.enabled = false;
+
+        if (gameObject.layer == 11 && onDeathReplaceWith == null)
+        {
+            gameObject.layer = 12;
+            Animator tempAnimator = GetComponent<Animator>();
+            if (tempAnimator != null)
+                tempAnimator.SetBool("isSaved", true);
+            if (disableColliderOnDeath)
+                GetComponent<Collider2D>().enabled = false;
+        }
+        else if (onDeathReplaceWith != null)
+        {
+            Instantiate(onDeathReplaceWith, transform.position, transform.rotation);
+            Destroy(gameObject);
         }
     }
 

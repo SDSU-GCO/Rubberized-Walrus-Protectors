@@ -35,15 +35,28 @@ public class SaveTree : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == (int)CustomGCOTypes.CollisionLayerKey.ally || collision.gameObject.layer == (int)CustomGCOTypes.CollisionLayerKey.allyAttack)
+        LayerMask hitLayer = (1 << collision.gameObject.layer);
+
+        LayerMask targetLayer = 
+            (
+            (1 << ((int)CustomGCOTypes.CollisionLayerKey.ally))
+            |  (1 << ((int)CustomGCOTypes.CollisionLayerKey.allyAttack))
+            );
+
+        if ((hitLayer & targetLayer)!=0)
         {
-            if(saved==false)
-            {
-                saved = true;
-                animator.SetBool("SaveTree", true);
-                treeListMBDO.trees.Remove(this);
-                treeListMBDO.update.Invoke();
-            }
+            CureTree();
+            treeListMBDO.update.Invoke();
+        }
+    }
+
+    public void CureTree()
+    {
+        if (saved == false)
+        {
+            saved = true;
+            animator.SetBool("SaveTree", true);
+            treeListMBDO.trees.Remove(this);
         }
     }
 }

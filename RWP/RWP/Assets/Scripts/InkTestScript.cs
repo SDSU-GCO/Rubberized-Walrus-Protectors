@@ -50,8 +50,8 @@ public class InkTestScript : MonoBehaviour {
 		while (story.canContinue) {
 			// Continue gets the next line of the story
 			string text = story.Continue ();
+            
 			// This removes any white space from the text.
-			text = text.Trim();
             currentDialogueLine = text;
 			// Display the text on screen!
 			CreateContentView(text);
