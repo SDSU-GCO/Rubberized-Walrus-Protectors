@@ -23,7 +23,10 @@ public class Enemy_Sideways : MonoBehaviour
 
     private void OnValidate()
     {
-        spriteRenederer = GetComponent<SpriteRenderer>();
+        if (spriteRenederer == null)
+        {
+            spriteRenederer = GetComponent<SpriteRenderer>();
+        }
     }
 
     private void Awake()

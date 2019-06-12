@@ -27,30 +27,11 @@ public class Entity_Logic : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     //initialize ambiguous parameters
-    public void Awake()
-    {
-        OnValidate();
-    }
+    public void Awake() => OnValidate();
+    private void Start() => hpUpdated.Invoke(health);
+    private void OnEnable() => hpUpdated.Invoke(health);
 
-    private void Start()
-    {
-        hpUpdated.Invoke(health);
-    }
-
-    private void OnEnable()
-    {
-        hpUpdated.Invoke(health);
-    }
-
-    public void LogHP(float t)
-    {
-        Debug.Log("hpUpdated: " + t);
-    }
-
-    private void Update()
-    {
-        invincibility = Mathf.Min(invincibilityTime, invincibility + Time.deltaTime);
-    }
+    private void Update() => invincibility = Mathf.Min(invincibilityTime, invincibility + Time.deltaTime);
 
     private float invincibility = 0;
 
@@ -116,19 +97,30 @@ public class Entity_Logic : MonoBehaviour
 
     public float flashSpeed = 20f;
 
+#pragma warning disable IDE0044, CS0414
     [SerializeField]
-#pragma warning disable IDE0044 // Add readonly modifier
     private bool flashCustomColor = false;
+#pragma warning restore IDE0044, CS0414
 
-#pragma warning restore IDE0044 // Add readonly modifier
+    [SerializeField, OneLine.OneLine, ShowIf("flashCustomColor")]
+    private FlashingColors flashingColors;
 
-    [ShowIf("flashCustomColor")]
-    private FlashingColors flashingColors = new FlashingColors { hurtColor = Color.red, normalColor = Color.white };
-
-    public struct FlashingColors
+    [System.Serializable]
+    private struct FlashingColors
     {
-        public Color hurtColor;
-        public Color normalColor;
+        public Color GetHurtColor() => hurtColor ?? Color.red;
+
+#pragma warning disable IDE0044, CS0649 // Add readonly modifier
+        [SerializeField]
+        private Color? hurtColor;
+#pragma warning restore IDE0044, CS0649 // Add readonly modifier
+
+        public Color GetNormalColor() => normalColor ?? Color.white;
+
+#pragma warning disable IDE0044, CS0649 // Add readonly modifier
+        [SerializeField]
+        private Color? normalColor;
+#pragma warning restore IDE0044, CS0649 // Add readonly modifier
     }
 
     private IEnumerator ChangeColor()
@@ -157,7 +149,7 @@ public class Entity_Logic : MonoBehaviour
                 goToColor = GoToColor.hurtColor;
             }
 
-            spriteRenderer.color = Color.Lerp(flashingColors.normalColor, flashingColors.hurtColor, amount);
+            spriteRenderer.color = Color.Lerp(flashingColors.GetNormalColor(), flashingColors.GetHurtColor(), amount);
 
             yield return null;
         }

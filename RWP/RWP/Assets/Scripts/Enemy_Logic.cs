@@ -10,7 +10,7 @@ public class Enemy_Logic : MonoBehaviour
 #pragma warning restore IDE0044 // Add readonly modifier
 
     [SerializeField]
-    private Attack_Controller rangedAttack;
+    private Attack_Controller rangedAttack = null;
 
     private void InitializeFromRangedAttack()
     {
@@ -27,10 +27,7 @@ public class Enemy_Logic : MonoBehaviour
     [ShowIf("CheckRangedAttackNotNull")]
     public float offset = 1.5f;
 
-    private bool CheckRangedAttackNotNull()
-    {
-        return rangedAttack != null;
-    }
+    private bool CheckRangedAttackNotNull() => rangedAttack != null;
 
     private RaycastHit2D result;
 
@@ -68,10 +65,12 @@ public class Enemy_Logic : MonoBehaviour
         }
     }
 
+#pragma warning disable IDE0022 // Use expression body for methods
     private void Start()
     {
         target = playerRefMBDO.player;
     }
+#pragma warning restore IDE0022 // Use expression body for methods
 
     private void OnEnable()
     {
@@ -127,15 +126,7 @@ public class Enemy_Logic : MonoBehaviour
         return result.collider.gameObject.layer == 10;
     }
 
-    private bool InRange()
-    {
-        if (target == null)
-        {
-            return false;
-        }
-
-        return Vector2.Distance(transform.position, target.position) < range;
-    }
+    private bool InRange() => (target == null) ? false : (Vector2.Distance(transform.position, target.position) < range);
 
     //shoot enemy projectile
     private void EnemyRangedAttack()

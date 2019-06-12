@@ -8,20 +8,25 @@ public class InkTestScript : MonoBehaviour
 {
     public string currentDialogueLine = "";
 
+#pragma warning disable IDE0044, CS0649 // Add readonly modifier
     [SerializeField]
     private TextAsset inkJSONAsset;
+#pragma warning restore IDE0044, CS0649 // Add readonly modifier
+
+#pragma warning disable IDE0044, CS0649 // Add readonly modifier
     [SerializeField]
     private Canvas canvas;
+#pragma warning restore IDE0044, CS0649 // Add readonly modifier
     // UI Prefabs
+#pragma warning disable IDE0044, CS0649 // Add readonly modifier
     [SerializeField]
-#pragma warning disable IDE0044 // Add readonly modifier
     private Text textPrefab;
-#pragma warning restore IDE0044 // Add readonly modifier
-    [SerializeField]
-#pragma warning disable IDE0044 // Add readonly modifier
-    private Button buttonPrefab;
-#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE0044, CS0649 // Add readonly modifier
 
+#pragma warning disable IDE0044, CS0649 // Add readonly modifier
+    [SerializeField]
+    private Button buttonPrefab;
+#pragma warning restore IDE0044, CS0649 // Add readonly modifier
     private Story story;
 
     private List<Choice> currentChoices = new List<Choice>();
@@ -93,10 +98,7 @@ public class InkTestScript : MonoBehaviour
         RefreshView();
     }
 
-    private void AdvanceStoryToChoice(Story story, Choice choice)
-    {
-        story.ChooseChoiceIndex(choice.index);
-    }
+    private void AdvanceStoryToChoice(Story story, Choice choice) => story.ChooseChoiceIndex(choice.index);
 
     // Creates a button showing the choice text
     private void CreateContentView(string text)

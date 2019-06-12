@@ -8,7 +8,7 @@ using UnityEngine;
 public class Ally_Logic : MonoBehaviour
 {
     [SerializeField]
-    private Attack_Controller rangedAttack;
+    private Attack_Controller rangedAttack = null;
 
     [SerializeField, HideInInspector]
     private new Rigidbody2D rigidbody2D;
@@ -22,13 +22,10 @@ public class Ally_Logic : MonoBehaviour
     [SerializeField, HideInInspector]
     public Movement movement;
 
-    [SerializeField]
+    [SerializeField, HideInInspector]
     private PlayerRefMBDO playerRefMBDO;
 
-    private bool CheckRangedAttackNotNull()
-    {
-        return rangedAttack != null;
-    }
+    private bool CheckRangedAttackNotNull() => rangedAttack != null;
 
     [ShowIf("CheckRangedAttackNotNull")]
     public float offset = 1.5f;
@@ -82,15 +79,9 @@ public class Ally_Logic : MonoBehaviour
         }
     }
 
-    public void SetToAttack()
-    {
-        SetAnimationState(AnimationState.ATTACKING);
-    }
+    public void SetToAttack() => SetAnimationState(AnimationState.ATTACKING);
 
-    public void SetToJump()
-    {
-        SetAnimationState(AnimationState.START_JUMP);
-    }
+    public void SetToJump() => SetAnimationState(AnimationState.START_JUMP);
 
     private void Awake()
     {
@@ -103,10 +94,14 @@ public class Ally_Logic : MonoBehaviour
         IDLE_FLOAT = 0, START_JUMP = 1, JUMPING = 2, ATTACKING = 3, FALLING = 4
     }
 
+#pragma warning disable IDE0022 // Use expression body for methods
+
     private void SetAnimationState(AnimationState animationState)
     {
         animator.SetInteger("MainStage", (int)animationState);
     }
+
+#pragma warning restore IDE0022 // Use expression body for methods
 
     private bool wasAttacking = false;
 
@@ -210,14 +205,7 @@ public class Ally_Logic : MonoBehaviour
 
             SetToAttack();
 
-            if (mouseposition.x > 0)
-            {
-                spriteRenderer.flipX = true;
-            }
-            else
-            {
-                spriteRenderer.flipX = false;
-            }
+            spriteRenderer.flipX = mouseposition.x > 0;
 
             GameObject childInstance = Instantiate(rangedAttack.gameObject, mouseposition + (Vector2)transform.position, transform.rotation);
 

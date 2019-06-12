@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NaughtyAttributes;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -6,8 +7,11 @@ using UnityEngine.UI;
 
 public class UI_Script : MonoBehaviour
 {
+    [Required]
     public TextMeshProUGUI healthCounter;
+    [Required]
     public TextMeshProUGUI trees;
+    [Required]
     public TextMeshProUGUI enemies;
 
     [SerializeField, HideInInspector]
@@ -17,7 +21,9 @@ public class UI_Script : MonoBehaviour
 
     public Entity_Logic hpEntityLogic;
 
+    [Required]
     public Canvas pauseMenu;
+    [Required]
     public Canvas gameOverScreen;
     private int MaxTreeCount = 0;
     private int MaxEnemyCount = 0;

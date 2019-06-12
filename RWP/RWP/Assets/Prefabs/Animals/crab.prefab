@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4642405588620598390}
+  - component: {fileID: 4642405588620598385}
+  - component: {fileID: 4642405588620598387}
+  - component: {fileID: 4642405588620598386}
   - component: {fileID: 4642405588620598391}
   - component: {fileID: 4642405588620598384}
-  - component: {fileID: 4642405588620598385}
-  - component: {fileID: 4642405588620598386}
-  - component: {fileID: 4642405588620598387}
   - component: {fileID: 4642405588620598396}
   - component: {fileID: 4642405588620598397}
   m_Layer: 11
@@ -37,6 +37,73 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4642405588620598385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4642405588620598398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474d7abf0ed109c46b40664ad1f4233c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageOnCollision: 1
+  rangedAttack: {fileID: 0}
+  range: 0
+  offset: 1.5
+  enemyListMBDO: {fileID: 0}
+  playerRefMBDO: {fileID: 0}
+  target: {fileID: 0}
+  entityLogic: {fileID: 4642405588620598386}
+  rangedCoolDownInSeconds: 0
+  rangedCoolDownInSecondsDefault: 0
+--- !u!114 &4642405588620598387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4642405588620598398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65246bc4af0505844b8728eee2f7a7e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  lowJumpMultiplier: 2
+  jumpDelay: 3
+  jumpVelocity: 10
+  timePassed: 0
+--- !u!114 &4642405588620598386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4642405588620598398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a06ecb869fe4fa46a44ffe156279bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  disableColliderOnDeath: 0
+  health: 4
+  onDeathReplaceWith: {fileID: 0}
+  spriteRenderer: {fileID: 4642405588620598391}
+  invincibilityTime: 0
+  timeToFlashOnHit: 0.5
+  flashSpeed: 20
+  flashCustomColor: 1
+  flashingColors:
+    hurtColor: {r: 0, g: 0, b: 0, a: 0}
+    normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &4642405588620598391
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -107,69 +174,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 5
---- !u!114 &4642405588620598385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4642405588620598398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474d7abf0ed109c46b40664ad1f4233c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rangedAttack: {fileID: 0}
-  range: 0
-  offset: 1.5
-  enemyListMBDO: {fileID: 0}
-  playerRefMBDO: {fileID: 0}
-  target: {fileID: 0}
-  entityLogic: {fileID: 4642405588620598386}
-  damage: 1
-  rangedCoolDownInSeconds: 0
-  rangedCoolDownInSecondsDefault: 0
---- !u!114 &4642405588620598386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4642405588620598398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a06ecb869fe4fa46a44ffe156279bfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  disableColliderOnDeath: 0
-  health: 4
-  onDeathReplaceWith: {fileID: 0}
-  spriteRenderer: {fileID: 4642405588620598391}
-  invincibilityTime: 0
-  timeToFlashOnHit: 0.5
-  flashSpeed: 20
---- !u!114 &4642405588620598387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4642405588620598398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65246bc4af0505844b8728eee2f7a7e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fallMultiplier: 2.5
-  lowJumpMultiplier: 2
-  jumpDelay: 3
-  jumpVelocity: 10
-  timePassed: 0
 --- !u!95 &4642405588620598396
 Animator:
   serializedVersion: 3

@@ -27,10 +27,7 @@ public class Frog : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        target = playerRefMBDO.player;
-    }
+    private void Start() => target = playerRefMBDO.player;
 
     private void OnEnable()
     {
@@ -52,14 +49,7 @@ public class Frog : MonoBehaviour
 
         if (target != null && Vector2.Distance(target.position, transform.position) <= enemy_Logic.range)
         {
-            if (target.position.x <= transform.position.x)
-            {
-                spriteRenderer.flipX = false;
-            }
-            else
-            {
-                spriteRenderer.flipX = true;
-            }
+            spriteRenderer.flipX = target.position.x > transform.position.x;
         }
     }
 }

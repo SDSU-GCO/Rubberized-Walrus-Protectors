@@ -2,8 +2,5 @@
 
 public class QuitButton : MonoBehaviour
 {
-    public void Quit()
-    {
-        Application.Quit();
-    }
+    public void Quit() => Application.Quit();
 }
