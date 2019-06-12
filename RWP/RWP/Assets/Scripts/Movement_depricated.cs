@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Movement_deprecated : MonoBehaviour
 {
@@ -14,10 +12,9 @@ public class Movement_deprecated : MonoBehaviour
     //reference variables
     private Vector2 playerInput;
     private Rigidbody2D thisRB;
-    private Vector2 acceleration=Vector2.zero;
+    private Vector2 acceleration = Vector2.zero;
 
     private Vector2 velocity = Vector2.zero;
-
 
     private void Awake()
     {
@@ -27,25 +24,23 @@ public class Movement_deprecated : MonoBehaviour
         }
     }
 
-
-    void Update()
+    private void Update()
     {
-
         //jump
         if (Input.GetAxis("Vertical") > 0)
         {
-            acceleration.y +=  jumpForce;
+            acceleration.y += jumpForce;
         }
 
-        acceleration.y -= Time.deltaTime*gravity;
+        acceleration.y -= Time.deltaTime * gravity;
 
-        //movement 
+        //movement
         acceleration.x = Input.GetAxis("Horizontal");
 
         Debug.Log(velocity);
 
         velocity = velocity + (acceleration * Time.deltaTime);
-        if(velocity.x>0)
+        if (velocity.x > 0)
         {
             velocity.x -= ((velocity.x + 1) * (drag * Time.deltaTime));
             velocity.x = Mathf.Min(0, velocity.x);
@@ -67,8 +62,7 @@ public class Movement_deprecated : MonoBehaviour
             velocity.y = Mathf.Max(0, velocity.y);
         }
 
-
-            Debug.Log(velocity);
+        Debug.Log(velocity);
         //speed cap
         if (velocity.magnitude > maxSpeed)
         {
@@ -80,9 +74,6 @@ public class Movement_deprecated : MonoBehaviour
         Debug.Log(velocity);
 
         //normalize velocity
-        thisRB.MovePosition((velocity*Time.deltaTime)+thisRB.position);
-       
-        
-
+        thisRB.MovePosition((velocity * Time.deltaTime) + thisRB.position);
     }
 }

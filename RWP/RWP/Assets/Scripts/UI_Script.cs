@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using TMPro;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
@@ -16,24 +14,23 @@ public class UI_Script : MonoBehaviour
     public TreeListMBDO treeListMBDO;
     [SerializeField, HideInInspector]
     public EnemyListMBDO enemyListMBDO;
-    
+
     public Entity_Logic hpEntityLogic;
 
     public Canvas pauseMenu;
     public Canvas gameOverScreen;
-    int MaxTreeCount = 0;
-    int MaxEnemyCount = 0;
-    
+    private int MaxTreeCount = 0;
+    private int MaxEnemyCount = 0;
+
     public Color tint = new Color(1.0f, 0, 1.0f, 1.0f);
-    
+
     public List<Tilemap> tilemaps = new List<Tilemap>();
     public List<Image> images = new List<Image>();
     public List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
 
-    
     private void OnValidate()
     {
-        if(treeListMBDO == null || enemyListMBDO == null)
+        if (treeListMBDO == null || enemyListMBDO == null)
         {
             //idk if this creates a lot of garbage for the gc...
             MBDOInitializationHelper mBDOInitializationHelper = new MBDOInitializationHelper(this);
@@ -45,8 +42,10 @@ public class UI_Script : MonoBehaviour
         if (hpEntityLogic == null)
         {
             Entity_Logic tmp = FindObjectOfType<Ally_Logic>().GetComponent<Entity_Logic>();
-            if(tmp.gameObject.scene == gameObject.scene)
+            if (tmp.gameObject.scene == gameObject.scene)
+            {
                 hpEntityLogic = tmp;
+            }
         }
     }
 
@@ -62,28 +61,36 @@ public class UI_Script : MonoBehaviour
         UpdateColor();
     }
 
-
-    void UpdateColor()
+    private void UpdateColor()
     {
         float t = 0;
         if ((MaxTreeCount + MaxEnemyCount) != 0)
+        {
             t = (treeListMBDO.trees.Count + enemyListMBDO.enemies.Count) / (float)(MaxTreeCount + MaxEnemyCount);
-        Color temp = Color.Lerp(tint, Color.white, 1-t);
+        }
+
+        Color temp = Color.Lerp(tint, Color.white, 1 - t);
 
         foreach (Tilemap tilemap in tilemaps)
         {
-            if(tilemap!=null)
+            if (tilemap != null)
+            {
                 tilemap.color = temp;
+            }
         }
         foreach (Image image in images)
         {
             if (image != null)
+            {
                 image.color = temp;
+            }
         }
         foreach (SpriteRenderer spriteRenderer in spriteRenderers)
         {
             if (spriteRenderer != null)
+            {
                 spriteRenderer.color = temp;
+            }
         }
     }
 
@@ -99,7 +106,7 @@ public class UI_Script : MonoBehaviour
 
     public void UpdateTrees()
     {
-        if(treeListMBDO.trees.Count>MaxTreeCount)
+        if (treeListMBDO.trees.Count > MaxTreeCount)
         {
             MaxTreeCount = treeListMBDO.trees.Count;
         }
@@ -107,7 +114,6 @@ public class UI_Script : MonoBehaviour
 
         UpdateColor();
     }
-    
 
     private void Update()
     {
@@ -116,7 +122,7 @@ public class UI_Script : MonoBehaviour
             if (pauseMenu.gameObject.activeInHierarchy == false)
             {
                 pauseMenu.gameObject.SetActive(true);
-                if(gameOverScreen.gameObject.activeInHierarchy!=true)
+                if (gameOverScreen.gameObject.activeInHierarchy != true)
                 {
                     Time.timeScale = 0;
                     Time.fixedDeltaTime = 0;
@@ -134,14 +140,15 @@ public class UI_Script : MonoBehaviour
         }
     }
 
-
-
     private void OnEnable()
     {
         treeListMBDO.update.AddListener(UpdateTrees);
         enemyListMBDO.update.AddListener(UpdateEnemies);
         if (hpEntityLogic == null)
+        {
             Debug.LogError("hptracker's EntityLogic == null in: " + this);
+        }
+
         if (hpEntityLogic != null)
         {
             hpEntityLogic.hpUpdated.AddListener(UpdateHealth);
@@ -150,7 +157,7 @@ public class UI_Script : MonoBehaviour
 
     private void OnDisable()
     {
-        if(hpEntityLogic!=null)
+        if (hpEntityLogic != null)
         {
             hpEntityLogic.hpUpdated.RemoveListener(UpdateHealth);
         }

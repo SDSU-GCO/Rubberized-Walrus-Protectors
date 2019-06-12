@@ -1,63 +1,59 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEditor.Experimental.SceneManagement;
-using UnityEditor;
-using NaughtyAttributes;
 
 [RequireComponent(typeof(Entity_Logic))]
 public class Enemy_Logic : MonoBehaviour
 {
     [SerializeField]
-    Attack_Controller rangedAttack;
-    void InitializeFromRangedAttack()
+#pragma warning disable IDE0044 // Add readonly modifier
+    private int damageOnCollision = 1;
+#pragma warning restore IDE0044 // Add readonly modifier
+
+    [SerializeField]
+    private Attack_Controller rangedAttack;
+
+    private void InitializeFromRangedAttack()
     {
         if (rangedAttack != null)
         {
-            rangedCoolDownInSecondsDefault = rangedCoolDownInSeconds = rangedAttack.AttackDelay;
-            damage = rangedAttack.damage;
+            rangedCoolDownInSeconds = 0;
+            rangedCoolDownInSecondsDefault = rangedAttack.AttackDelay;
         }
     }
 
     [ShowIf("CheckRangedAttackNotNull")]
     public float range = 4;
+
     [ShowIf("CheckRangedAttackNotNull")]
     public float offset = 1.5f;
 
-    bool CheckRangedAttackNotNull()
+    private bool CheckRangedAttackNotNull()
     {
         return rangedAttack != null;
     }
 
-    RaycastHit2D result;
-
-
-    [SerializeField, HideInInspector]
-    EnemyListMBDO enemyListMBDO = null;
-    [SerializeField, HideInInspector]
-    PlayerRefMBDO playerRefMBDO = null;
-    
-    [SerializeField, HideInInspector]
-    Transform target;
+    private RaycastHit2D result;
 
     [SerializeField, HideInInspector]
-    Entity_Logic entityLogic;
-
-    [SerializeField]
-    int damage = 1;
+    private EnemyListMBDO enemyListMBDO = null;
     [SerializeField, HideInInspector]
-    float rangedCoolDownInSeconds;
-    [SerializeField, HideInInspector]
-    float rangedCoolDownInSecondsDefault;
+    private PlayerRefMBDO playerRefMBDO = null;
 
+    [SerializeField, HideInInspector]
+    private Transform target;
+    [SerializeField, HideInInspector]
+    private Entity_Logic entityLogic;
+
+    [SerializeField, HideInInspector]
+    private float rangedCoolDownInSeconds;
+    [SerializeField, HideInInspector]
+    private float rangedCoolDownInSecondsDefault;
 
     private void OnValidate()
     {
         InitializeFromRangedAttack();
 
-        if(enemyListMBDO == null || playerRefMBDO == null)
+        if (enemyListMBDO == null || playerRefMBDO == null)
         {
             //idk if this creates a lot of garbage for the gc...
             MBDOInitializationHelper mBDOInitializationHelper = new MBDOInitializationHelper(this);
@@ -66,8 +62,7 @@ public class Enemy_Logic : MonoBehaviour
             mBDOInitializationHelper.SetupMBDO(ref enemyListMBDO);
         }
 
-
-        if(entityLogic==null)
+        if (entityLogic == null)
         {
             entityLogic = GetComponent<Entity_Logic>();
         }
@@ -81,7 +76,10 @@ public class Enemy_Logic : MonoBehaviour
     private void OnEnable()
     {
         if (enemyListMBDO == null)
-            Debug.Log(gameObject.ToString() +" "+ this + gameObject.name);
+        {
+            Debug.Log(gameObject.ToString() + " " + this + gameObject.name);
+        }
+
         enemyListMBDO.enemies.Add(this);
         enemyListMBDO.update.Invoke();
         target = playerRefMBDO.player;
@@ -102,7 +100,7 @@ public class Enemy_Logic : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
 
@@ -111,7 +109,6 @@ public class Enemy_Logic : MonoBehaviour
             DoAttack();
         }
     }
-
 
     public void DoAttack()
     {
@@ -124,7 +121,7 @@ public class Enemy_Logic : MonoBehaviour
 
     private bool HasLineOfSight()
     {
-        LayerMask layerMask= 1 << 11;
+        LayerMask layerMask = 1 << 11;
         layerMask = ~layerMask;
         result = Physics2D.Raycast(transform.position, target.position - transform.position, Mathf.Infinity, layerMask);
         return result.collider.gameObject.layer == 10;
@@ -133,13 +130,15 @@ public class Enemy_Logic : MonoBehaviour
     private bool InRange()
     {
         if (target == null)
+        {
             return false;
+        }
+
         return Vector2.Distance(transform.position, target.position) < range;
     }
 
-
     //shoot enemy projectile
-    void EnemyRangedAttack()
+    private void EnemyRangedAttack()
     {
         if (rangedCoolDownInSeconds == 0)
         {
@@ -167,8 +166,8 @@ public class Enemy_Logic : MonoBehaviour
             Entity_Logic temp;
             temp = collision.gameObject.GetComponent<Entity_Logic>();
             if (temp != null)
-            {                
-                temp.TakeDamage(damage);
+            {
+                temp.TakeDamage(damageOnCollision);
             }
         }
     }

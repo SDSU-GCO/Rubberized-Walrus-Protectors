@@ -131,16 +131,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7921620653447083089}
     m_Modifications:
-    - target: {fileID: 2282727506519970704, guid: b98f924325352ee488847c5e2af2bbd0,
-        type: 3}
-      propertyPath: m_Name
-      value: lizard(Container)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2282727506519970704, guid: b98f924325352ee488847c5e2af2bbd0,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2282727506519970707, guid: b98f924325352ee488847c5e2af2bbd0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -194,6 +184,16 @@ PrefabInstance:
     - target: {fileID: 2282727506519970707, guid: b98f924325352ee488847c5e2af2bbd0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282727506519970704, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: m_Name
+      value: lizard
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282727506519970704, guid: b98f924325352ee488847c5e2af2bbd0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2282727506519969897, guid: b98f924325352ee488847c5e2af2bbd0,

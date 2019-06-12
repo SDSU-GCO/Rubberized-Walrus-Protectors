@@ -40,10 +40,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7886657102979876471}
   - component: {fileID: 7886657102979876475}
-  - component: {fileID: 7886657102979876470}
   - component: {fileID: 5580200484004044291}
-  - component: {fileID: 7886657102979876468}
   - component: {fileID: 2129726300}
+  - component: {fileID: 7886657102979876470}
+  - component: {fileID: 7886657102979876468}
   - component: {fileID: 1256270502}
   - component: {fileID: 7886657104560016687}
   m_Layer: 10
@@ -105,27 +105,6 @@ MonoBehaviour:
   rigidbody2D: {fileID: 7886657102979876470}
   capsuleCollider2D: {fileID: 7886657104560016687}
   isGrounded: 1
---- !u!50 &7886657102979876470
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7886657102979876474}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!114 &5580200484004044291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +128,52 @@ MonoBehaviour:
   damage: 1
   rangedCoolDownInSeconds: 0.5
   rangedCoolDownInSecondsDefault: 0.5
+--- !u!114 &2129726300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7886657102979876474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a06ecb869fe4fa46a44ffe156279bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  disableColliderOnDeath: 1
+  health: 10
+  onDeathReplaceWith: {fileID: 0}
+  spriteRenderer: {fileID: 7886657102979876468}
+  invincibilityTime: 0.7
+  timeToFlashOnHit: 0.7
+  flashSpeed: 20
+  flashCustomColor: 0
+--- !u!50 &7886657102979876470
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7886657102979876474}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!212 &7886657102979876468
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -197,30 +222,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2129726300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7886657102979876474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a06ecb869fe4fa46a44ffe156279bfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  disableColliderOnDeath: 1
-  health: 10
-  onDeathReplaceWith: {fileID: 0}
-  spriteRenderer: {fileID: 7886657102979876468}
-  invincibilityTime: 0.7
-  timeToFlashOnHit: 0.7
-  flashSpeed: 20
 --- !u!95 &1256270502
 Animator:
   serializedVersion: 3

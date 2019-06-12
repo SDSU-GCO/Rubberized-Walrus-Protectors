@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
-using NaughtyAttributes;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Enemy_Sideways : MonoBehaviour
@@ -12,16 +10,16 @@ public class Enemy_Sideways : MonoBehaviour
     [ReorderableList]
     public List<Transform> path;
 
-    new Rigidbody2D rigidbody2D;
-    float pathProgress;
+    private new Rigidbody2D rigidbody2D;
+    private float pathProgress;
 #pragma warning disable IDE0044 // Add readonly modifier
-    Transform nextTarget;
+    private Transform nextTarget;
 #pragma warning restore IDE0044 // Add readonly modifier
-    int pathIndex = 0;
-    int nextPathIndex = 1;
+    private int pathIndex = 0;
+    private int nextPathIndex = 1;
 
     [SerializeField, HideInInspector]
-    SpriteRenderer spriteRenederer;
+    private SpriteRenderer spriteRenederer;
 
     private void OnValidate()
     {
@@ -31,7 +29,7 @@ public class Enemy_Sideways : MonoBehaviour
     private void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
-        if(spriteRenederer==null)
+        if (spriteRenederer == null)
         {
             Debug.Log("Bootstrapping");
             spriteRenederer = GetComponent<SpriteRenderer>();
@@ -54,13 +52,18 @@ public class Enemy_Sideways : MonoBehaviour
             AutoIncrement(ref nextPathIndex);
         }
         if (path[pathIndex].position.x < path[nextPathIndex].position.x)
+        {
             spriteRenederer.flipX = false;
-        if (path[pathIndex].position.x > path[nextPathIndex].position.x)
-            spriteRenederer.flipX = true;
-        Vector2 temp = Vector2.Lerp(path[pathIndex].position, path[nextPathIndex].position, animationCurve.Evaluate(pathProgress));
-        
-        rigidbody2D.MovePosition(temp);
+        }
 
+        if (path[pathIndex].position.x > path[nextPathIndex].position.x)
+        {
+            spriteRenederer.flipX = true;
+        }
+
+        Vector2 temp = Vector2.Lerp(path[pathIndex].position, path[nextPathIndex].position, animationCurve.Evaluate(pathProgress));
+
+        rigidbody2D.MovePosition(temp);
 
         //if (switchDirection == true && idle >= (moveDelay*2))
         //{
@@ -76,25 +79,25 @@ public class Enemy_Sideways : MonoBehaviour
         //{
         //    rigidbody2D.velocity += Vector2.left* moveVelocity;
         //    timePassed = 0;
-            
+
         //    switchDirection = true;
-            
+
         //}
         //else
         //{
         //    switchDirection = false;
         //}
-        
+
         //timePassed += Time.deltaTime;
         //idle += Time.deltaTime;
-        
-
     }
 
     private void AutoIncrement(ref int pathIndex)
     {
         pathIndex++;
         if (pathIndex >= path.Count)
+        {
             pathIndex = 0;
+        }
     }
 }

@@ -1,15 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class SaveTree : MonoBehaviour
 {
-    public Animator animator;
-    public TreeListMBDO treeListMBDO;
-    bool saved = false;
+    [SerializeField, HideInInspector]
+    private Animator animator;
 
-    private void OnValidate() 
+    [SerializeField, HideInInspector]
+    private TreeListMBDO treeListMBDO;
+
+    private bool saved = false;
+
+    private void OnValidate()
     {
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
         if (treeListMBDO == null)
         {
             //idk if this creates a lot of garbage for the gc...
@@ -24,9 +32,10 @@ public class SaveTree : MonoBehaviour
         treeListMBDO.trees.Add(this);
         treeListMBDO.update.Invoke();
     }
-    private void OnDisable() 
+
+    private void OnDisable()
     {
-        if(saved!=true)
+        if (saved != true)
         {
             treeListMBDO.trees.Remove(this);
             treeListMBDO.update.Invoke();
@@ -37,13 +46,13 @@ public class SaveTree : MonoBehaviour
     {
         LayerMask hitLayer = (1 << collision.gameObject.layer);
 
-        LayerMask targetLayer = 
+        LayerMask targetLayer =
             (
             (1 << ((int)CustomGCOTypes.CollisionLayerKey.ally))
-            |  (1 << ((int)CustomGCOTypes.CollisionLayerKey.allyAttack))
+            | (1 << ((int)CustomGCOTypes.CollisionLayerKey.allyAttack))
             );
 
-        if ((hitLayer & targetLayer)!=0)
+        if ((hitLayer & targetLayer) != 0)
         {
             CureTree();
             treeListMBDO.update.Invoke();

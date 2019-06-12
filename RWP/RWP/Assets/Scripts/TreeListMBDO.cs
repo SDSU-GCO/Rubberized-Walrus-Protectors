@@ -1,8 +1,6 @@
-﻿using System.Collections;
+﻿using NaughtyAttributes;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Events;
-using NaughtyAttributes;
 
 public class TreeListMBDO : MBDataObject
 {
@@ -10,14 +8,13 @@ public class TreeListMBDO : MBDataObject
     public UnityEvent update;
 
     [Button]
-    void CureAllTrees()
+    private void CureAllTrees()
     {
         SaveTree[] treesArray = trees.ToArray();
-        foreach(SaveTree saveTree in treesArray)
+        foreach (SaveTree saveTree in treesArray)
         {
             saveTree.CureTree();
             update.Invoke();
         }
     }
-
-} 
+}

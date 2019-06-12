@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -9,16 +7,16 @@ using UnityEngine.UI;
 public class GameOver : MonoBehaviour
 {
     [SerializeField, HideInInspector]
-    Image image;
+    private Image image;
     [SerializeField, HideInInspector]
-    Animator animator;
+    private Animator animator;
 #pragma warning disable IDE0044 // Add readonly modifier
-    float secondsToFadeIn=3;
+    private float secondsToFadeIn = 3;
 #pragma warning restore IDE0044 // Add readonly modifier
 
     private void OnValidate()
     {
-        if(animator==null)
+        if (animator == null)
         {
             animator = GetComponent<Animator>();
         }
@@ -39,22 +37,24 @@ public class GameOver : MonoBehaviour
         Time.fixedDeltaTime = 0;
     }
 
-    float currentTime = 0;
+    private float currentTime = 0;
     public float animationLength = 4;
-    float currentAnimationTime = 0;
+    private float currentAnimationTime = 0;
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        currentAnimationTime += Time.unscaledDeltaTime*0.2f;
+        currentAnimationTime += Time.unscaledDeltaTime * 0.2f;
         while (currentAnimationTime > animationLength)
+        {
             currentAnimationTime -= animationLength;
+        }
 
         animator.SetFloat("Time", currentAnimationTime);
         currentTime = Mathf.Min(secondsToFadeIn, currentTime + Time.unscaledDeltaTime);
         Color temp = image.color;
         temp.a = Mathf.InverseLerp(0, secondsToFadeIn, currentTime);
         image.color = temp;
-        if(Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && image.color.a==1)
+        if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && image.color.a == 1)
         {
             Time.timeScale = 1;
             Time.fixedDeltaTime = 0.02f;
@@ -62,5 +62,4 @@ public class GameOver : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
-
 }

@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-
-struct MBDOInitializationHelper
+internal struct MBDOInitializationHelper
 {
-    GameObject cardinalSubsystem;
-    MBDataObjectReferences mbDatabaseObjectReferences;
-    MonoBehaviour caller;
-    bool isSetup;
+    private GameObject cardinalSubsystem;
+    private MBDataObjectReferences mbDatabaseObjectReferences;
+    private MonoBehaviour caller;
+    private bool isSetup;
 
     public MBDOInitializationHelper(MonoBehaviour callerAkaThis)
     {
@@ -50,10 +47,10 @@ struct MBDOInitializationHelper
         }
         else if (cardinalSubsystem != null && mbDatabaseObjectReferences != null)
         {
-            if (mbdo == null && cardinalSubsystem.scene == caller.gameObject.scene)
+            if (mbdo == null && cardinalSubsystem.scene == caller.gameObject.scene && cardinalSubsystem.scene != new UnityEngine.SceneManagement.Scene())
             {
                 mbDatabaseObjectReferences.TryPopulate(out mbdo);
             }
         }
     }
-} 
+}

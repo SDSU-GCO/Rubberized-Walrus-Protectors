@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MBDataObjectReferences : MonoBehaviour
@@ -13,7 +12,9 @@ public class MBDataObjectReferences : MonoBehaviour
         foreach (MBDataObject mbDataObject in mbDataObjects)
         {
             if (mbDataObject is T)
+            {
                 mbdo = (T)mbDataObject;
+            }
         }
     }
 
@@ -22,7 +23,9 @@ public class MBDataObjectReferences : MonoBehaviour
         foreach (MBDataObject mbDataObject in mbDataObjects)
         {
             if (mbDataObject is T)
+            {
                 return (T)mbDataObject;
+            }
         }
         return null;
     }
@@ -33,7 +36,9 @@ public class MBDataObjectReferences : MonoBehaviour
         foreach (MBDataObject mbDataObject in mbDataObjects)
         {
             if (mbDataObject is T)
+            {
                 tempList.Add(mbDataObject);
+            }
         }
         return tempList;
     }

@@ -1,24 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEditor.Experimental.SceneManagement;
-using UnityEditor;
-using System.Linq;
-using NaughtyAttributes;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
@@ -27,71 +8,76 @@ using NaughtyAttributes;
 public class Ally_Logic : MonoBehaviour
 {
     [SerializeField]
-    Attack_Controller rangedAttack;
+    private Attack_Controller rangedAttack;
 
     [SerializeField, HideInInspector]
-    new Rigidbody2D rigidbody2D;
+    private new Rigidbody2D rigidbody2D;
+
     [SerializeField, HideInInspector]
     public SpriteRenderer spriteRenderer;
+
     [SerializeField, HideInInspector]
     public Animator animator;
+
     [SerializeField, HideInInspector]
     public Movement movement;
 
-    [SerializeField, HideInInspector]
-    public PlayerRefMBDO playerRefMBDO = null;
-    
+    [SerializeField]
+    private PlayerRefMBDO playerRefMBDO;
 
-    bool CheckRangedAttackNotNull()
+    private bool CheckRangedAttackNotNull()
     {
         return rangedAttack != null;
     }
-
 
     [ShowIf("CheckRangedAttackNotNull")]
     public float offset = 1.5f;
 
     [SerializeField, HideInInspector]
-
-    int damage;
-#pragma warning restore IDE0044 // Add readonly modifier
+    private int damage;
 
     [SerializeField, HideInInspector]
-    float rangedCoolDownInSeconds;
+    private float rangedCoolDownInSeconds = 0;
+
     [SerializeField, HideInInspector]
-#pragma warning disable IDE0044 // Add readonly modifier
-    float rangedCoolDownInSecondsDefault;
-#pragma warning restore IDE0044 // Add readonly modifier
+    private float rangedCoolDownInSecondsDefault;
 
     private void OnValidate()
     {
         if (rigidbody2D == null)
+        {
             rigidbody2D = GetComponent<Rigidbody2D>();
-        if (spriteRenderer == null)
-            spriteRenderer = GetComponent<SpriteRenderer>();
-        if (animator == null)
-            animator = GetComponent<Animator>();
-        if (movement == null)
-            movement = GetComponent<Movement>();
+        }
 
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        if (movement == null)
+        {
+            movement = GetComponent<Movement>();
+        }
 
         InitializeFromRangedAttack();
-        if(playerRefMBDO==null)
+        if (playerRefMBDO == null)
         {
             //idk if this creates a lot of garbage for the gc...
             MBDOInitializationHelper mBDOInitializationHelper = new MBDOInitializationHelper(this);
-
             mBDOInitializationHelper.SetupMBDO(ref playerRefMBDO);
         }
-        
     }
 
-    void InitializeFromRangedAttack()
+    private void InitializeFromRangedAttack()
     {
         if (rangedAttack != null)
         {
             rangedCoolDownInSecondsDefault = rangedAttack.AttackDelay;
-            rangedCoolDownInSeconds = rangedAttack.AttackDelay;
             damage = rangedAttack.damage;
         }
     }
@@ -100,6 +86,7 @@ public class Ally_Logic : MonoBehaviour
     {
         SetAnimationState(AnimationState.ATTACKING);
     }
+
     public void SetToJump()
     {
         SetAnimationState(AnimationState.START_JUMP);
@@ -107,36 +94,41 @@ public class Ally_Logic : MonoBehaviour
 
     private void Awake()
     {
-        OnValidate();
-
         playerRefMBDO.player = transform;
         playerRefMBDO.update.Invoke();
     }
-    
-    enum AnimationState { IDLE_FLOAT = 0, START_JUMP = 1, JUMPING = 2, ATTACKING = 3, FALLING = 4}
 
-    void SetAnimationState(AnimationState animationState)
+    private enum AnimationState
+    {
+        IDLE_FLOAT = 0, START_JUMP = 1, JUMPING = 2, ATTACKING = 3, FALLING = 4
+    }
+
+    private void SetAnimationState(AnimationState animationState)
     {
         animator.SetInteger("MainStage", (int)animationState);
     }
 
-    bool wasAttacking=false;
+    private bool wasAttacking = false;
 
-    void FlipWithVelocity()
+    private void FlipWithVelocity()
     {
         if (rigidbody2D.velocity.x < -0.00001)
+        {
             spriteRenderer.flipX = false;
+        }
         else if (rigidbody2D.velocity.x > 0.000001)
+        {
             spriteRenderer.flipX = true;
+        }
     }
 
-    void Update()
+    private void Update()
     {
         switch ((AnimationState)animator.GetInteger("MainStage"))
         {
             case AnimationState.IDLE_FLOAT:
                 FlipWithVelocity();
-                if (rigidbody2D.velocity.y < 0 && movement.isGrounded!=true)
+                if (rigidbody2D.velocity.y < 0 && movement.isGrounded != true)
                 {
                     SetAnimationState(AnimationState.FALLING);
                 }
@@ -168,7 +160,7 @@ public class Ally_Logic : MonoBehaviour
 
             case AnimationState.ATTACKING:
 
-                if(wasAttacking)//ensure we attack for at least one frame to enter state.
+                if (wasAttacking)//ensure we attack for at least one frame to enter state.
                 {
                     if (movement.isGrounded)
                     {
@@ -187,7 +179,7 @@ public class Ally_Logic : MonoBehaviour
                     }
                 }
                 wasAttacking = true;
-                
+
                 break;
 
             case AnimationState.FALLING:
@@ -197,7 +189,6 @@ public class Ally_Logic : MonoBehaviour
                     SetAnimationState(AnimationState.IDLE_FLOAT);
                 }
                 break;
-
         }
 
         rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
@@ -208,7 +199,7 @@ public class Ally_Logic : MonoBehaviour
     }
 
     //shoot player projectile
-    void PlayerRangedAttack()
+    private void PlayerRangedAttack()
     {
         if (rangedCoolDownInSeconds == 0)
         {
@@ -220,11 +211,19 @@ public class Ally_Logic : MonoBehaviour
             SetToAttack();
 
             if (mouseposition.x > 0)
+            {
                 spriteRenderer.flipX = true;
+            }
             else
+            {
                 spriteRenderer.flipX = false;
+            }
 
             GameObject childInstance = Instantiate(rangedAttack.gameObject, mouseposition + (Vector2)transform.position, transform.rotation);
+
+            Vector3 temp = childInstance.transform.position;
+            temp.z = transform.position.z;
+            childInstance.transform.position = temp;
             childInstance.GetComponent<Rigidbody2D>().velocity = rangedAttack.speed * mouseposition.normalized;
 
             rangedCoolDownInSeconds = rangedCoolDownInSecondsDefault;

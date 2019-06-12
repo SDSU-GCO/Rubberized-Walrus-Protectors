@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7001408985997318806}
-  - component: {fileID: 7001408985997318809}
-  - component: {fileID: 7001408985997318808}
   - component: {fileID: 7001408985997318811}
   - component: {fileID: 7001408985997318810}
+  - component: {fileID: -7932636857061439112}
+  - component: {fileID: 7001408985997318809}
+  - component: {fileID: 7001408985997318808}
   - component: {fileID: 7001408985997318813}
   - component: {fileID: 7001408985997318812}
-  - component: {fileID: -7932636857061439112}
   m_Layer: 11
   m_Name: frog
   m_TagString: Untagged
@@ -37,6 +37,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7001408985997318811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7001408985997318815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474d7abf0ed109c46b40664ad1f4233c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangedAttack: {fileID: 7183832417238726302, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
+    type: 3}
+  range: 8
+  offset: 1
+  enemyListMBDO: {fileID: 0}
+  playerRefMBDO: {fileID: 0}
+  target: {fileID: 0}
+  entityLogic: {fileID: 7001408985997318810}
+  damage: 1
+  rangedCoolDownInSeconds: 1
+  rangedCoolDownInSecondsDefault: 1
+--- !u!114 &7001408985997318810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7001408985997318815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a06ecb869fe4fa46a44ffe156279bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  disableColliderOnDeath: 1
+  health: 2
+  onDeathReplaceWith: {fileID: 0}
+  spriteRenderer: {fileID: 7001408985997318809}
+  invincibilityTime: 0
+  timeToFlashOnHit: 0.5
+  flashSpeed: 20
+  flashCustomColor: 0
+--- !u!114 &-7932636857061439112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7001408985997318815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a528dd519f9bd1d49b78ba0ad9d2b5aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToLoad: 1
+  playerRefMBDO: {fileID: 0}
 --- !u!212 &7001408985997318809
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -107,53 +169,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 5
---- !u!114 &7001408985997318811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7001408985997318815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474d7abf0ed109c46b40664ad1f4233c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rangedAttack: {fileID: 7183832417238726302, guid: 8b52e3a845d7efd49bc5c83e328f5c72,
-    type: 3}
-  range: 8
-  offset: 1
-  enemyListMBDO: {fileID: 0}
-  playerRefMBDO: {fileID: 0}
-  target: {fileID: 0}
-  entityLogic: {fileID: 7001408985997318810}
-  damage: 1
-  rangedCoolDownInSeconds: 1
-  rangedCoolDownInSecondsDefault: 1
---- !u!114 &7001408985997318810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7001408985997318815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a06ecb869fe4fa46a44ffe156279bfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Event_One_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  disableColliderOnDeath: 1
-  health: 2
-  onDeathReplaceWith: {fileID: 0}
-  spriteRenderer: {fileID: 7001408985997318809}
-  invincibilityTime: 0
-  timeToFlashOnHit: 0.5
-  flashSpeed: 20
 --- !u!95 &7001408985997318813
 Animator:
   serializedVersion: 3
@@ -189,17 +204,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &-7932636857061439112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7001408985997318815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a528dd519f9bd1d49b78ba0ad9d2b5aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToLoad: 1
-  playerRefMBDO: {fileID: 0}

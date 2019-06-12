@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -8,12 +6,15 @@ using UnityEngine;
 public class Frog : MonoBehaviour
 {
     public float timeToLoad = 1;
-    public PlayerRefMBDO playerRefMBDO;
-    new Rigidbody2D rigidbody2D;
-    SpriteRenderer spriteRenderer;
-    Enemy_Logic enemy_Logic;
-    Transform target;
-    float timer = 1;
+
+    [SerializeField, HideInInspector]
+    private PlayerRefMBDO playerRefMBDO;
+
+    private new Rigidbody2D rigidbody2D;
+    private SpriteRenderer spriteRenderer;
+    private Enemy_Logic enemy_Logic;
+    private Transform target;
+    private float timer = 1;
 
     private void OnValidate()
     {
@@ -41,13 +42,15 @@ public class Frog : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        timer = Mathf.Max(0 , timer - Time.deltaTime);
-        if (timer<=0)
+        timer = Mathf.Max(0, timer - Time.deltaTime);
+        if (timer <= 0)
+        {
             rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
 
-        if (target!=null && Vector2.Distance(target.position, transform.position)<=enemy_Logic.range)
+        if (target != null && Vector2.Distance(target.position, transform.position) <= enemy_Logic.range)
         {
             if (target.position.x <= transform.position.x)
             {
