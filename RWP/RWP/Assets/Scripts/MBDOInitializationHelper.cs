@@ -50,7 +50,7 @@ struct MBDOInitializationHelper
         {
             if (mbdo == null && cardinalSubsystem.scene == caller.gameObject.scene)
             {
-                mbDatabaseObjectReferences.tryPopulate(out mbdo);
+                mbDatabaseObjectReferences.TryPopulate(out mbdo);
             }
         }
 
