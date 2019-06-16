@@ -97,10 +97,12 @@ public class Entity_Logic : MonoBehaviour
 
     public float flashSpeed = 20f;
 
-#pragma warning disable IDE0044, CS0414
     [SerializeField]
+#pragma warning disable CS0414
+#pragma warning disable IDE0044 // Add readonly modifier
     private bool flashCustomColor = false;
-#pragma warning restore IDE0044, CS0414
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore CS0649
 
     [SerializeField, OneLine.OneLine, ShowIf("flashCustomColor")]
     private FlashingColors flashingColors;
@@ -110,17 +112,20 @@ public class Entity_Logic : MonoBehaviour
     {
         public Color GetHurtColor() => hurtColor ?? Color.red;
 
-#pragma warning disable IDE0044, CS0649 // Add readonly modifier
         [SerializeField]
+#pragma warning disable CS0649
+#pragma warning disable IDE0044 // Add readonly modifier
         private Color? hurtColor;
-#pragma warning restore IDE0044, CS0649 // Add readonly modifier
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore CS0649
 
         public Color GetNormalColor() => normalColor ?? Color.white;
 
-#pragma warning disable IDE0044, CS0649 // Add readonly modifier
         [SerializeField]
+#pragma warning disable CS0649
+#pragma warning disable IDE0044 // Add readonly modifier
         private Color? normalColor;
-#pragma warning restore IDE0044, CS0649 // Add readonly modifier
+#pragma warning restore CS0649,IDE0044
     }
 
     private IEnumerator ChangeColor()

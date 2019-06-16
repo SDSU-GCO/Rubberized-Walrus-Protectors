@@ -21,7 +21,7 @@ public class FadeInOut : MonoBehaviour
     private void Update()
     {
         temp = textMeshProText.color;
-        time += Time.deltaTime * fadeSpeed;
+        time += Time.unscaledDeltaTime * fadeSpeed;
         temp.a = animationCurve.Evaluate(time);
         textMeshProText.color = temp;
     }

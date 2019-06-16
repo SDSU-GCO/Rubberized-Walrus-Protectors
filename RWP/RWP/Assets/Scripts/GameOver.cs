@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,6 +14,9 @@ public class GameOver : MonoBehaviour
 #pragma warning disable IDE0044 // Add readonly modifier
     private float secondsToFadeIn = 3;
 #pragma warning restore IDE0044 // Add readonly modifier
+
+    [SerializeField, Required]
+    private GameObject Menu;
 
     private void OnValidate()
     {
@@ -54,7 +58,7 @@ public class GameOver : MonoBehaviour
         Color temp = image.color;
         temp.a = Mathf.InverseLerp(0, secondsToFadeIn, currentTime);
         image.color = temp;
-        if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && image.color.a == 1)
+        if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && image.color.a == 1 && Menu.activeInHierarchy != true)
         {
             Time.timeScale = 1;
             Time.fixedDeltaTime = 0.02f;

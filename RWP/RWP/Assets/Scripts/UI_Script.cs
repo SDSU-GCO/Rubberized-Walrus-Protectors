@@ -22,13 +22,13 @@ public class UI_Script : MonoBehaviour
     public Entity_Logic hpEntityLogic;
 
     [Required]
-    public Canvas pauseMenu;
+    public GameObject pauseMenu;
     [Required]
-    public Canvas gameOverScreen;
+    public GameObject gameOverScreen;
     private int MaxTreeCount = 0;
     private int MaxEnemyCount = 0;
 
-    public Color tint = new Color(1.0f, 0, 1.0f, 1.0f);
+    public Color tint = new Color(149, 0, 255, 255);
 
     public List<Tilemap> tilemaps = new List<Tilemap>();
     public List<Image> images = new List<Image>();
@@ -125,10 +125,10 @@ public class UI_Script : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (pauseMenu.gameObject.activeInHierarchy == false)
+            if (pauseMenu.activeInHierarchy == false)
             {
-                pauseMenu.gameObject.SetActive(true);
-                if (gameOverScreen.gameObject.activeInHierarchy != true)
+                pauseMenu.SetActive(true);
+                if (gameOverScreen.activeInHierarchy != true)
                 {
                     Time.timeScale = 0;
                     Time.fixedDeltaTime = 0;
@@ -136,8 +136,8 @@ public class UI_Script : MonoBehaviour
             }
             else
             {
-                pauseMenu.gameObject.SetActive(false);
-                if (gameOverScreen.gameObject.activeInHierarchy != true)
+                pauseMenu.SetActive(false);
+                if (gameOverScreen.activeInHierarchy != true)
                 {
                     Time.timeScale = 1;
                     Time.fixedDeltaTime = 0.02f;
@@ -180,7 +180,7 @@ public class UI_Script : MonoBehaviour
             trees.enabled = false;
             enemies.enabled = false;
             healthCounter.enabled = false;
-            gameOverScreen.gameObject.SetActive(true);
+            gameOverScreen.SetActive(true);
         }
     }
 }
