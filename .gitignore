@@ -18,6 +18,17 @@
 **/BuildFiles.zip
 Assets/AssetStoreTools*
 
+#assetstore/package Editor exclusions
+*/Assets/Editor/Resources/OneLine/
+
+
+#assetstore/package plugin exclusions
+*/Assets/Plugins/ExtendableEnums/
+*/Assets/Plugins/Ink/
+*/Assets/Plugins/NaughtyAttributes/
+*/Assets/Plugins/OneLine/
+
+
 # Visual Studio cache directory
 .vs/
 
