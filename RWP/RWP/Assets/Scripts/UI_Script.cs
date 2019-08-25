@@ -47,10 +47,15 @@ public class UI_Script : MonoBehaviour
 
         if (hpEntityLogic == null)
         {
-            Entity_Logic tmp = FindObjectOfType<Ally_Logic>().GetComponent<Entity_Logic>();
-            if (tmp.gameObject.scene == gameObject.scene)
+            Ally_Logic tmpAlly = FindObjectOfType<Ally_Logic>();
+            Entity_Logic tmp;
+            if (tmpAlly != null)
             {
-                hpEntityLogic = tmp;
+                tmp = tmpAlly.GetComponent<Entity_Logic>();
+                if (tmp.gameObject.scene == gameObject.scene)
+                {
+                    hpEntityLogic = tmp;
+                }
             }
         }
     }
