@@ -4,17 +4,40 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class HashTable<Key, Value>
+[System.Serializable]
+public class HashTable<Key, Value> where Key : IEquatable<Key>
 {
     private int maxCount;
     private readonly float ratioToFill;
     private int currentCount = 0;
+
+    [SerializeField]
     private List<ValueSlot> valueSlots = new List<ValueSlot>();
 
+    [System.Serializable]
     private struct ValueSlot
     {
         public bool hasValue;
-        public List<KeyValuePair<Key, Value>> values;
+        public List<SerializableKeyValuePair<Key, Value>> values;
+    }
+
+    [Serializable]
+    public struct SerializableKeyValuePair<TKey, TValue>
+    {
+        public SerializableKeyValuePair(TKey key, TValue value)
+        {
+            Key = key;
+            Value = value;
+        }
+
+        public TKey Key
+        {
+            get; set;
+        }
+        public TValue Value
+        {
+            get; set;
+        }
     }
 
     public struct ResultantValue
@@ -84,7 +107,7 @@ public class HashTable<Key, Value>
             {
                 if (valueSlot.hasValue == true)
                 {
-                    foreach (KeyValuePair<Key, Value> kvp in valueSlot.values)
+                    foreach (SerializableKeyValuePair<Key, Value> kvp in valueSlot.values)
                     {
                         AddValue(newList, kvp.Key, kvp.Value);
                     }
@@ -108,9 +131,11 @@ public class HashTable<Key, Value>
             ValueSlot tmp = new ValueSlot
             {
                 hasValue = true,
-                values = new List<KeyValuePair<Key, Value>>()
+                values = new List<SerializableKeyValuePair<Key, Value>>()
             };
-            KeyValuePair<Key, Value> keyValuePair = new KeyValuePair<Key, Value>(key, value);
+            SerializableKeyValuePair<Key, Value> keyValuePair = default;
+            keyValuePair.Key = key;
+            keyValuePair.Value = value;
 
             tmp.values.Add(keyValuePair);
 
@@ -118,14 +143,20 @@ public class HashTable<Key, Value>
         }
         else
         {
-            KeyValuePair<Key, Value> keyValuePair = new KeyValuePair<Key, Value>(key, value);
+            SerializableKeyValuePair<Key, Value> keyValuePair = default;
+            keyValuePair.Key = key;
+            keyValuePair.Value = value;
 
             rtnVal = false;
-            foreach (KeyValuePair<Key, Value> kvp in valueSlots[ResolvedHash].values.TakeWhile(x => rtnVal == false))
+            foreach (SerializableKeyValuePair<Key, Value> kvp in valueSlots[ResolvedHash].values.TakeWhile(x => rtnVal == false))
             {
-                if (kvp.Key.Equals(keyValuePair.Key))
+                bool evaluation;
+                if (typeof(K))
                 {
-                    rtnVal = true;
+                    if (kvp.Key == keyValuePair.Key)
+                    {
+                        rtnVal = true;
+                    }
                 }
             }
             if (rtnVal == true)
@@ -166,9 +197,9 @@ public class HashTable<Key, Value>
 
         if (valueSlots[ResolvedHash].hasValue == true)
         {
-            foreach (KeyValuePair<Key, Value> kvp in valueSlots[ResolvedHash].values.TakeWhile(x => successful == false))
+            foreach (SerializableKeyValuePair<Key, Value> kvp in valueSlots[ResolvedHash].values.TakeWhile(x => successful == false))
             {
-                if (kvp.Key.Equals(key))
+                if (kvp.Key == key)
                 {
                     rtnVal = kvp.Value;
                     successful = true;
@@ -188,9 +219,9 @@ public class HashTable<Key, Value>
 
         if (valueSlots[ResolvedHash].hasValue == true)
         {
-            foreach (KeyValuePair<Key, Value> kvp in valueSlots[ResolvedHash].values.TakeWhile(x => rtnVal == false))
+            foreach (SerializableKeyValuePair<Key, Value> kvp in valueSlots[ResolvedHash].values.TakeWhile(x => rtnVal == false))
             {
-                if (kvp.Key.Equals(key))
+                if (kvp.Key == key)
                 {
                     rtnVal = true;
                 }
@@ -209,19 +240,23 @@ public class HashTable<Key, Value>
 
         if (valueSlots[ResolvedHash].hasValue == true)
         {
-            KeyValuePair<Key, Value> kvpToRemove;
-            foreach (KeyValuePair<Key, Value> kvp in valueSlots[ResolvedHash].values.TakeWhile(x => rtnVal == false))
+            SerializableKeyValuePair<Key, Value> kvpToRemove = default;
+            foreach (SerializableKeyValuePair<Key, Value> kvp in valueSlots[ResolvedHash].values.TakeWhile(x => rtnVal == false))
             {
-                if (kvp.Key.Equals(key))
+                if (kvp.Key == key)
                 {
-                    rtnVal = true;
                     kvpToRemove = kvp;
+                    rtnVal = true;
                 }
             }
 
             if (rtnVal == true)
             {
                 rtnVal = valueSlots[ResolvedHash].values.Remove(kvpToRemove);
+                if (rtnVal == true)
+                {
+                    currentCount--;
+                }
             }
         }
         return rtnVal;

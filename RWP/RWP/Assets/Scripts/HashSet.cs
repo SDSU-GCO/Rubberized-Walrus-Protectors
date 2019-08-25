@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class HashSet<Value>
 {
     private int maxCount;
     private readonly float ratioToFill;
     private int currentCount = 0;
+
+    [SerializeField]
     private List<ValueSlot> valueSlots = new List<ValueSlot>();
 
+    [System.Serializable]
     private struct ValueSlot
     {
         public bool hasValue;
@@ -157,7 +161,12 @@ public class HashSet<Value>
         if (valueSlots[ResolvedHash].hasValue == true)
         {
             rtnVal = valueSlots[ResolvedHash].values.Remove(value);
+            if (rtnVal == true)
+            {
+                currentCount--;
+            }
         }
+
         return rtnVal;
     }
 
