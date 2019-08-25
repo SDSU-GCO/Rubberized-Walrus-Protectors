@@ -16,7 +16,9 @@ public class GameOver : MonoBehaviour
 #pragma warning restore IDE0044 // Add readonly modifier
 
     [SerializeField, Required]
+#pragma warning disable CS0649
     private GameObject Menu;
+#pragma warning restore CS0649
 
     private void OnValidate()
     {

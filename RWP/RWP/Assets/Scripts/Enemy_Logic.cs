@@ -103,7 +103,7 @@ public class Enemy_Logic : MonoBehaviour
     {
         rangedCoolDownInSeconds = Mathf.Max(0, rangedCoolDownInSeconds - Time.deltaTime);
 
-        if (InRange())
+        if (InRange() && rangedAttack != null)
         {
             DoAttack();
         }
